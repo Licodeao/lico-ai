@@ -8,7 +8,7 @@ import Logo from "@/assets/img/logo.jpg";
 import GoogleSvg from "@/assets/img/google.svg";
 import GithubSvg from "@/assets/img/github.svg";
 import GiteeSvg from "@/assets/img/gitee.svg";
-import "./index.css";
+import Pill from "@/components/pill";
 
 interface IProps {
   children?: ReactNode;
@@ -37,57 +37,40 @@ const Home: FC<IProps> = () => {
             padding: "0 20px !important",
           }}
         >
-          <div className="logo">
-            <img
-              src={Logo}
-              alt="logo"
-              width={36}
-              height={36}
-              style={{
-                borderRadius: "50%",
-              }}
-            />
-            <span>哩叩 AI</span>
+          <div className="text-white flex flex-row justify-start items-center gap-3 mt-5 p-5">
+            <img src={Logo} alt="logo" className="rounded-full w-9 h-9" />
+            <span className="text-xl font-black">哩叩 AI</span>
           </div>
-          <div className="form-space">
-            <div className="form-title">
-              欢迎来到 · <span>哩叩AI</span>
+          <div className="w-full h-4/5 text-white flex flex-col justify-center items-center gap-3">
+            <div className="text-5xl font-black">
+              欢迎来到 ·{" "}
+              <span className="bg-gradient-to-tr from-purple-600 via-blue-500 to-green-400 bg-clip-text text-transparent">
+                哩叩AI
+              </span>
             </div>
-            <div className="form-content">
-              <div className="other-login">
-                <div className="login-pill">
-                  <img
-                    src={GoogleSvg}
-                    alt="google"
-                    style={{
-                      marginRight: "5px",
-                    }}
-                  />{" "}
-                  使用 Google 登录
-                </div>
-                <div className="login-pill">
-                  <img
-                    src={GithubSvg}
-                    alt="github"
-                    style={{
-                      marginRight: "8px",
-                    }}
-                  />
-                  使用 Github 登录
-                </div>
-                <div className="login-pill">
-                  <img
-                    src={GiteeSvg}
-                    alt="gitee"
-                    style={{
-                      marginRight: "12px",
-                    }}
-                  />
-                  使用 Gitee 登录
-                </div>
+            <div className="w-4/5 flex flex-col gap-4">
+              <div className="w-full mt-5 flex flex-col justify-center items-center gap-5">
+                <Pill
+                  src={GoogleSvg}
+                  alt="google"
+                  style={{ marginRight: "5px" }}
+                  text="使用 Google 登录"
+                />
+                <Pill
+                  src={GithubSvg}
+                  alt="github"
+                  style={{ marginRight: "8px" }}
+                  text="使用 Github 登录"
+                />
+                <Pill
+                  src={GiteeSvg}
+                  alt="gitee"
+                  style={{ marginRight: "12px" }}
+                  text="使用 Gitee 登录"
+                />
               </div>
             </div>
-            <div style={{ fontSize: "12px", color: "#6E6E6E" }}>—— 或者 ——</div>
+            <div className="text-sm text-[#6E6E6E]">—— 或者 ——</div>
             <TextField
               id="outlined-basic"
               label="输入邮箱"
@@ -106,9 +89,12 @@ const Home: FC<IProps> = () => {
               创建账号
             </Button>
 
-            <div className="tip">
+            <div className="text-[12px]">
               <p>
-                已经有账号了? <a href="/">去登录 {">"}</a>
+                已经有账号了?{" "}
+                <a href="/" className="text-blue-500 no-underline">
+                  去登录 {">"}
+                </a>
               </p>
             </div>
           </div>
@@ -123,15 +109,11 @@ const Home: FC<IProps> = () => {
           }}
         >
           <video
-            width="100%"
-            height="100%"
+            className="w-full
+            h-full object-cover"
             autoPlay
-            // controls
             muted
             loop
-            style={{
-              objectFit: "cover",
-            }}
           >
             <source
               src="https://typora-licodeao.oss-cn-guangzhou.aliyuncs.com/typoraImg/vedio.mp4"
