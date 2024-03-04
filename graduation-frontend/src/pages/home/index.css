@@ -1,0 +1,15 @@
+.logo {
+  color          : white;
+  display        : flex;
+  flex-direction : row;
+  justify-content: flex-start;
+  align-items    : center;
+  gap            : 10px;
+  margin-top     : 20px;
+  padding        : 20px;
+
+  span {
+    font-size  : 20px;
+    font-weight: bolder;
+  }
+}
