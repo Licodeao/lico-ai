@@ -1,20 +1,36 @@
-import type { FC, ReactNode } from "react";
+import { type FC, type ReactNode, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
 import Logo from "@/assets/img/logo.jpg";
-import GoogleSvg from "@/assets/img/google.svg";
+import TwitterSvg from "@/assets/img/twitter.svg";
 import GithubSvg from "@/assets/img/github.svg";
 import GiteeSvg from "@/assets/img/gitee.svg";
 import Pill from "@/components/pill";
+
+import { useAppSelector } from "@/store/storeHook";
+import { shallowEqual } from "react-redux";
+import { getHomeData } from "@/service/modules/home";
 
 interface IProps {
   children?: ReactNode;
 }
 
 const Home: FC<IProps> = () => {
+  const { homeData } = useAppSelector(
+    (state) => ({
+      homeData: state.home.s,
+    }),
+    shallowEqual
+  );
+
+  useEffect(() => {
+    getHomeData().then((res) => {
+      console.log(res);
+    });
+  }, []);
   return (
     <Box
       sx={{
@@ -51,10 +67,10 @@ const Home: FC<IProps> = () => {
             <div className="w-4/5 flex flex-col gap-4">
               <div className="w-full mt-5 flex flex-col justify-center items-center gap-5">
                 <Pill
-                  src={GoogleSvg}
-                  alt="google"
-                  style={{ marginRight: "5px" }}
-                  text="使用 Google 登录"
+                  src={TwitterSvg}
+                  alt="twitter"
+                  style={{ marginRight: "8px" }}
+                  text="使用 Twitter 登录"
                 />
                 <Pill
                   src={GithubSvg}
@@ -97,6 +113,13 @@ const Home: FC<IProps> = () => {
                 </a>
               </p>
             </div>
+          </div>
+          <div
+            style={{
+              backgroundColor: "#fff",
+            }}
+          >
+            {homeData}
           </div>
         </Grid>
         <Grid
