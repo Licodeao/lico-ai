@@ -1,0 +1,49 @@
+import type { FC, ReactNode } from "react";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
+
+interface IProps {
+  children?: ReactNode;
+  btnText: string;
+  tipPrefix: string;
+  tipSuffix: string;
+  url: string;
+}
+
+const AuthComponent: FC<IProps> = ({ btnText, tipPrefix, tipSuffix, url }) => {
+  return (
+    <>
+      <TextField
+        id="outlined-basic"
+        label="输入邮箱"
+        variant="outlined"
+        sx={{
+          width: "70%",
+        }}
+      />
+
+      <Button
+        variant="contained"
+        sx={{
+          width: "70%",
+        }}
+      >
+        {btnText}
+      </Button>
+
+      <div className="text-[12px]">
+        <p>
+          {tipPrefix}{" "}
+          <Link to={url}>
+            <a className="text-blue-500 no-underline">
+              {tipSuffix} {">"}
+            </a>
+          </Link>
+        </p>
+      </div>
+    </>
+  );
+};
+
+export default AuthComponent;

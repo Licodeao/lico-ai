@@ -1,20 +1,18 @@
-import Home from "@/pages/home";
-import Login from "@/pages/login";
 import NotFound from "@/pages/not_found";
 import Register from "@/pages/register";
-import { createBrowserRouter } from "react-router-dom";
+import { Navigate, createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
-  },
-  {
-    path: "/login",
-    element: <Login />,
+    element: <Navigate to="/signup" />,
   },
   {
     path: "/signup",
+    element: <Register />,
+  },
+  {
+    path: "/login",
     element: <Register />,
   },
   {
