@@ -35,10 +35,8 @@ const AuthComponent: FC<IProps> = ({ btnText, tipPrefix, tipSuffix, url }) => {
       <div className="text-[12px]">
         <p>
           {tipPrefix}{" "}
-          <Link to={url}>
-            <a className="text-blue-500 no-underline">
-              {tipSuffix} {">"}
-            </a>
+          <Link to={url} className="text-blue-500 no-underline">
+            {tipSuffix} {">"}
           </Link>
         </p>
       </div>

@@ -9,6 +9,7 @@ import GiteeSvg from "@/assets/img/gitee.svg";
 import Pill from "@/components/pill";
 import AuthComponent from "@/components/authComponent";
 import Login from "@/pages/login/index";
+import VideoComponent from "@/components/videoComponent";
 
 interface IProps {
   children?: ReactNode;
@@ -92,18 +93,7 @@ const Register: FC<IProps> = () => {
             padding: "0px !important",
           }}
         >
-          <video
-            className="w-full
-            h-full object-cover"
-            autoPlay
-            muted
-            loop
-          >
-            <source
-              src="https://typora-licodeao.oss-cn-guangzhou.aliyuncs.com/typoraImg/vedio.mp4"
-              type="video/mp4"
-            />
-          </video>
+          <VideoComponent />
         </Grid>
       </Grid>
     </Box>
