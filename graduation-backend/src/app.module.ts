@@ -11,6 +11,11 @@ import { UserModule } from './user/user.module';
 import { UserEntity } from './user/entities/user.entity';
 import { RoleEntity } from './user/entities/role.entity';
 import { PermissionEntity } from './user/entities/permission.entity';
+import { Interface1Module } from './interface1/interface1.module';
+import { Interface2Module } from './interface2/interface2.module';
+import { APP_GUARD } from '@nestjs/core';
+import { LoginGuard } from './guard/login.guard';
+import { PermissionGuard } from './guard/permission.guard';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -40,8 +45,22 @@ import { PermissionEntity } from './user/entities/permission.entity';
     UserModule,
 
     UserModule,
+
+    Interface1Module,
+
+    Interface2Module,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: LoginGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: PermissionGuard,
+    },
+  ],
 })
 export class AppModule {}
