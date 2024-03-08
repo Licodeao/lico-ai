@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectEntityManager } from '@nestjs/typeorm';
@@ -6,6 +6,7 @@ import { EntityManager } from 'typeorm';
 import { UserEntity } from './entities/user.entity';
 import { RoleEntity } from './entities/role.entity';
 import { PermissionEntity } from './entities/permission.entity';
+import { UserLoginDto } from './dto/user-login.dto';
 
 @Injectable()
 export class UserService {
@@ -79,6 +80,27 @@ export class UserService {
     await this.entityManager.save(RoleEntity, [role1, role2]);
 
     await this.entityManager.save(UserEntity, [user1, user2, user3]);
+  }
+
+  async login(loginUser: UserLoginDto) {
+    const user = await this.entityManager.findOne(UserEntity, {
+      where: {
+        email: loginUser.email,
+      },
+      relations: {
+        roles: true,
+      },
+    });
+
+    if (!user) {
+      throw new HttpException('用户不存在', HttpStatus.NOT_FOUND);
+    }
+
+    if (loginUser.email !== user.email) {
+      throw new HttpException('邮箱错误', HttpStatus.ACCEPTED);
+    }
+
+    return user;
   }
 
   create(createUserDto: CreateUserDto) {

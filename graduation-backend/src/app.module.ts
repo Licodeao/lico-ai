@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -13,6 +14,13 @@ import { PermissionEntity } from './user/entities/permission.entity';
 @Module({
   imports: [
     ConfigModule.forRoot(),
+    JwtModule.register({
+      global: true,
+      secret: 'licodeao',
+      signOptions: {
+        expiresIn: '1d',
+      },
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DATABASE_HOST,
