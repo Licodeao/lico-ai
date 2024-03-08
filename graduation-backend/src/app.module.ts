@@ -16,6 +16,7 @@ import { Interface2Module } from './interface2/interface2.module';
 import { APP_GUARD } from '@nestjs/core';
 import { LoginGuard } from './guard/login.guard';
 import { PermissionGuard } from './guard/permission.guard';
+import { RedisModule } from './redis/redis.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -43,12 +44,9 @@ import { PermissionGuard } from './guard/permission.guard';
     MailModule,
     AuthModule,
     UserModule,
-
-    UserModule,
-
     Interface1Module,
-
     Interface2Module,
+    RedisModule,
   ],
   controllers: [AppController],
   providers: [
