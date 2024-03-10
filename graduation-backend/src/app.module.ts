@@ -17,8 +17,6 @@ import { APP_GUARD } from '@nestjs/core';
 import { LoginGuard } from './guard/login.guard';
 import { PermissionGuard } from './guard/permission.guard';
 import { RedisModule } from './redis/redis.module';
-import { MediaModule } from './media/media.module';
-import { MediaEntity } from './media/entities/media.entity';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -38,7 +36,7 @@ import { MediaEntity } from './media/entities/media.entity';
       database: process.env.DATABASE_NAME,
       synchronize: true,
       logging: true,
-      entities: [UserEntity, RoleEntity, PermissionEntity, MediaEntity],
+      entities: [UserEntity, RoleEntity, PermissionEntity],
       poolSize: 10,
       connectorPackage: 'mysql2',
       extra: {},
@@ -46,7 +44,6 @@ import { MediaEntity } from './media/entities/media.entity';
     MailModule,
     AuthModule,
     UserModule,
-    MediaModule,
     Interface1Module,
     Interface2Module,
     RedisModule,
