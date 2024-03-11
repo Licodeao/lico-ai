@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 
 import router from "@/router/index";
 import store from "@/store/index";
+import AuthProvider from "@/provider/auth";
 
 const darkTheme = createTheme({
   palette: {
@@ -15,7 +16,9 @@ function App() {
   return (
     <Provider store={store}>
       <ThemeProvider theme={darkTheme}>
-        <RouterProvider router={router} />
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
       </ThemeProvider>
     </Provider>
   );

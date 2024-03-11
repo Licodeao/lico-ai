@@ -6,16 +6,20 @@ import Logo from "@/assets/img/logo.jpg";
 import TwitterSvg from "@/assets/img/twitter.svg";
 import GithubSvg from "@/assets/img/github.svg";
 import GiteeSvg from "@/assets/img/gitee.svg";
+
 import Pill from "@/components/pill";
 import AuthComponent from "@/components/authComponent";
 import Login from "@/pages/login/index";
 import VideoComponent from "@/components/videoComponent";
+import { useAuth } from "@/provider/auth";
 
 interface IProps {
   children?: ReactNode;
 }
 
 const Register: FC<IProps> = () => {
+  const { loginWithTwitter, loginWithGithub, loginWithGitee } = useAuth();
+
   return (
     <Box
       sx={{
@@ -56,18 +60,21 @@ const Register: FC<IProps> = () => {
                   alt="twitter"
                   style={{ marginRight: "8px" }}
                   text="使用 Twitter 登录"
+                  onClick={loginWithTwitter}
                 />
                 <Pill
                   src={GithubSvg}
                   alt="github"
                   style={{ marginRight: "8px" }}
                   text="使用 Github 登录"
+                  onClick={loginWithGithub}
                 />
                 <Pill
                   src={GiteeSvg}
                   alt="gitee"
                   style={{ marginRight: "12px" }}
                   text="使用 Gitee 登录"
+                  onClick={loginWithGitee}
                 />
               </div>
             </div>
