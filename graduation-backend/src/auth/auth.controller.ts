@@ -32,25 +32,64 @@ export class AuthController {
       const { code } = query;
       const GITHUB_CLIENT_ID =
         this.configService.get<string>('GITHUB_CLIENT_ID');
+      console.log(
+        '🚀 ~ AuthController ~ getGithubOAuth ~ GITHUB_CLIENT_ID:',
+        GITHUB_CLIENT_ID,
+      );
+
       const GITHUB_CLIENT_SECRET = this.configService.get<string>(
         'GITHUB_CLIENT_SECRET',
+      );
+      console.log(
+        '🚀 ~ AuthController ~ getGithubOAuth ~ GITHUB_CLIENT_SECRET:',
+        GITHUB_CLIENT_SECRET,
       );
       const GITHUB_REDIRECT_URI = this.configService.get<string>(
         'GITHUB_REDIRECT_URI',
       );
-      const config = {
-        method: 'POST',
-        url: `https://github.com/login/oauth/access_token?client_id=${GITHUB_CLIENT_ID}&
-        client_secret=${GITHUB_CLIENT_SECRET}&code=${code}&redirect_uri=${GITHUB_REDIRECT_URI}`,
-        headers: {
-          'Content-Type': 'application/json',
-          accept: 'application/json',
-        },
-      };
+      async function getGithubAccessToken(code: string) {
+        try {
+          const res = await axios.post(
+            'https://github.com/login/oauth/access_token',
+            {
+              client_id: GITHUB_CLIENT_ID,
+              client_secret: GITHUB_CLIENT_SECRET,
+              redirect_uri: GITHUB_REDIRECT_URI,
+              code,
+            },
+            {
+              headers: {
+                Accept: 'application/json',
+              },
+            },
+          );
+          return res.data;
+        } catch (e) {
+          throw new Error(e);
+        }
+      }
 
-      return axios.request(config).then((res) => {
-        console.log(res);
-      });
+      async function getGithubUserInfo(accessToken: string) {
+        const res = await axios.get('https://api.github.com/user', {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        return res.data;
+      }
+
+      const GithubAccessToken = await getGithubAccessToken(code);
+      console.log(
+        '🚀 ~ AuthController ~ getGithubOAuth ~ GithubAccessToken:',
+        GithubAccessToken,
+      );
+      const GithubUserInfo = await getGithubUserInfo(
+        GithubAccessToken.access_token,
+      );
+      console.log(
+        '🚀 ~ AuthController ~ getGithubOAuth ~ GithubUserInfo:',
+        GithubUserInfo,
+      );
     } catch (e) {
       console.log('🚀 ~ AuthController ~ getGithubOAuth ~ e:', e);
     }
