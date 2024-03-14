@@ -95,39 +95,61 @@ export class AuthController {
   @Redirect('/', 301)
   async getGiteeOAuth(@Query() query: OauthDto) {
     const { code } = query;
-    const { GITEE_CLIENT_ID, GITEE_CLIENT_SECRET, GITEE_REDIRECT_URI } =
-      process.env;
 
-    const config = {
-      method: 'POST',
-      url: `https://gitee.com/oauth/token?grant_type=authorization_code&code=${code}&client_id=${GITEE_CLIENT_ID}&redirect_uri=${GITEE_REDIRECT_URI}&client_secret=${GITEE_CLIENT_SECRET}
-      `,
-      headers: {
-        'Content-Type': 'application/json',
-        accept: 'application/json',
-      },
-    };
+    const GITEE_CLIENT_ID = this.configService.get<string>('GITEE_CLIENT_ID');
+    const GITEE_CLIENT_SECRET = this.configService.get<string>(
+      'GITEE_CLIENT_SECRET',
+    );
+    const GITEE_REDIRECT_URI =
+      this.configService.get<string>('GITEE_REDIRECT_URI');
 
-    const userConfig = {
-      method: 'GET',
-      url: 'https://gitee.com/api/v5/user?access_token',
-      headers: {
-        accept: 'application/json',
-      },
-    };
+    async function getGiteeAccessToken(code: string) {
+      try {
+        const res = await axios.post(
+          `https://gitee.com/oauth/token?grant_type=authorization_code&code=${code}&client_id=${GITEE_CLIENT_ID}&redirect_uri=${GITEE_REDIRECT_URI}&client_secret=${GITEE_CLIENT_SECRET}
+        `,
+          {},
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              accept: 'application/json',
+            },
+          },
+        );
+        return res.data;
+      } catch (e) {
+        throw new Error(e);
+      }
+    }
 
-    axios.request(config).then((res) => {
-      console.log(res.data);
-      const { access_token } = res.data;
-      axios
-        .request({
-          ...userConfig,
-          url: `https://gitee.com/api/v5/user?access_token=${access_token}`,
-        })
-        .then((res) => {
-          console.log(res.data);
+    async function getGiteeUserInfo(accessToken: string) {
+      try {
+        const res = await axios.get(`https://gitee.com/api/v5/user`, {
+          headers: {
+            accept: 'application/json',
+          },
+          params: {
+            access_token: accessToken,
+          },
         });
-    });
+        return res.data;
+      } catch (e) {
+        throw new Error(e);
+      }
+    }
+
+    const GiteeAccessToken = await getGiteeAccessToken(code);
+
+    const GiteeUserInfo = await getGiteeUserInfo(GiteeAccessToken.access_token);
+
+    if (GiteeUserInfo) {
+      const { name, email } = GiteeUserInfo;
+      this.userService.create({
+        username: name,
+        email,
+        type: 'gitee',
+      });
+    }
   }
 
   @Get('twitter')
@@ -142,8 +164,6 @@ export class AuthController {
     const TWITTER_REDIRECT_URI = this.configService.get<string>(
       'TWITTER_REDIRECT_URI',
     );
-    console.log('🚀 ~ TWITTER_CLIENT_SECRET:', TWITTER_CLIENT_SECRET);
-    console.log('🚀 ~ TWITTER_CLIENT_ID:', TWITTER_CLIENT_ID);
 
     const config = {
       client_id: `${TWITTER_CLIENT_ID}`,
@@ -156,7 +176,6 @@ export class AuthController {
       `${TWITTER_CLIENT_ID}:${TWITTER_CLIENT_SECRET}`,
       'utf-8',
     ).toString('base64');
-    console.log('🚀 ~ basicAuthToken:', basicAuthToken);
 
     async function getTwitterOAuthToken(code: string) {
       try {
@@ -172,8 +191,7 @@ export class AuthController {
         );
         return res.data;
       } catch (e) {
-        // throw new Error(e);
-        console.log(e);
+        throw new Error(e);
       }
     }
 
@@ -199,10 +217,6 @@ export class AuthController {
     }
 
     const TwitterAccessToken = await getTwitterOAuthToken(code);
-    console.log(
-      '🚀 ~ AuthController ~ getTwitterOAuth ~ TwitterAccessToken:',
-      TwitterAccessToken,
-    );
 
     if (!TwitterAccessToken) {
       return res.redirect('http://localhost:5173');
@@ -211,10 +225,19 @@ export class AuthController {
     const TwitterUserInfo = await getTwitterUserInfo(
       TwitterAccessToken.access_token,
     );
-    console.log(
-      '🚀 ~ AuthController ~ getTwitterOAuth ~ TwitterUserInfo:',
-      TwitterUserInfo,
-    );
+
+    /**
+     * note:
+     *  Oauth2.0 API in Twitter doesn't provide user email.
+     */
+    if (TwitterUserInfo) {
+      const { username } = TwitterUserInfo;
+      this.userService.create({
+        username,
+        email: 'null@twitter.com',
+        type: 'twitter',
+      });
+    }
 
     if (!TwitterUserInfo) {
       return res.redirect('http://localhost:5173');
