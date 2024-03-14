@@ -5,6 +5,7 @@ import { ConfigService } from '@nestjs/config';
 
 import { AuthService } from './auth.service';
 import { OauthDto } from './dto/oatuh.dto';
+import { UserService } from 'src/user/user.service';
 
 type TwitterTokenResponse = {
   token_type: 'bearer';
@@ -18,11 +19,13 @@ interface TwiterUser {
   name: string;
   username: string;
 }
+
 @Controller('oauth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly configService: ConfigService,
+    private readonly userService: UserService,
   ) {}
 
   @Get('github')
@@ -32,21 +35,13 @@ export class AuthController {
       const { code } = query;
       const GITHUB_CLIENT_ID =
         this.configService.get<string>('GITHUB_CLIENT_ID');
-      console.log(
-        '🚀 ~ AuthController ~ getGithubOAuth ~ GITHUB_CLIENT_ID:',
-        GITHUB_CLIENT_ID,
-      );
-
       const GITHUB_CLIENT_SECRET = this.configService.get<string>(
         'GITHUB_CLIENT_SECRET',
-      );
-      console.log(
-        '🚀 ~ AuthController ~ getGithubOAuth ~ GITHUB_CLIENT_SECRET:',
-        GITHUB_CLIENT_SECRET,
       );
       const GITHUB_REDIRECT_URI = this.configService.get<string>(
         'GITHUB_REDIRECT_URI',
       );
+
       async function getGithubAccessToken(code: string) {
         try {
           const res = await axios.post(
@@ -79,22 +74,21 @@ export class AuthController {
       }
 
       const GithubAccessToken = await getGithubAccessToken(code);
-      console.log(
-        '🚀 ~ AuthController ~ getGithubOAuth ~ GithubAccessToken:',
-        GithubAccessToken,
-      );
       const GithubUserInfo = await getGithubUserInfo(
         GithubAccessToken.access_token,
       );
-      console.log(
-        '🚀 ~ AuthController ~ getGithubOAuth ~ GithubUserInfo:',
-        GithubUserInfo,
-      );
-    } catch (e) {
-      console.log('🚀 ~ AuthController ~ getGithubOAuth ~ e:', e);
-    }
 
-    // return this.authService.validateAuth();
+      if (GithubUserInfo) {
+        const { name, email } = GithubUserInfo;
+        this.userService.create({
+          username: name,
+          email,
+          type: 'github',
+        });
+      }
+    } catch (e) {
+      throw new Error(e);
+    }
   }
 
   @Get('gitee')

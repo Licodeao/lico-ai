@@ -17,7 +17,7 @@ export class PermissionEntity {
   /**
    * @field {string} name 权限名称
    */
-  @Column({ length: 50 })
+  @Column({ length: 50, comment: '权限名称' })
   name: string;
 
   /**

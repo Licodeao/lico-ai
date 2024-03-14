@@ -114,8 +114,26 @@ export class UserService {
     });
   }
 
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  async findUserByEmail(email: string) {
+    const user = await this.entityManager.findOneBy(UserEntity, {
+      email,
+    });
+
+    if (!user) {
+      return false;
+    }
+
+    return true;
+  }
+
+  async create(createUserDto: CreateUserDto) {
+    const user = await this.findUserByEmail(createUserDto.email);
+
+    if (user) {
+      throw new HttpException('用户已存在', HttpStatus.CONFLICT);
+    }
+
+    return this.entityManager.save(UserEntity, createUserDto);
   }
 
   findAll() {

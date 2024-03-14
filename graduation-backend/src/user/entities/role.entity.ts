@@ -20,7 +20,7 @@ export class RoleEntity {
   /**
    * @field {string} name 角色名称
    */
-  @Column({ length: 20 })
+  @Column({ length: 20, comment: '角色名称' })
   name: string;
 
   /**

@@ -8,9 +8,9 @@ import GithubSvg from "@/assets/img/github.svg";
 import GiteeSvg from "@/assets/img/gitee.svg";
 
 import Pill from "@/components/pill";
-import AuthComponent from "@/components/authComponent";
+import AuthComponent from "@/components/auth";
 import Login from "@/pages/login/index";
-import VideoComponent from "@/components/videoComponent";
+import VideoComponent from "@/components/video";
 import { useAuth } from "@/provider/auth";
 
 interface IProps {

@@ -1,5 +1,5 @@
 import type { FC, ReactNode } from "react";
-import AuthComponent from "@/components/authComponent";
+import AuthComponent from "@/components/auth";
 
 interface IProps {
   children?: ReactNode;

@@ -20,19 +20,19 @@ export class UserEntity {
   /**
    * @field {string} username 用户名
    */
-  @Column({ length: 50 })
+  @Column({ length: 50, comment: '用户名' })
   username: string;
 
   /**
    * @field {string} email 用户邮箱（注册/登录）
    */
-  @Column({ length: 50 })
+  @Column({ length: 50, comment: '用户邮箱' })
   email: string;
 
   /**
    * @field {string} type 用户登录途径（第三方/本站）
    */
-  @Column({ length: 50 })
+  @Column({ length: 50, comment: '用户登录途径' })
   type: string;
 
   /**
