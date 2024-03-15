@@ -1,4 +1,4 @@
-import type { FC, ReactNode } from "react";
+import { useState, type FC, type ReactNode } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
@@ -12,8 +12,19 @@ interface IProps {
 }
 
 const AuthComponent: FC<IProps> = ({ btnText, tipPrefix, tipSuffix, url }) => {
-  const handleInput = (e) => {
-    console.log(e.target.value);
+  const [error, setError] = useState<boolean>(false);
+  const [helperText, setHelperText] = useState<string>("");
+  const emailRegExp =
+    /^[a-z0-9A-Z]+[- | a-z0-9A-Z . _]+@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-z]{2,}$/;
+  const handleBlurEvent = (e) => {
+    if (!emailRegExp.test(e.target.value)) {
+      setError(true);
+      setHelperText("邮箱格式不正确，请重新输入!");
+    }
+    if (e.target.value === "") {
+      setError(error);
+      setHelperText("您需要输入邮箱!");
+    }
   };
   return (
     <>
@@ -24,8 +35,9 @@ const AuthComponent: FC<IProps> = ({ btnText, tipPrefix, tipSuffix, url }) => {
         sx={{
           width: "70%",
         }}
-        onInput={(e) => handleInput(e)}
-        onBlur={(e) => console.log(e.target.value)}
+        onBlur={(e) => handleBlurEvent(e)}
+        error={error}
+        helperText={helperText}
       />
 
       <Button
