@@ -22,10 +22,13 @@ const AuthComponent: FC<IProps> = ({ btnText, tipPrefix, tipSuffix, url }) => {
       setHelperText("邮箱格式不正确，请重新输入!");
     }
     if (e.target.value === "") {
-      setError(error);
+      setError(true);
       setHelperText("您需要输入邮箱!");
     }
   };
+
+  const handleClick = () => {};
+
   return (
     <>
       <TextField
@@ -45,6 +48,7 @@ const AuthComponent: FC<IProps> = ({ btnText, tipPrefix, tipSuffix, url }) => {
         sx={{
           width: "70%",
         }}
+        onClick={handleClick}
       >
         {btnText}
       </Button>
