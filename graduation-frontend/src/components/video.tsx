@@ -1,6 +1,6 @@
 import { Skeleton } from "@mui/material";
 import { useEffect, useState } from "react";
-import videoSource from "@/assets/img/vedio.mp4";
+import videoSource from "@/assets/img/video.mp4";
 
 const VideoComponent = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);

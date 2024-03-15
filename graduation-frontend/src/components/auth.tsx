@@ -12,6 +12,9 @@ interface IProps {
 }
 
 const AuthComponent: FC<IProps> = ({ btnText, tipPrefix, tipSuffix, url }) => {
+  const handleInput = (e) => {
+    console.log(e.target.value);
+  };
   return (
     <>
       <TextField
@@ -21,6 +24,8 @@ const AuthComponent: FC<IProps> = ({ btnText, tipPrefix, tipSuffix, url }) => {
         sx={{
           width: "70%",
         }}
+        onInput={(e) => handleInput(e)}
+        onBlur={(e) => console.log(e.target.value)}
       />
 
       <Button

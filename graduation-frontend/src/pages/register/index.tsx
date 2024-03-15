@@ -2,7 +2,6 @@ import { type FC, type ReactNode } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 
-import Logo from "@/assets/img/logo.jpg";
 import TwitterSvg from "@/assets/img/twitter.svg";
 import GithubSvg from "@/assets/img/github.svg";
 import GiteeSvg from "@/assets/img/gitee.svg";
@@ -11,6 +10,7 @@ import Pill from "@/components/pill";
 import AuthComponent from "@/components/auth";
 import Login from "@/pages/login/index";
 import VideoComponent from "@/components/video";
+import Logo from "@/components/logo";
 import { useAuth } from "@/provider/auth";
 
 interface IProps {
@@ -42,9 +42,8 @@ const Register: FC<IProps> = () => {
             padding: "0 20px !important",
           }}
         >
-          <div className="text-white flex flex-row justify-start items-center gap-3 mt-5 p-5">
-            <img src={Logo} alt="logo" className="rounded-full w-9 h-9" />
-            <span className="text-xl font-black">哩叩 AI</span>
+          <div className="w-full flex justify-center items-center mt-20">
+            <Logo />
           </div>
           <div className="w-full h-4/5 text-white flex flex-col justify-center items-center gap-3">
             <div className="text-5xl font-black">

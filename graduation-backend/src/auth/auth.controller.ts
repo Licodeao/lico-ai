@@ -228,7 +228,7 @@ export class AuthController {
 
     /**
      * note:
-     *  Oauth2.0 API in Twitter doesn't provide user email.
+     *  Oauth2.0 API in Twitter doesn't provide user email. So, use 'null@twitter.com' instead.
      */
     if (TwitterUserInfo) {
       const { username } = TwitterUserInfo;
