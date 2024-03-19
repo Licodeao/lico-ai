@@ -1,7 +1,9 @@
-import { useState, type FC, type ReactNode } from "react";
+import { type FC, type ReactNode } from "react";
+import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
 
 interface IProps {
   children?: ReactNode;
@@ -11,47 +13,64 @@ interface IProps {
   url: string;
 }
 
-const AuthComponent: FC<IProps> = ({ btnText, tipPrefix, tipSuffix, url }) => {
-  const [error, setError] = useState<boolean>(false);
-  const [helperText, setHelperText] = useState<string>("");
-  const emailRegExp =
-    /^[a-z0-9A-Z]+[- | a-z0-9A-Z . _]+@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-z]{2,}$/;
-  const handleBlurEvent = (e) => {
-    if (!emailRegExp.test(e.target.value)) {
-      setError(true);
-      setHelperText("邮箱格式不正确，请重新输入!");
-    }
-    if (e.target.value === "") {
-      setError(true);
-      setHelperText("您需要输入邮箱!");
-    }
-  };
+interface FormValue {
+  email: string;
+}
 
-  const handleClick = () => {};
+const AuthComponent: FC<IProps> = ({ btnText, tipPrefix, tipSuffix, url }) => {
+  const { handleSubmit, register, formState } = useForm<FormValue>({
+    defaultValues: {
+      email: "",
+    },
+  });
+  const { errors } = formState;
+
+  const emailRegExp = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+
+  const onSubmit = (data: FormValue) => {
+    console.log(data);
+  };
 
   return (
     <>
-      <TextField
-        id="outlined-basic"
-        label="输入邮箱"
-        variant="outlined"
-        sx={{
+      <form
+        style={{
           width: "70%",
         }}
-        onBlur={(e) => handleBlurEvent(e)}
-        error={error}
-        helperText={helperText}
-      />
-
-      <Button
-        variant="contained"
-        sx={{
-          width: "70%",
-        }}
-        onClick={handleClick}
+        noValidate
+        onSubmit={handleSubmit(onSubmit)}
       >
-        {btnText}
-      </Button>
+        <TextField
+          id="outlined-basic"
+          label="输入邮箱"
+          type="email"
+          variant="outlined"
+          sx={{
+            width: "100%",
+            marginBottom: "10px",
+          }}
+          error={!!errors.email}
+          helperText={errors.email?.message}
+          required
+          {...register("email", {
+            required: "请输入邮箱!",
+            pattern: {
+              value: emailRegExp,
+              message: "邮箱格式不正确，请重新输入!",
+            },
+          })}
+        />
+
+        <Button
+          variant="contained"
+          sx={{
+            width: "100%",
+          }}
+          type="submit"
+        >
+          {btnText}
+        </Button>
+      </form>
 
       <div className="text-[12px]">
         <p>
