@@ -7,10 +7,12 @@ export class MailController {
 
   @Get('code')
   async sendEmailCode(@Query('address') address) {
+    const code = Math.random().toString().slice(2, 8);
+
     await this.mailService.sendMail({
       to: address,
       subject: 'Lico-AI Platform',
-      html: `<h1>您的验证码是：${Math.floor(Math.random() * 1000000)}</h1>`,
+      html: `<h1>您的验证码是：${code}</h1>`,
     });
 
     return '发送成功';
