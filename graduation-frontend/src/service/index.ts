@@ -5,6 +5,7 @@ const BASE_URL = "http://localhost:3000";
 const TIME_OUT = 1000 * 60;
 
 export interface IResultData<T> {
+  statusCode: number;
   code: number;
   data: T;
 }

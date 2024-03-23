@@ -13,11 +13,15 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserLoginDto } from './dto/user-login.dto';
 import { JwtService } from '@nestjs/jwt';
+import { RedisService } from 'src/redis/redis.service';
 
 @Controller('user')
 export class UserController {
   @Inject(JwtService)
   private jwtService: JwtService;
+
+  @Inject(RedisService)
+  private redisService: RedisService;
 
   constructor(private readonly userService: UserService) {}
 
@@ -29,6 +33,24 @@ export class UserController {
 
   @Post('login')
   async login(@Body() loginUser: UserLoginDto) {
+    const codeIsRedis = await this.redisService.get(
+      `${loginUser.email}_email_code`,
+    );
+
+    if (!codeIsRedis) {
+      return {
+        code: 401,
+        data: '验证码已过期，请重新获取',
+      };
+    }
+
+    if (codeIsRedis !== loginUser.validateCode) {
+      return {
+        code: 401,
+        data: '验证码错误',
+      };
+    }
+
     const user = await this.userService.login(loginUser);
 
     const token = this.jwtService.sign({
@@ -39,6 +61,7 @@ export class UserController {
     });
 
     return {
+      code: 200,
       token,
     };
   }

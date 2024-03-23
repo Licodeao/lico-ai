@@ -21,6 +21,21 @@ export class MailController {
       html: `<h1>您的验证码是：${code}</h1>`,
     });
 
-    return '发送成功';
+    return {
+      code: 200,
+      data: '发送成功',
+    };
+  }
+
+  @Get('resend')
+  async delEmailCode(@Query('address') address) {
+    await this.redisService.del(`${address}_email_code`);
+
+    await this.sendEmailCode(address);
+
+    return {
+      code: 200,
+      data: '发送成功',
+    };
   }
 }
