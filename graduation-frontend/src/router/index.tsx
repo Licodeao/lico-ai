@@ -1,5 +1,6 @@
 import NotFound from "@/pages/not_found";
 import Register from "@/pages/register";
+import WorkSpace from "@/pages/workspace";
 import { Navigate, createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -14,6 +15,11 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Register />,
+  },
+  {
+    path: "/workspace",
+    element: <WorkSpace />,
+    children: [],
   },
   {
     path: "*",

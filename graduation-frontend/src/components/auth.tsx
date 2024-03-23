@@ -5,7 +5,7 @@ import {
   type ReactNode,
   type SyntheticEvent,
 } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 import TextField from "@mui/material/TextField";
@@ -44,6 +44,7 @@ const AuthComponent: FC<IProps> = ({ btnText, tipPrefix, tipSuffix, url }) => {
     },
   });
   const { errors } = formState;
+  const navigate = useNavigate();
 
   const emailRegExp = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
 
@@ -66,6 +67,7 @@ const AuthComponent: FC<IProps> = ({ btnText, tipPrefix, tipSuffix, url }) => {
           setOpen(true);
         } else if (res.code === 200) {
           setSuccessOpen(true);
+          navigate("/workspace");
         }
       });
     }
