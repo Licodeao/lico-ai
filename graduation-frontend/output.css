@@ -603,10 +603,6 @@ video {
   margin-top: 1.25rem;
 }
 
-.inline-block {
-  display: inline-block;
-}
-
 .flex {
   display: flex;
 }
@@ -631,6 +627,10 @@ video {
   height: 100vh;
 }
 
+.w-3\/4 {
+  width: 75%;
+}
+
 .w-4\/5 {
   width: 80%;
 }
@@ -645,22 +645,6 @@ video {
 
 .w-screen {
   width: 100vw;
-}
-
-.w-\[3\/4\] {
-  width: 3/4;
-}
-
-.w-3\/4 {
-  width: 75%;
-}
-
-.w-2\/4 {
-  width: 50%;
-}
-
-.w-\[100px\] {
-  width: 100px;
 }
 
 .transform {
@@ -683,16 +667,20 @@ video {
   justify-content: center;
 }
 
-.justify-between {
-  justify-content: space-between;
-}
-
 .justify-around {
   justify-content: space-around;
 }
 
+.gap-1 {
+  gap: 0.25rem;
+}
+
 .gap-3 {
   gap: 0.75rem;
+}
+
+.gap-36 {
+  gap: 9rem;
 }
 
 .gap-4 {
@@ -701,42 +689,6 @@ video {
 
 .gap-5 {
   gap: 1.25rem;
-}
-
-.gap-8 {
-  gap: 2rem;
-}
-
-.gap-6 {
-  gap: 1.5rem;
-}
-
-.gap-12 {
-  gap: 3rem;
-}
-
-.gap-20 {
-  gap: 5rem;
-}
-
-.gap-24 {
-  gap: 6rem;
-}
-
-.gap-28 {
-  gap: 7rem;
-}
-
-.gap-32 {
-  gap: 8rem;
-}
-
-.gap-36 {
-  gap: 9rem;
-}
-
-.gap-1 {
-  gap: 0.25rem;
 }
 
 .rounded-\[80px\] {
@@ -836,10 +788,6 @@ video {
   line-height: 1.25rem;
 }
 
-.text-\[10px\] {
-  font-size: 10px;
-}
-
 .font-black {
   font-weight: 900;
 }
@@ -856,6 +804,11 @@ video {
   line-height: 44px;
 }
 
+.text-\[\#2E9CEE\] {
+  --tw-text-opacity: 1;
+  color: rgb(46 156 238 / var(--tw-text-opacity));
+}
+
 .text-\[\#336AEA\] {
   --tw-text-opacity: 1;
   color: rgb(51 106 234 / var(--tw-text-opacity));
@@ -864,6 +817,11 @@ video {
 .text-\[\#6E6E6E\] {
   --tw-text-opacity: 1;
   color: rgb(110 110 110 / var(--tw-text-opacity));
+}
+
+.text-\[\#85C027\] {
+  --tw-text-opacity: 1;
+  color: rgb(133 192 39 / var(--tw-text-opacity));
 }
 
 .text-\[\#8FADF4\] {
@@ -885,20 +843,6 @@ video {
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
-.text-\[85C027\] {
-  color: 85C027;
-}
-
-.text-\[\#85C027\] {
-  --tw-text-opacity: 1;
-  color: rgb(133 192 39 / var(--tw-text-opacity));
-}
-
-.text-\[\#2E9CEE\] {
-  --tw-text-opacity: 1;
-  color: rgb(46 156 238 / var(--tw-text-opacity));
-}
-
 .no-underline {
   text-decoration-line: none;
 }
@@ -911,6 +855,10 @@ video {
 
 body {
   background-color: #0D0D0D;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 
 .hover\:bg-\[\#161616\]:hover {
