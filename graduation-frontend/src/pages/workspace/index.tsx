@@ -8,7 +8,7 @@ interface IProps {
 
 const WorkSpace: FC<IProps> = () => {
   return (
-    <div className="w-screen h-screen text-white flex justify-center items-center flex-col">
+    <div className="w-screen h-screen text-white flex justify-center items-center flex-col bg-[#141414]">
       <WorkSpaceHeader />
       <WorkSpaceContent />
     </div>

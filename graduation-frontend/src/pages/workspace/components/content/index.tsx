@@ -5,9 +5,7 @@ interface IProps {
 }
 
 const WorkSpaceContent: FC<IProps> = () => {
-  return (
-    <div className="w-full h-screen flex-6 bg-slate-400">WorkSpaceContent</div>
-  );
+  return <div className="w-full h-screen flex-6">WorkSpaceContent</div>;
 };
 
 export default WorkSpaceContent;
