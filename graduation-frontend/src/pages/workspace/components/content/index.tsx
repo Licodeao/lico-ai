@@ -1,6 +1,10 @@
 import type { FC, ReactNode } from "react";
-import RightArrow from "@/assets/img/right-arrow.svg";
+
 import OperationHistory from "../history";
+import Exports from "../exports";
+
+import RightArrow from "@/assets/img/right-arrow.svg";
+
 interface IProps {
   children?: ReactNode;
 }
@@ -18,7 +22,12 @@ const WorkSpaceContent: FC<IProps> = () => {
 
         <img src={RightArrow} alt="right-arrow" />
       </div>
-      <OperationHistory />
+      <div>
+        <OperationHistory />
+      </div>
+      <div className="flex-1">
+        <Exports />
+      </div>
     </div>
   );
 };

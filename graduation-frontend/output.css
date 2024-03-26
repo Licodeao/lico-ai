@@ -735,6 +735,10 @@ video {
   height: 50%;
 }
 
+.h-\[300px\] {
+  height: 300px;
+}
+
 .w-3\/4 {
   width: 75%;
 }
@@ -1292,6 +1296,11 @@ video {
 .text-\[\#CBCBCB\] {
   --tw-text-opacity: 1;
   color: rgb(203 203 203 / var(--tw-text-opacity));
+}
+
+.text-\[\#808080\] {
+  --tw-text-opacity: 1;
+  color: rgb(128 128 128 / var(--tw-text-opacity));
 }
 
 .underline {
