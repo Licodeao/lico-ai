@@ -4,8 +4,19 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Avatar from "@mui/material/Avatar";
-import UpgradeLogo from "@/components/upgrade";
+import Drawer from "@mui/material/Drawer";
 
+import Box from "@mui/material/Box";
+import List from "@mui/material/List";
+import Divider from "@mui/material/Divider";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MailIcon from "@mui/icons-material/Mail";
+
+import UpgradeLogo from "@/components/upgrade";
 interface IProps {
   children?: ReactNode;
 }
@@ -13,6 +24,7 @@ interface IProps {
 const WorkSpaceHeader: FC<IProps> = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const menuOpen = Boolean(anchorEl);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const handleClickProfile = (e: React.MouseEvent<HTMLDivElement>) => {
     setAnchorEl(e.currentTarget);
   };
@@ -25,11 +37,55 @@ const WorkSpaceHeader: FC<IProps> = () => {
     console.log(type);
   };
 
+  const handleMenuClick = () => {
+    setDrawerOpen(!drawerOpen);
+  };
+
+  const toggleDrawer = (newOpen: boolean) => () => {
+    setDrawerOpen(newOpen);
+  };
+
+  const DrawerList = (
+    <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
+      <List>
+        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+          <ListItem key={text} disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <List>
+        {["All mail", "Trash", "Spam"].map((text, index) => (
+          <ListItem key={text} disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
+
   return (
     <div className="w-full h-16 flex-4 border-b border-b-[#2C2C2C] flex justify-between items-center">
       <div className="flex justify-center items-center">
-        <div className="w-1/8 h-full flex justify-center items-center px-5 py-4 cursor-pointer hover:bg-[#2C2D2F]">
+        <div
+          className="w-1/8 h-full flex justify-center items-center px-5 py-4 cursor-pointer hover:bg-[#2C2D2F]"
+          onClick={handleMenuClick}
+        >
           <MenuIcon fontSize="medium" />
+          <Drawer open={drawerOpen} onClose={toggleDrawer(false)}>
+            {DrawerList}
+          </Drawer>
         </div>
         <div className="w-[1px] h-8 bg-[#2C2C2C]"></div>
       </div>
