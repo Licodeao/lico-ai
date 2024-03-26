@@ -34,7 +34,11 @@ const WorkSpaceHeader: FC<IProps> = () => {
         <span className="bg-gradient-to-tr from-purple-600 via-blue-500 to-green-400 bg-clip-text text-transparent">
           Lico AI
         </span>
-        , 这是你的工作空间, 在这里发挥你的奇思妙想吧 💥
+        , 这是你的工作空间, 在这里发挥你的
+        <span className="bg-gradient-to-tr from-red-600 via-pink-500 to-yellow-400 bg-clip-text text-transparent">
+          奇思妙想
+        </span>
+        吧 💥
       </div>
 
       <div className="w-1/6 h-full flex justify-around items-center">
@@ -42,7 +46,7 @@ const WorkSpaceHeader: FC<IProps> = () => {
         <button className="w-22 h-12 bg-[#F9A432] rounded-lg hover:bg-[#EB8A2A]">
           <div className="flex flex-row mx-3 my-1 justify-around items-center">
             <span>付费订阅</span>
-            <div className="flex justify-center items-center w-[30px] h-[30px] bg-[#DE7722] hover:bg-[#EB8B2A] rounded-md ml-2">
+            <div className="flex justify-center items-center w-[30px] h-[30px] bg-[#DE7722] rounded-md ml-2">
               <UpgradeLogo />
             </div>
           </div>
