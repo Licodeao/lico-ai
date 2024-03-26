@@ -20,6 +20,11 @@ const WorkSpaceHeader: FC<IProps> = () => {
     setAnchorEl(null);
   };
 
+  const handleMenuItemClick = (type: string) => {
+    setAnchorEl(null);
+    console.log(type);
+  };
+
   return (
     <div className="w-full h-16 flex-4 border-b border-b-[#2C2C2C] flex justify-between items-center">
       <div className="flex justify-center items-center">
@@ -42,7 +47,7 @@ const WorkSpaceHeader: FC<IProps> = () => {
       </div>
 
       <div className="w-1/6 h-full flex justify-around items-center">
-        <div className="w-[1px] h-8 bg-[#2C2C2C]"></div>
+        <div className="w-[1px] h-8 bg-[#2C2C2C] mr-2"></div>
         <button className="w-22 h-12 bg-[#F9A432] rounded-lg hover:bg-[#EB8A2A]">
           <div className="flex flex-row mx-3 my-1 justify-around items-center">
             <span>付费订阅</span>
@@ -51,16 +56,32 @@ const WorkSpaceHeader: FC<IProps> = () => {
             </div>
           </div>
         </button>
-        <div className="w-[1px] h-8 bg-[#2C2C2C]"></div>
+        <div className="w-[1px] h-8 bg-[#2C2C2C] ml-2"></div>
         <div className="flex justify-around items-center gap-6">
           <div
             onClick={handleClickProfile}
-            className="border border-solid border-[#4B4B4C] rounded-full"
+            className="border border-solid border-[#4B4B4C] rounded-full mx-8 my-2"
           >
             <Avatar className="m-1" />
           </div>
           <Menu open={menuOpen} anchorEl={anchorEl} onClose={handleClose}>
-            <MenuItem onClick={handleClose}>个人信息</MenuItem>
+            <MenuItem>Hi User</MenuItem>
+            <MenuItem onClick={() => handleMenuItemClick("profile")}>
+              个人信息
+            </MenuItem>
+            <MenuItem onClick={() => handleMenuItemClick("subscribe")}>
+              订阅信息
+            </MenuItem>
+            <MenuItem onClick={() => handleMenuItemClick("usage")}>
+              使用说明
+            </MenuItem>
+            <MenuItem onClick={() => handleMenuItemClick("setting")}>
+              系统设置
+            </MenuItem>
+            <MenuItem onClick={() => handleMenuItemClick("faq")}>FAQs</MenuItem>
+            <MenuItem onClick={() => handleMenuItemClick("logout")}>
+              退出登录
+            </MenuItem>
           </Menu>
         </div>
       </div>

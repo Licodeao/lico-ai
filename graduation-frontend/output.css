@@ -631,6 +631,21 @@ video {
   margin-bottom: 0px;
 }
 
+.mx-2 {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.mx-1 {
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}
+
+.mx-8 {
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
 .mt-12 {
   margin-top: 3rem;
 }
@@ -661,6 +676,14 @@ video {
 
 .ml-5 {
   margin-left: 1.25rem;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
+}
+
+.mr-3 {
+  margin-right: 0.75rem;
 }
 
 .flex {
@@ -929,6 +952,10 @@ video {
 
 .gap-16 {
   gap: 4rem;
+}
+
+.gap-14 {
+  gap: 3.5rem;
 }
 
 .overflow-hidden {

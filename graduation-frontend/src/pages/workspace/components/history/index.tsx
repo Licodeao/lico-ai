@@ -15,7 +15,7 @@ const OperationHistory: FC<IProps> = () => {
         <div className="flex flex-row justify-start items-center gap-2">
           <ManageHistoryIcon />
           <span className="text-[#CBCBCB] text-[16px] font-medium">
-            History
+            创建历史
           </span>
         </div>
         <div className="text-[#CBCBCB] text-[14px] font-medium flex items-center cursor-pointer">
