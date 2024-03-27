@@ -5,7 +5,6 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Avatar from "@mui/material/Avatar";
 import Drawer from "@mui/material/Drawer";
-
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
@@ -13,8 +12,11 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+import HomeIcon from "@mui/icons-material/Home";
+import VideoLibraryIcon from "@mui/icons-material/VideoLibrary";
+import KeyboardVoiceIcon from "@mui/icons-material/KeyboardVoice";
+import UpdateIcon from "@mui/icons-material/Update";
+import EastIcon from "@mui/icons-material/East";
 
 import UpgradeLogo from "@/components/upgrade";
 interface IProps {
@@ -48,30 +50,79 @@ const WorkSpaceHeader: FC<IProps> = () => {
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
       <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        <ListItem disablePadding key={"主页"}>
+          <ListItemButton>
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
+            <ListItemText primary="主页" />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem disablePadding key={"媒体库"}>
+          <ListItemButton>
+            <ListItemIcon>
+              <VideoLibraryIcon />
+            </ListItemIcon>
+            <ListItemText primary="媒体库" />
+          </ListItemButton>
+        </ListItem>
       </List>
+
       <Divider />
+
       <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        <ListItem key={"插件"}>
+          <ListItemText primary="插件" />
+        </ListItem>
+        <ListItem key={"数字声音"}>
+          <ListItemButton>
+            <ListItemIcon>
+              <KeyboardVoiceIcon />
+            </ListItemIcon>
+            <ListItemText primary="数字声音" />
+          </ListItemButton>
+        </ListItem>
       </List>
+
+      <Divider />
+
+      <List>
+        <ListItem key={"历史记录"}>
+          <ListItemText primary="历史记录" />
+        </ListItem>
+
+        <ListItem key={"纪录项"}>
+          <ListItemButton>
+            <ListItemIcon>
+              <UpdateIcon />
+            </ListItemIcon>
+            <ListItemText primary="纪录项" />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem key={"查看更多"}>
+          <div className="flex flex-row items-center justify-start gap-2 cursor-pointer hover:text-[#8C8C8C]">
+            <EastIcon />
+            <ListItemText primary="查看更多" />
+          </div>
+        </ListItem>
+      </List>
+
+      <Divider />
+
+      <div className="fixed bottom-1 left-1 right-1">
+        <div className="text-sm mx-8">
+          Powered By &copy;{" "}
+          <a
+            href="https://licodeao.netlify.app"
+            className="cursor-pointer underline"
+            target="__blank"
+          >
+            Licodeao
+          </a>
+        </div>
+      </div>
     </Box>
   );
 
