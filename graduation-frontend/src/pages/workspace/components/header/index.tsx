@@ -141,7 +141,7 @@ const WorkSpaceHeader: FC<IProps> = () => {
         <div className="w-[1px] h-8 bg-[#2C2C2C]"></div>
       </div>
 
-      <div className="w-full flex justify-start text-[17px] ml-5 font-bold gap-2">
+      <div className="w-full flex justify-start items-center text-[17px] ml-5 font-bold gap-2">
         欢迎来到{" "}
         <span className="bg-gradient-to-tr from-purple-600 via-blue-500 to-green-400 bg-clip-text text-transparent">
           Lico AI
@@ -151,11 +151,15 @@ const WorkSpaceHeader: FC<IProps> = () => {
           奇思妙想
         </span>
         吧 💥
+        <div className="w-[1px] h-8 bg-[#2C2C2C] ml-2"></div>
       </div>
 
-      <div className="w-1/6 h-full flex justify-around items-center">
-        <div className="w-[1px] h-8 bg-[#2C2C2C] mr-2"></div>
-        <button className="w-22 h-12 bg-[#F9A432] rounded-lg hover:bg-[#EB8A2A]">
+      <div className="w-1/4 h-full flex justify-around items-center gap-2">
+        <button className="w-24 h-12 bg-[#151618] text-[#A2A3A3] border border-[#A2A3A3] font-medium text-sm rounded-lg hover:bg-[#363636]">
+          新建视频 +
+        </button>
+        <div className="w-[1px] h-8 bg-[#2C2C2C] mx-2"></div>
+        <button className="w-32 h-12 bg-[#F9A432] rounded-lg hover:bg-[#EB8A2A]">
           <div className="flex flex-row mx-3 my-1 justify-around items-center">
             <span>付费订阅</span>
             <div className="flex justify-center items-center w-[30px] h-[30px] bg-[#DE7722] rounded-md ml-2">
