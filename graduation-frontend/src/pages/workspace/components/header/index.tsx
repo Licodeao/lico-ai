@@ -19,6 +19,7 @@ import UpdateIcon from "@mui/icons-material/Update";
 import EastIcon from "@mui/icons-material/East";
 
 import UpgradeLogo from "@/components/upgrade";
+import { useNavigate } from "react-router-dom";
 interface IProps {
   children?: ReactNode;
 }
@@ -27,6 +28,8 @@ const WorkSpaceHeader: FC<IProps> = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const menuOpen = Boolean(anchorEl);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const pathname = window.location.pathname;
+  const navigate = useNavigate();
   const handleClickProfile = (e: React.MouseEvent<HTMLDivElement>) => {
     setAnchorEl(e.currentTarget);
   };
@@ -155,9 +158,14 @@ const WorkSpaceHeader: FC<IProps> = () => {
       </div>
 
       <div className="w-1/4 h-full flex justify-around items-center gap-2">
-        <button className="w-24 h-12 bg-[#151618] text-[#A2A3A3] border border-[#A2A3A3] font-medium text-sm rounded-lg hover:bg-[#363636]">
-          新建视频 +
-        </button>
+        {pathname === "/workspace/home" ? (
+          <button
+            className="w-24 h-12 bg-[#151618] text-[#A2A3A3] border border-[#A2A3A3] font-medium text-sm rounded-lg hover:bg-[#363636]"
+            onClick={() => navigate("/workspace/copilot")}
+          >
+            新建视频 +
+          </button>
+        ) : null}
         <div className="w-[1px] h-8 bg-[#2C2C2C] mx-2"></div>
         <button className="w-32 h-12 bg-[#F9A432] rounded-lg hover:bg-[#EB8A2A]">
           <div className="flex flex-row mx-3 my-1 justify-around items-center">
@@ -173,7 +181,7 @@ const WorkSpaceHeader: FC<IProps> = () => {
             onClick={handleClickProfile}
             className="border border-solid border-[#4B4B4C] rounded-full mx-8 my-2"
           >
-            <Avatar className="m-1" />
+            <Avatar className="m-1 cursor-pointer" />
           </div>
           <Menu open={menuOpen} anchorEl={anchorEl} onClose={handleClose}>
             <MenuItem>Hi User</MenuItem>

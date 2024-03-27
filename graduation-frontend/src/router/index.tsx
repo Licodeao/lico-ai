@@ -1,6 +1,8 @@
 import NotFound from "@/pages/not_found";
 import Register from "@/pages/register";
 import WorkSpace from "@/pages/workspace";
+import Copilot from "@/pages/workspace/components/copilot";
+import WorkspaceHome from "@/pages/workspace/components/home";
 import { Navigate, createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -19,7 +21,16 @@ const router = createBrowserRouter([
   {
     path: "/workspace",
     element: <WorkSpace />,
-    children: [],
+    children: [
+      {
+        path: "/workspace/home",
+        element: <WorkspaceHome />,
+      },
+      {
+        path: "/workspace/copilot",
+        element: <Copilot />,
+      },
+    ],
   },
   {
     path: "*",
