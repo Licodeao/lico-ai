@@ -1,3 +1,4 @@
+import Edit from "@/pages/edit";
 import NotFound from "@/pages/not_found";
 import Register from "@/pages/register";
 import WorkSpace from "@/pages/workspace";
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
         element: <Copilot />,
       },
     ],
+  },
+  {
+    path: "/edit",
+    element: <Edit />,
   },
   {
     path: "*",
