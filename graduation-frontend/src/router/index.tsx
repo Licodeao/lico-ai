@@ -1,4 +1,10 @@
 import Edit from "@/pages/edit";
+import EditAudio from "@/pages/edit/views/audio";
+import EditElement from "@/pages/edit/views/element";
+import EditMedia from "@/pages/edit/views/media";
+import EditRecord from "@/pages/edit/views/record";
+import EditSetting from "@/pages/edit/views/setting";
+import EditText from "@/pages/edit/views/text";
 import NotFound from "@/pages/not_found";
 import Register from "@/pages/register";
 import WorkSpace from "@/pages/workspace";
@@ -36,6 +42,32 @@ const router = createBrowserRouter([
   {
     path: "/edit",
     element: <Edit />,
+    children: [
+      {
+        path: "/edit/setting",
+        element: <EditSetting />,
+      },
+      {
+        path: "/edit/media",
+        element: <EditMedia />,
+      },
+      {
+        path: "/edit/audio",
+        element: <EditAudio />,
+      },
+      {
+        path: "/edit/text",
+        element: <EditText />,
+      },
+      {
+        path: "/edit/element",
+        element: <EditElement />,
+      },
+      {
+        path: "/edit/record",
+        element: <EditRecord />,
+      },
+    ],
   },
   {
     path: "*",

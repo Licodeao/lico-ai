@@ -8,7 +8,7 @@ import AuthProvider from "@/provider/auth";
 
 const darkTheme = createTheme({
   palette: {
-    mode: "dark",
+    mode: "light",
   },
 });
 

@@ -12,6 +12,7 @@ import AudioSelectedSvg from "@/assets/img/audio-selected.svg";
 import TextSelectedSvg from "@/assets/img/text-selected.svg";
 import ElementSelectedSvg from "@/assets/img/element-selected.svg";
 import RecordSelectedSvg from "@/assets/img/record-selected.svg";
+import { useNavigate } from "react-router-dom";
 interface IProps {
   children?: ReactNode;
 }
@@ -19,8 +20,10 @@ interface IProps {
 interface navItem {
   id: number;
   icon: string;
-  selectedIcon: string;
+  title: string;
   description: string;
+  selectedIcon: string;
+  link: string;
 }
 
 const Nav: FC<IProps> = () => {
@@ -28,59 +31,79 @@ const Nav: FC<IProps> = () => {
     {
       id: 0,
       icon: SettingSvg,
-      selectedIcon: SettingSelectedSvg,
+      title: "设置",
       description: "Setting",
+      selectedIcon: SettingSelectedSvg,
+      link: "/edit/setting",
     },
     {
       id: 1,
       icon: MediaSvg,
-      selectedIcon: MediaSelectedSvg,
+      title: "视频",
       description: "Media",
+      selectedIcon: MediaSelectedSvg,
+      link: "/edit/media",
     },
     {
       id: 2,
       icon: AudioSvg,
-      selectedIcon: AudioSelectedSvg,
+      title: "音频",
       description: "Audio",
+      selectedIcon: AudioSelectedSvg,
+      link: "/edit/audio",
     },
     {
       id: 3,
       icon: TextSvg,
-      selectedIcon: TextSelectedSvg,
+      title: "文本",
       description: "Text",
+      selectedIcon: TextSelectedSvg,
+      link: "/edit/text",
     },
     {
       id: 4,
       icon: ElementSvg,
-      selectedIcon: ElementSelectedSvg,
+      title: "元素",
       description: "Element",
+      selectedIcon: ElementSelectedSvg,
+      link: "/edit/element",
     },
     {
       id: 5,
       icon: RecordSvg,
-      selectedIcon: RecordSelectedSvg,
+      title: "录像",
       description: "Record",
+      selectedIcon: RecordSelectedSvg,
+      link: "/edit/record",
     },
   ];
 
   const [curIndex, setCurIndex] = useState<number>(0);
+  const navigate = useNavigate();
 
   const handleClick = (e) => {
     setCurIndex(Number(e.target.id));
+    navigate(e.target.dataset.link);
   };
 
   return (
-    <div className="w-full h-full flex-1 border-r-2 border-r-[#DFE0E5]">
+    <div className="w-full h-full flex-1 border-r-2 border-r-[#DFE0E5] bg-[#FFFFFF]">
       <div className="w-[80px] h-full flex flex-col items-center gap-4 mt-4">
         {navList.map((item, index) => {
           return (
-            <img
+            <div
               key={item.description}
-              id={item.id.toString()}
-              src={curIndex === index ? item.selectedIcon : item.icon}
-              alt={item.description}
-              onClick={(e) => handleClick(e)}
-            />
+              className="flex flex-col items-center gap-2 cursor-pointer"
+            >
+              <img
+                id={item.id.toString()}
+                data-link={item.link}
+                src={curIndex === index ? item.selectedIcon : item.icon}
+                alt={item.description}
+                onClick={(e) => handleClick(e)}
+              />
+              <span>{item.title}</span>
+            </div>
           );
         })}
       </div>
