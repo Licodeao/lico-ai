@@ -1,6 +1,7 @@
 import Edit from "@/pages/edit";
 import EditAudio from "@/pages/edit/views/audio";
 import EditElement from "@/pages/edit/views/element";
+import EditFilter from "@/pages/edit/views/filter";
 import EditMedia from "@/pages/edit/views/media";
 import EditRecord from "@/pages/edit/views/record";
 import EditSetting from "@/pages/edit/views/setting";
@@ -66,6 +67,10 @@ const router = createBrowserRouter([
       {
         path: "/edit/record",
         element: <EditRecord />,
+      },
+      {
+        path: "/edit/filter",
+        element: <EditFilter />,
       },
     ],
   },

@@ -12,6 +12,8 @@ import AudioSelectedSvg from "@/assets/img/audio-selected.svg";
 import TextSelectedSvg from "@/assets/img/text-selected.svg";
 import ElementSelectedSvg from "@/assets/img/element-selected.svg";
 import RecordSelectedSvg from "@/assets/img/record-selected.svg";
+import FilterSvg from "@/assets/img/filter.svg";
+import FilterSelectedSvg from "@/assets/img/filter-selected.svg";
 import { useNavigate } from "react-router-dom";
 interface IProps {
   children?: ReactNode;
@@ -75,6 +77,14 @@ const Nav: FC<IProps> = () => {
       description: "Record",
       selectedIcon: RecordSelectedSvg,
       link: "/edit/record",
+    },
+    {
+      id: 6,
+      icon: FilterSvg,
+      title: "滤镜",
+      description: "Filter",
+      selectedIcon: FilterSelectedSvg,
+      link: "/edit/filter",
     },
   ];
 
