@@ -79,7 +79,6 @@ const Nav: FC<IProps> = () => {
   ];
 
   const curIndex = Number(localStorage.getItem("curIndex")) || 0;
-  console.log("🚀 ~ curIndex:", curIndex);
   const navigate = useNavigate();
 
   const handleClick = (e) => {
