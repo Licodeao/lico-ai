@@ -1,4 +1,4 @@
-import { useState, type FC, type ReactNode } from "react";
+import { type FC, type ReactNode } from "react";
 import SettingSvg from "@/assets/img/setting.svg";
 import MediaSvg from "@/assets/img/media.svg";
 import AudioSvg from "@/assets/img/audio.svg";
@@ -78,11 +78,12 @@ const Nav: FC<IProps> = () => {
     },
   ];
 
-  const [curIndex, setCurIndex] = useState<number>(0);
+  const curIndex = Number(localStorage.getItem("curIndex")) || 0;
+  console.log("🚀 ~ curIndex:", curIndex);
   const navigate = useNavigate();
 
   const handleClick = (e) => {
-    setCurIndex(Number(e.target.id));
+    localStorage.setItem("curIndex", e.target.id);
     navigate(e.target.dataset.link);
   };
 

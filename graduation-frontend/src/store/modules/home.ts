@@ -4,11 +4,11 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 const homeSlice = createSlice({
   name: "home",
   initialState: {
-    s: "Hello World",
+    currentIndex: 0,
   },
   reducers: {
-    changeHomeDataAction: (state, { payload }) => {
-      state.s = payload;
+    changeCurrentIndexAction(state, { payload }) {
+      state.currentIndex = payload;
     },
   },
 });
@@ -21,5 +21,5 @@ export const fetchHomeDataAction = createAsyncThunk(
   }
 );
 
-export const { changeHomeDataAction } = homeSlice.actions;
+export const { changeCurrentIndexAction } = homeSlice.actions;
 export default homeSlice.reducer;
