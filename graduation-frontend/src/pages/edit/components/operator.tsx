@@ -7,7 +7,7 @@ interface IProps {
 
 const Operator: FC<IProps> = () => {
   return (
-    <div className="w-1/4 h-full bg-[#ffffff]">
+    <div className="w-1/4 h-[800px] bg-[#ffffff] overflow-scroll">
       <Outlet />
     </div>
   );

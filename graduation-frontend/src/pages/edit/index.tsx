@@ -25,7 +25,7 @@ const Edit: FC<IProps> = () => {
     <div className="w-screen h-screen flex flex-row items-center text-[#5C5E65]">
       <Nav />
       <div className="w-full h-full flex flex-col">
-        <div className="flex-1 flex items-center">
+        <div className="flex-1 flex">
           <Operator />
           <Canvas />
         </div>

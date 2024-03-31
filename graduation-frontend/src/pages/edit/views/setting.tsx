@@ -1,4 +1,5 @@
 import { useState, type FC, type ReactNode } from "react";
+import React from "react";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -30,6 +31,10 @@ const EditSetting: FC<IProps> = () => {
     { label: "Facebook Video", ratio: "1:1", value: 7 },
     { label: "Instagram Story", ratio: "9:16", value: 8 },
   ];
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRadioValue((event.target as HTMLInputElement).value);
+  };
 
   return (
     <form
@@ -63,7 +68,7 @@ const EditSetting: FC<IProps> = () => {
       <div className="flex flex-col gap-6 justify-center">
         <h4>背景色</h4>
         <FormControl>
-          <RadioGroup value={radioValue}>
+          <RadioGroup value={radioValue} onChange={handleChange}>
             <div className="border-[0.5px] border-[##DFE0E5] rounded-lg">
               <div className="w-full flex flex-row justify-between items-center p-4">
                 <FormControlLabel

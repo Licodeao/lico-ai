@@ -5,7 +5,7 @@ interface IProps {
 }
 
 const Ffmpeg: FC<IProps> = () => {
-  return <div className="bg-blue-400">Ffmpeg</div>;
+  return <div className="bg-blue-400 h-40">Ffmpeg</div>;
 };
 
 export default Ffmpeg;
