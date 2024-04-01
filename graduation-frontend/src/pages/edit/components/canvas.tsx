@@ -1,15 +1,19 @@
 import type { FC, ReactNode } from "react";
 import CanvasHeader from "./header";
 import { useAppSelector } from "@/store/storeHook";
+import { shallowEqual } from "react-redux";
 
 interface IProps {
   children?: ReactNode;
 }
 
 const Canvas: FC<IProps> = () => {
-  const { canvasDefaultStyle } = useAppSelector((state) => ({
-    canvasDefaultStyle: state.canvas.defaultCanvas,
-  }));
+  const { canvasDefaultStyle } = useAppSelector(
+    (state) => ({
+      canvasDefaultStyle: state.canvas.defaultCanvas,
+    }),
+    shallowEqual
+  );
   return (
     <div className="w-full h-full flex-1 bg-[#F7F7F8] flex flex-col">
       <CanvasHeader />

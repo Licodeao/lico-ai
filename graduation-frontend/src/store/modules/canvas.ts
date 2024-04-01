@@ -6,8 +6,8 @@ const canvasSlice = createSlice({
     defaultCanvas: {
       title: "未命名",
       style: {
-        width: 858,
-        height: 482,
+        width: 997,
+        height: 561,
         backgroundColor: "#000000",
         backgroundImage: "",
         backgroundPosition: "center",
@@ -17,7 +17,13 @@ const canvasSlice = createSlice({
       cmps: [],
     },
   },
-  reducers: {},
+  reducers: {
+    changeCanvasWidthAndHeightAction(state, { payload }) {
+      state.defaultCanvas.style.width = payload.width;
+      state.defaultCanvas.style.height = payload.height;
+    },
+  },
 });
 
+export const { changeCanvasWidthAndHeightAction } = canvasSlice.actions;
 export default canvasSlice.reducer;
