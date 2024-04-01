@@ -1730,6 +1730,11 @@ body {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
+.hover\:bg-\[\#F7F7F8\]:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(247 247 248 / var(--tw-bg-opacity));
+}
+
 .hover\:text-\[\#8C8C8C\]:hover {
   --tw-text-opacity: 1;
   color: rgb(140 140 140 / var(--tw-text-opacity));

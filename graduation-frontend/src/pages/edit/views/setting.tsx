@@ -13,16 +13,12 @@ import UploadSvg from "@/assets/img/upload.svg";
 import TranslateSvg from "@/assets/img/translate.svg";
 import ClearSvg from "@/assets/img/clear.svg";
 import PlusSvg from "@/assets/img/plus.svg";
-import YoutubeSvg from "@/assets/img/youtube.svg";
-import YoutubeShortSvg from "@/assets/img/youtube-shorts.svg";
-import TikTokSvg from "@/assets/img/tiktok.svg";
-import KuaiShouSvg from "@/assets/img/kuaishou.svg";
-import WeiBoSvg from "@/assets/img/sina-weibo.svg";
-import TwitterSvg from "@/assets/img/twitter.svg";
-import FacebookVideoSvg from "@/assets/img/facebook-video.svg";
-import InstagramStorySvg from "@/assets/img/instagram-story.svg";
-import { useAppDispatch } from "@/store/storeHook";
-import { changeCanvasWidthAndHeightAction } from "@/store/modules/canvas";
+import { useAppDispatch, useAppSelector } from "@/store/storeHook";
+import {
+  changeCanvasWidthAndHeightAction,
+  changeSelectValueAction,
+} from "@/store/modules/canvas";
+import { shallowEqual } from "react-redux";
 
 interface IProps {
   children?: ReactNode;
@@ -31,83 +27,22 @@ interface IProps {
 const EditSetting: FC<IProps> = () => {
   const [radioValue, setRadioValue] = useState<string>("color");
   const [inputValue, setInputValue] = useState<string>("#000000");
-  const [selectValue, setSelectValue] = useState<number>(1);
   const dispatch = useAppDispatch();
-  const options = [
-    {
-      icon: YoutubeSvg,
-      label: "Youtube",
-      ratio: "16:9",
-      value: 1,
-      width: 997,
-      height: 561,
-    },
-    {
-      icon: YoutubeShortSvg,
-      label: "Youtube Short",
-      ratio: "9:16",
-      value: 2,
-      width: 315,
-      height: 561,
-    },
-    {
-      icon: TikTokSvg,
-      label: "抖音",
-      ratio: "9:16",
-      value: 3,
-      width: 315,
-      height: 561,
-    },
-    {
-      icon: KuaiShouSvg,
-      label: "快手",
-      ratio: "9:16",
-      value: 4,
-      width: 315,
-      height: 561,
-    },
-    {
-      icon: WeiBoSvg,
-      label: "微博",
-      ratio: "16:9",
-      value: 5,
-      width: 997,
-      height: 561,
-    },
-    {
-      icon: TwitterSvg,
-      label: "X (Twitter)",
-      ratio: "1:1",
-      value: 6,
-      width: 561,
-      height: 561,
-    },
-    {
-      icon: FacebookVideoSvg,
-      label: "Facebook Video",
-      ratio: "1:1",
-      value: 7,
-      width: 561,
-      height: 561,
-    },
-    {
-      icon: InstagramStorySvg,
-      label: "Instagram Story",
-      ratio: "9:16",
-      value: 8,
-      width: 315,
-      height: 561,
-    },
-  ];
+
+  const { options, selectValueStore } = useAppSelector(
+    (state) => ({
+      options: state.canvas.selectOption,
+      selectValueStore: state.canvas.selectValue,
+    }),
+    shallowEqual
+  );
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRadioValue((event.target as HTMLInputElement).value);
   };
 
   const handleSelectChange = (event) => {
-    setSelectValue(
-      (event.target as HTMLInputElement).value as unknown as number
-    );
+    dispatch(changeSelectValueAction(event.target.value));
     const correntOption = options.find(
       (item) => item.value === Number(event.target.value)
     );
@@ -128,17 +63,12 @@ const EditSetting: FC<IProps> = () => {
             width: "100%",
             borderRadius: "10px",
           }}
-          value={selectValue}
+          value={selectValueStore}
           onChange={handleSelectChange}
         >
           {options.map((item) => {
             return (
-              <MenuItem
-                value={item.value}
-                key={item.value}
-                data-option={item}
-                // onClick={handleSelectChange}
-              >
+              <MenuItem value={item.value} key={item.value} data-option={item}>
                 <div className="flex flex-row items-center gap-2">
                   <img src={item.icon} alt={item.label} className="w-4 h-4" />
                   <span>{item.label}</span>{" "}
