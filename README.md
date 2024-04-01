@@ -13,11 +13,15 @@ This is my graduation project which is a full-stack project.
 
 - Frontend:
 
-  - ReactJS
+  - React family bucket
+  - TailwindCSS
   - Material-UI
   - Axios
-  - React-Router
-  - Redux Toolkit
+  - React-Query
+  - Vite
+  - TypeScript
+  - Low-code development
+  - FFmpeg
 
 - Backend:
 
@@ -25,3 +29,11 @@ This is my graduation project which is a full-stack project.
   - TypeORM
   - MySQL
   - Redis
+  - Docker
+
+TODO:
+
+- [ ] Add GraphQL
+- [ ] Replace TypeORM with Prisma
+- [ ] Add Github Actions
+- [ ] Rewrite the backend with Rust

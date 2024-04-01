@@ -13,11 +13,14 @@
 
 - 前端:
 
-  - ReactJS
+  - React 全家桶
+  - TailwindCSS
   - Material-UI
-  - Axios
-  - React-Router
-  - Redux Toolkit
+  - React-Query
+  - Vite
+  - TypeScript
+  - 低代码开发
+  - FFmpeg 音视频
 
 - 后端:
 
@@ -25,3 +28,11 @@
   - TypeORM
   - MySQL
   - Redis
+  - Docker
+
+TODO:
+
+- [ ] 集成 GraphQL
+- [ ] 将 TypeORM 换成 Prisma
+- [ ] 集成 Github Actions
+- [ ] 使用 Rust 重写后端程序
