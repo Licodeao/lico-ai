@@ -97,7 +97,7 @@ const Nav: FC<IProps> = () => {
   };
 
   return (
-    <div className="w-full h-full flex-1 border-r-2 border-r-[#DFE0E5] bg-[#FFFFFF]">
+    <div className="w-full h-full flex-1 border-r-[1px] border-r-[#DFE0E5] bg-[#FFFFFF]">
       <div className="w-[80px] h-full flex flex-col items-center gap-4 mt-4">
         {navList.map((item, index) => {
           return (
