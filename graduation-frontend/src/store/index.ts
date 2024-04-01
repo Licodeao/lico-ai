@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import homeReducer from "./modules/home";
+import canvasReducer from "./modules/canvas";
 
 const store = configureStore({
   reducer: {
     home: homeReducer,
+    canvas: canvasReducer,
   },
 });
 
