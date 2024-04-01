@@ -39,15 +39,20 @@ const Canvas: FC<IProps> = () => {
             ...canvasDefaultStyle.style,
           }}
         />
-        <div className="w-1/4 h-[50px] flex flex-row justify-center items-center rounded-lg border-[0.5px] border-[#DFE0E5]">
-          <div className="w-full flex flex-row justify-between items-center p-2">
-            <div className="w-1/2 h-full bg-[#F7F7F8] hover:bg-[#F7F7F8]">
+        <div className="w-1/3 h-[54px] flex flex-row justify-center items-center rounded-lg border-[0.5px] border-[#DFE0E5]">
+          <div className="w-full flex flex-row justify-between items-center">
+            <div className="w-1/2 h-full bg-[#F7F7F8]">
               <div>
                 <Select
                   defaultValue={1}
                   sx={{
-                    width: "100%",
+                    width: "105%",
+                    height: "90%",
                     borderRadius: "10px",
+                    borderColor: "#DFE0E5",
+                    hover: {
+                      backgroundColor: "#F7F7F8",
+                    },
                   }}
                   value={selectValueStore}
                   onChange={handleSelectChange}
@@ -76,8 +81,10 @@ const Canvas: FC<IProps> = () => {
                 </Select>
               </div>
             </div>
-            <div className="w-[1px] h-12 bg-[#DFE0E5] mx-2"></div>
-            <div className="w-1/2 h-ful">Background</div>
+            <div className="w-1/2 h-full text-sm flex flex-row justify-center items-center gap-2 cursor-pointer">
+              <div className="w-6 h-6 rounded-full bg-[#000000]"></div>
+              <span>背景色</span>
+            </div>
           </div>
         </div>
       </div>
