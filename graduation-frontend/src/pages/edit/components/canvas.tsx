@@ -7,9 +7,9 @@ interface IProps {
 
 const Canvas: FC<IProps> = () => {
   return (
-    <div className="w-full h-full flex-1 bg-red-100 flex flex-col">
+    <div className="w-full h-full flex-1 bg-[#F7F7F8] flex flex-col">
       <CanvasHeader />
-      <div className="flex-1 bg-yellow-200">Canvas</div>
+      <div className="flex-1">Canvas</div>
     </div>
   );
 };
