@@ -26,13 +26,13 @@ interface IProps {
 
 const EditSetting: FC<IProps> = () => {
   const [radioValue, setRadioValue] = useState<string>("color");
-  const [inputValue, setInputValue] = useState<string>("#000000");
   const dispatch = useAppDispatch();
 
-  const { options, selectValueStore } = useAppSelector(
+  const { options, selectValueStore, color } = useAppSelector(
     (state) => ({
       options: state.canvas.selectOption,
       selectValueStore: state.canvas.selectValue,
+      color: state.canvas.defaultCanvas.style.backgroundColor,
     }),
     shallowEqual
   );
@@ -99,11 +99,12 @@ const EditSetting: FC<IProps> = () => {
                       color: "#5E647A",
                       fontSize: "12px",
                     }}
-                    defaultValue={inputValue}
+                    defaultValue={color}
+                    value={color}
                   />
                   <button
                     style={{
-                      backgroundColor: inputValue,
+                      backgroundColor: color,
                     }}
                     className="p-1 rounded-full text-white"
                   >

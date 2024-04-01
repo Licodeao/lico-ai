@@ -4,23 +4,29 @@ import { shallowEqual } from "react-redux";
 import CanvasHeader from "./header";
 import {
   changeCanvasWidthAndHeightAction,
+  changeColorAction,
+  changeColorVisibleAction,
   changeSelectValueAction,
 } from "@/store/modules/canvas";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
+import { ChromePicker } from "react-color";
 interface IProps {
   children?: ReactNode;
 }
 
 const Canvas: FC<IProps> = () => {
-  const { canvasDefaultStyle, options, selectValueStore } = useAppSelector(
-    (state) => ({
-      canvasDefaultStyle: state.canvas.defaultCanvas,
-      options: state.canvas.selectOption,
-      selectValueStore: state.canvas.selectValue,
-    }),
-    shallowEqual
-  );
+  const { canvasDefaultStyle, options, selectValueStore, color, colorVisible } =
+    useAppSelector(
+      (state) => ({
+        canvasDefaultStyle: state.canvas.defaultCanvas,
+        options: state.canvas.selectOption,
+        selectValueStore: state.canvas.selectValue,
+        color: state.canvas.defaultCanvas.style.backgroundColor,
+        colorVisible: state.canvas.colorVisible,
+      }),
+      shallowEqual
+    );
   const dispatch = useAppDispatch();
   const handleSelectChange = (event) => {
     dispatch(changeSelectValueAction(event.target.value));
@@ -28,6 +34,14 @@ const Canvas: FC<IProps> = () => {
       (item) => item.value === Number(event.target.value)
     );
     dispatch(changeCanvasWidthAndHeightAction(correntOption));
+  };
+
+  const handleColorChange = (e) => {
+    dispatch(changeColorAction(e.hex));
+  };
+
+  const handleChromePicker = () => {
+    dispatch(changeColorVisibleAction(!colorVisible));
   };
 
   return (
@@ -81,9 +95,28 @@ const Canvas: FC<IProps> = () => {
                 </Select>
               </div>
             </div>
-            <div className="w-1/2 h-full text-sm flex flex-row justify-center items-center gap-2 cursor-pointer">
-              <div className="w-6 h-6 rounded-full bg-[#000000]"></div>
-              <span>背景色</span>
+            <div className="w-1/2 h-full text-sm flex flex-row justify-center items-center gap-2 cursor-pointer relative">
+              {colorVisible && (
+                <div className="absolute -top-64 left-2">
+                  <ChromePicker
+                    color={color}
+                    onChange={(e) => handleColorChange(e)}
+                    onChangeComplete={(e) => dispatch(changeColorAction(e.hex))}
+                  />
+                </div>
+              )}
+              <div
+                onClick={handleChromePicker}
+                className="flex flex-row justify-center items-center gap-2"
+              >
+                <div
+                  className="w-6 h-6 rounded-full"
+                  style={{
+                    backgroundColor: color,
+                  }}
+                ></div>
+                <span>背景色</span>
+              </div>
             </div>
           </div>
         </div>
