@@ -25,6 +25,25 @@ const Ffmpeg: FC<IProps> = () => {
     }),
     shallowEqual
   );
+
+  const handleSliderChange = (event: Event, newValue: number | number[]) => {
+    setSliderValue(newValue as number);
+  };
+
+  const handleZoomOutChange = () => {
+    if (sliderValue < 0) {
+      setSliderValue(0);
+    }
+    setSliderValue(sliderValue - 1);
+  };
+
+  const handleZoomInChange = () => {
+    if (sliderValue > 100) {
+      setSliderValue(100);
+    }
+    setSliderValue(sliderValue + 1);
+  };
+
   return (
     <div className="w-full h-40 border-t-[1px] border-t-[#E1E1E3] bg-[#FFFFFF] flex flex-col">
       <div className="w-full h-14 flex flex-row justify-between items-center px-4">
@@ -70,7 +89,10 @@ const Ffmpeg: FC<IProps> = () => {
         </div>
         <div className="flex flex-row justify-center items-center gap-4">
           <div className="flex flex-row justify-center items-center gap-8">
-            <div className="p-2 rounded-lg hover:bg-[#F7F7F8] hover:cursor-pointer">
+            <div
+              className="p-2 rounded-lg hover:bg-[#F7F7F8] hover:cursor-pointer"
+              onClick={handleZoomOutChange}
+            >
               <img src={ZoomOutSvg} alt="zoom-out" />
             </div>
             <Slider
@@ -79,8 +101,12 @@ const Ffmpeg: FC<IProps> = () => {
                 width: "100px",
               }}
               size="small"
+              onChange={handleSliderChange}
             />
-            <div className="p-2 rounded-lg hover:bg-[#F7F7F8] hover:cursor-pointer">
+            <div
+              className="p-2 rounded-lg hover:bg-[#F7F7F8] hover:cursor-pointer"
+              onClick={handleZoomInChange}
+            >
               <img src={ZoomInSvg} alt="zoom-in" />
             </div>
           </div>
