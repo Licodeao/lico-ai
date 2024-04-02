@@ -102,6 +102,7 @@ const Ffmpeg: FC<IProps> = () => {
               }}
               size="small"
               onChange={handleSliderChange}
+              valueLabelDisplay="auto"
             />
             <div
               className="p-2 rounded-lg hover:bg-[#F7F7F8] hover:cursor-pointer"
