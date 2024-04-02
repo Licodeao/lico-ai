@@ -16,11 +16,11 @@
   - React 全家桶
   - TailwindCSS
   - Material-UI
+  - Axios
   - React-Query
   - Vite
   - TypeScript
   - 低代码开发
-  - FFmpeg 音视频
 
 - 后端:
 
@@ -28,6 +28,7 @@
   - TypeORM
   - MySQL
   - Redis
+  - FFmpeg 音视频
   - Docker
 
 TODO:

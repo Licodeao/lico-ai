@@ -21,7 +21,6 @@ This is my graduation project which is a full-stack project.
   - Vite
   - TypeScript
   - Low-code development
-  - FFmpeg
 
 - Backend:
 
@@ -29,6 +28,7 @@ This is my graduation project which is a full-stack project.
   - TypeORM
   - MySQL
   - Redis
+  - FFmpeg
   - Docker
 
 TODO:
