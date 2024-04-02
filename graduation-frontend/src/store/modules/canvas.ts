@@ -92,6 +92,7 @@ const canvasSlice = createSlice({
     ],
     selectValue: 1,
     colorVisible: false,
+    isPlay: false,
   },
   reducers: {
     changeCanvasWidthAndHeightAction(state, { payload }) {
@@ -107,6 +108,9 @@ const canvasSlice = createSlice({
     changeColorVisibleAction(state, { payload }) {
       state.colorVisible = payload;
     },
+    changeIsPlayAction(state, { payload }) {
+      state.isPlay = payload;
+    },
   },
 });
 
@@ -115,5 +119,6 @@ export const {
   changeSelectValueAction,
   changeColorAction,
   changeColorVisibleAction,
+  changeIsPlayAction,
 } = canvasSlice.actions;
 export default canvasSlice.reducer;

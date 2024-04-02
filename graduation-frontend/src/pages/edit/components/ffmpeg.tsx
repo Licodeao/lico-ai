@@ -1,6 +1,6 @@
 import { useState, type FC, type ReactNode } from "react";
 import PauseSvg from "@/assets/img/pause.svg";
-// import PlaySvg from "@/assets/img/start.svg";
+import PlaySvg from "@/assets/img/start.svg";
 import SkipNextSvg from "@/assets/img/skip-next.svg";
 import SkipBackSvg from "@/assets/img/skip-back.svg";
 import VoiceoverSvg from "@/assets/img/voiceover.svg";
@@ -9,12 +9,22 @@ import ZoomInSvg from "@/assets/img/zoom-in.svg";
 import ZoomOutSvg from "@/assets/img/zoom-out.svg";
 import TimelineSetting from "@/assets/img/timeline-setting.svg";
 import Slider from "@mui/material/Slider";
+import { useAppDispatch, useAppSelector } from "@/store/storeHook";
+import { shallowEqual } from "react-redux";
+import { changeIsPlayAction } from "@/store/modules/canvas";
 interface IProps {
   children?: ReactNode;
 }
 
 const Ffmpeg: FC<IProps> = () => {
   const [sliderValue, setSliderValue] = useState<number>(0);
+  const dispatch = useAppDispatch();
+  const { isPlay } = useAppSelector(
+    (state) => ({
+      isPlay: state.canvas.isPlay,
+    }),
+    shallowEqual
+  );
   return (
     <div className="w-full h-40 border-t-[1px] border-t-[#E1E1E3] bg-[#FFFFFF] flex flex-col">
       <div className="w-full h-14 flex flex-row justify-between items-center px-4">
@@ -35,12 +45,17 @@ const Ffmpeg: FC<IProps> = () => {
               alt="skip-back"
               className="bg-[#F7F7F8] rounded-full p-1 hover:bg-[#EEEEF0] hover:cursor-pointer"
             />
-            <img
-              src={PauseSvg}
-              alt="pause"
+
+            <div
               className="bg-[#F7F7F8] rounded-full p-2 hover:bg-[#EEEEF0] hover:cursor-pointer"
-            />
-            {/* <img src={PlaySvg} alt="play" /> */}
+              onClick={() => dispatch(changeIsPlayAction(!isPlay))}
+            >
+              {isPlay ? (
+                <img src={PlaySvg} alt="play" />
+              ) : (
+                <img src={PauseSvg} alt="pause" />
+              )}
+            </div>
             <img
               src={SkipNextSvg}
               alt="skip-next"
