@@ -99,7 +99,7 @@ const EditSetting: FC<IProps> = () => {
                       color: "#5E647A",
                       fontSize: "12px",
                     }}
-                    defaultValue={color}
+                    // defaultValue={color}
                     value={color}
                   />
                   <button
