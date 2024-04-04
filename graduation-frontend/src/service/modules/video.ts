@@ -1,20 +1,27 @@
 import axios from "axios";
 
-export const getAccessToken = (apiKey: string, secretKey: string) => {
-  return axios.post(
-    "https://aip.baidubce.com/oauth/2.0/token",
-    {
-      grant_type: "client_credentials",
-      client_id: apiKey,
-      client_secret: secretKey,
-    },
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+interface IAccessToken {
+  access_token: string;
+  expires_in: number;
+}
+
+export const getAccessToken = async (apiKey: string, secretKey: string) => {
+  return (
+    await axios.post<IAccessToken>(
+      "https://aip.baidubce.com/oauth/2.0/token",
+      {
+        grant_type: "client_credentials",
+        client_id: apiKey,
+        client_secret: secretKey,
       },
-    }
-  );
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      }
+    )
+  ).data;
 };
 
 export const textToVideo = () => {
