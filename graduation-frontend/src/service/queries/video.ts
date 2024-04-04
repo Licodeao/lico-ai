@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAccessToken } from "../modules/video";
+import { GenerateVideoFromText } from "../modules/video";
 
-export const useVideoGetAccessToken = () => {
+export const useGenerateVideoFromText = () => {
   return useQuery({
-    queryKey: ["videoGetAccessToken"],
-    queryFn: () => getAccessToken,
+    queryKey: ["generateVideoFromText"],
+    queryFn: () => GenerateVideoFromText,
   });
 };
