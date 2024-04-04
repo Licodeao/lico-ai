@@ -117,7 +117,16 @@ const Ffmpeg: FC<IProps> = () => {
           </div>
         </div>
       </div>
-      <div className="flex-1 bg-black">Timeline</div>
+      <div className="flex-1 bg-black">
+        <canvas
+          style={{
+            height: "100%",
+            width: "100%",
+            zIndex: 0,
+            pointerEvents: "auto",
+          }}
+        />
+      </div>
     </div>
   );
 };
