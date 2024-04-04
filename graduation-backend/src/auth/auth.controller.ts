@@ -30,7 +30,7 @@ export class AuthController {
 
   @Get('github')
   @Redirect('/', 301)
-  async getGithubOAuth(@Query() query: OauthDto) {
+  async getGithubOAuth(@Query() query: OauthDto, @Res() res: Response) {
     try {
       const { code } = query;
       const GITHUB_CLIENT_ID =
@@ -80,11 +80,18 @@ export class AuthController {
 
       if (GithubUserInfo) {
         const { name, email } = GithubUserInfo;
+
         this.userService.create({
           username: name,
           email,
           type: 'github',
         });
+
+        res.redirect('http://localhost:5173/workspace');
+      }
+
+      if (!GithubUserInfo) {
+        res.redirect('http://localhost:5173');
       }
     } catch (e) {
       throw new Error(e);
@@ -93,7 +100,7 @@ export class AuthController {
 
   @Get('gitee')
   @Redirect('/', 301)
-  async getGiteeOAuth(@Query() query: OauthDto) {
+  async getGiteeOAuth(@Query() query: OauthDto, @Res() res: Response) {
     const { code } = query;
 
     const GITEE_CLIENT_ID = this.configService.get<string>('GITEE_CLIENT_ID');
@@ -144,11 +151,18 @@ export class AuthController {
 
     if (GiteeUserInfo) {
       const { name, email } = GiteeUserInfo;
+
       this.userService.create({
         username: name,
         email,
         type: 'gitee',
       });
+
+      res.redirect('http://localhost:5173/workspace');
+    }
+
+    if (!GiteeUserInfo) {
+      res.redirect('http://localhost:5173');
     }
   }
 
@@ -232,15 +246,18 @@ export class AuthController {
      */
     if (TwitterUserInfo) {
       const { username } = TwitterUserInfo;
+
       this.userService.create({
         username,
         email: 'null@twitter.com',
         type: 'twitter',
       });
+
+      res.redirect('http://localhost:5173/workspace');
     }
 
     if (!TwitterUserInfo) {
-      return res.redirect('http://localhost:5173');
+      res.redirect('http://localhost:5173');
     }
   }
 }
