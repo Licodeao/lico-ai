@@ -11,6 +11,8 @@ import Register from "@/pages/register";
 import WorkSpace from "@/pages/workspace";
 import Copilot from "@/pages/workspace/components/copilot";
 import WorkspaceHome from "@/pages/workspace/components/home";
+import Media from "@/pages/workspace/components/media";
+import Albums from "@/pages/workspace/components/media/components/albums";
 import { Navigate, createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -37,6 +39,16 @@ const router = createBrowserRouter([
       {
         path: "/workspace/copilot",
         element: <Copilot />,
+      },
+      {
+        path: "/workspace/media",
+        element: <Media />,
+        children: [
+          {
+            path: "/workspace/media/albums",
+            element: <Albums />,
+          },
+        ],
       },
     ],
   },

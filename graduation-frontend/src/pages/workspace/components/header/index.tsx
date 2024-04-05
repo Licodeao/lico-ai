@@ -53,7 +53,11 @@ const WorkSpaceHeader: FC<IProps> = () => {
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
       <List>
-        <ListItem disablePadding key={"主页"}>
+        <ListItem
+          disablePadding
+          key={"主页"}
+          onClick={() => navigate("/workspace/home")}
+        >
           <ListItemButton>
             <ListItemIcon>
               <HomeIcon />
@@ -62,7 +66,11 @@ const WorkSpaceHeader: FC<IProps> = () => {
           </ListItemButton>
         </ListItem>
 
-        <ListItem disablePadding key={"媒体库"}>
+        <ListItem
+          disablePadding
+          key={"媒体库"}
+          onClick={() => navigate("/workspace/media")}
+        >
           <ListItemButton>
             <ListItemIcon>
               <VideoLibraryIcon />
