@@ -65,9 +65,6 @@ export class CopilotController {
         {
           source: {
             structs,
-            config: {
-              ...config,
-            },
           },
           config: {
             ...config,
@@ -100,13 +97,16 @@ export class CopilotController {
   ) {
     try {
       const { access_token } = query;
+      console.log('🚀 ~ CopilotController ~ access_token:', access_token);
       const { jobId } = body;
+      console.log('🚀 ~ CopilotController ~ jobId:', jobId);
       const url = 'https://aip.baidubce.com/rpc/2.0/brain/creative/ttv/query';
 
       const response = this.httpService.post(
         url,
         {
           jobId,
+          includeTimeline: false,
         },
         {
           headers: {

@@ -3,7 +3,11 @@ import Star from "@/assets/img/star.svg";
 
 import { useForm } from "react-hook-form";
 import { useFormControl, Button } from "@mui/material";
-import { generateVideoFromText, getAccessToken } from "@/service/modules/video";
+import {
+  generateVideoFromText,
+  getAccessToken,
+  getFinishedVideo,
+} from "@/service/modules/video";
 
 interface IProps {
   children?: ReactNode;
@@ -16,22 +20,21 @@ interface FormValue {
 const Copilot: FC<IProps> = () => {
   const { handleSubmit, register, formState } = useForm<FormValue>();
 
-  const { VITE_BAIDU_API_KEY, VITE_BAIDU_SECRET_KEY } = import.meta.env;
-
   const { errors } = formState;
 
   const handleTextAreaSubmit = async (data) => {
     const { textarea } = data;
     console.log(textarea);
 
-    const { access_token } = await getAccessToken(
-      VITE_BAIDU_API_KEY,
-      VITE_BAIDU_SECRET_KEY
-    );
+    const { access_token } = await getAccessToken();
+    console.log("🚀 ~ handleTextAreaSubmit ~ access_token:", access_token);
 
     const res = await generateVideoFromText(access_token);
+    console.log("🚀 ~ handleTextAreaSubmit ~ res:", res.data.jobId);
 
-    console.log(res);
+    const resp = await getFinishedVideo(access_token, res.data.jobId);
+
+    console.log("🚀 ~ handleTextAreaSubmit ~ resp:", resp);
   };
 
   const HelperTip = () => {
