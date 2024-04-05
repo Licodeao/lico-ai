@@ -1,8 +1,9 @@
 import { useMemo, type FC, type ReactNode } from "react";
 import Star from "@/assets/img/star.svg";
-import { useGenerateVideoFromText } from "@/service/queries/video";
+
 import { useForm } from "react-hook-form";
 import { useFormControl, Button } from "@mui/material";
+import { generateVideoFromText, getAccessToken } from "@/service/modules/video";
 
 interface IProps {
   children?: ReactNode;
@@ -13,16 +14,24 @@ interface FormValue {
 }
 
 const Copilot: FC<IProps> = () => {
-  const generateVideoFromText = useGenerateVideoFromText();
-
   const { handleSubmit, register, formState } = useForm<FormValue>();
+
+  const { VITE_BAIDU_API_KEY, VITE_BAIDU_SECRET_KEY } = import.meta.env;
 
   const { errors } = formState;
 
-  const handleTextAreaSubmit = (data) => {
+  const handleTextAreaSubmit = async (data) => {
     const { textarea } = data;
     console.log(textarea);
-    generateVideoFromText.refetch();
+
+    const { access_token } = await getAccessToken(
+      VITE_BAIDU_API_KEY,
+      VITE_BAIDU_SECRET_KEY
+    );
+
+    const res = await generateVideoFromText(access_token);
+
+    console.log(res);
   };
 
   const HelperTip = () => {
@@ -69,14 +78,14 @@ const Copilot: FC<IProps> = () => {
             sx={{
               bgcolor: "#1E64DA",
             }}
-            disabled={generateVideoFromText.isPending}
+            // disabled={generateVideoFromText.isPending}
           >
             <span className="text-white mr-1">生成视频</span>
             <img src={Star} alt="star" />
           </Button>
         </div>
 
-        {generateVideoFromText.isPending ? <div>loading...</div> : <video />}
+        {/* {generateVideoFromText.isPending ? <div>loading...</div> : <video />} */}
 
         <div className="fixed bottom-12 w-1/2 h-[50px] bg-[#202224] rounded-lg flex justify-around items-center">
           <span>工作流: </span>

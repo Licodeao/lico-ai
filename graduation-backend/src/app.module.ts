@@ -17,6 +17,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { LoginGuard } from './guard/login.guard';
 import { PermissionGuard } from './guard/permission.guard';
 import { RedisModule } from './redis/redis.module';
+import { CopilotModule } from './copilot/copilot.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -47,6 +48,7 @@ import { RedisModule } from './redis/redis.module';
     Interface1Module,
     Interface2Module,
     RedisModule,
+    CopilotModule,
   ],
   controllers: [AppController],
   providers: [
