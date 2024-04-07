@@ -14,3 +14,19 @@ body {
 ::-webkit-scrollbar {
   display: none;
 }
+
+.MuiOutlinedInput-notchedOutline {
+  border-color: #E1E1E1 !important;
+}
+
+.MuiSelect-icon {
+  color: #757575 !important;
+}
+
+.MuiRadio-colorPrimary.Mui-checked {
+  color: #2A76CF !important;
+}
+
+.MuiRadio-colorPrimary {
+  color: #666666 !important;
+}

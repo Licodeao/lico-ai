@@ -84,7 +84,7 @@ const Canvas: FC<IProps> = () => {
                             alt={item.label}
                             className="w-4 h-4"
                           />
-                          <span>{item.label}</span>{" "}
+                          <span className="text-black">{item.label}</span>{" "}
                           <span className="text-[12px] text-[#8E9199]">
                             ({item.ratio})
                           </span>

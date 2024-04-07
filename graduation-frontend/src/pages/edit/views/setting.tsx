@@ -71,7 +71,7 @@ const EditSetting: FC<IProps> = () => {
               <MenuItem value={item.value} key={item.value} data-option={item}>
                 <div className="flex flex-row items-center gap-2">
                   <img src={item.icon} alt={item.label} className="w-4 h-4" />
-                  <span>{item.label}</span>{" "}
+                  <span className="text-black">{item.label}</span>{" "}
                   <span className="text-[12px] text-[#8E9199]">
                     ({item.ratio})
                   </span>
@@ -85,7 +85,7 @@ const EditSetting: FC<IProps> = () => {
         <h4>背景色</h4>
         <FormControl>
           <RadioGroup value={radioValue} onChange={handleChange}>
-            <div className="border-[0.5px] border-[##DFE0E5] rounded-lg">
+            <div className="border-[0.5px] border-[#DFE0E5] rounded-lg">
               <div className="w-full flex flex-row justify-between items-center p-4">
                 <FormControlLabel
                   value="color"
@@ -99,7 +99,6 @@ const EditSetting: FC<IProps> = () => {
                       color: "#5E647A",
                       fontSize: "12px",
                     }}
-                    // defaultValue={color}
                     value={color}
                   />
                   <button
@@ -125,7 +124,8 @@ const EditSetting: FC<IProps> = () => {
                   </button>
                 </div>
               </div>
-              <Divider />
+              {/* <Divider /> */}
+              <div className="border-[0.5px] border-[#E0E0E0]"></div>
               <div className="w-full flex flex-row justify-between items-center p-4">
                 <FormControlLabel
                   value="image"
@@ -145,7 +145,7 @@ const EditSetting: FC<IProps> = () => {
       </div>
       <div className="flex flex-col gap-6 justify-center">
         <h4>音频设置</h4>
-        <div className="w-full border-[0.5px] border-[##DFE0E5] rounded-lg hover:border-[#A5A7AD]">
+        <div className="w-full border-[0.5px] border-[#DFE0E5] rounded-lg hover:border-[#A5A7AD]">
           <div className="flex flex-row justify-start items-center p-4 gap-4">
             <div className="bg-[#F0F9FF] p-2 rounded-md">
               <img src={TranslateSvg} alt="translateSvg" />
@@ -156,7 +156,7 @@ const EditSetting: FC<IProps> = () => {
             </div>
           </div>
         </div>
-        <div className="w-full border-[0.5px] border-[##DFE0E5] rounded-lg hover:border-[#A5A7AD]">
+        <div className="w-full border-[0.5px] border-[#DFE0E5] rounded-lg hover:border-[#A5A7AD]">
           <div className="flex justify-between items-center">
             <div className="flex flex-row justify-start items-center p-4 gap-4">
               <div className="bg-[#F0F9FF] p-2 rounded-md">
