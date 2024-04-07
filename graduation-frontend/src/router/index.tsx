@@ -9,6 +9,11 @@ import EditText from "@/pages/edit/views/text";
 import NotFound from "@/pages/not_found";
 import Register from "@/pages/register";
 import WorkSpace from "@/pages/workspace";
+import Account from "@/pages/workspace/components/account";
+import Usage from "@/pages/workspace/components/account/components/usages";
+import Profile from "@/pages/workspace/components/account/components/profile";
+import AccountSetting from "@/pages/workspace/components/account/components/settings";
+import Subscribe from "@/pages/workspace/components/account/components/subscribe";
 import Copilot from "@/pages/workspace/components/copilot";
 import WorkspaceHome from "@/pages/workspace/components/home";
 import Media from "@/pages/workspace/components/media";
@@ -47,6 +52,28 @@ const router = createBrowserRouter([
           {
             path: "/workspace/media/albums",
             element: <Albums />,
+          },
+        ],
+      },
+      {
+        path: "/workspace/account",
+        element: <Account />,
+        children: [
+          {
+            path: "/workspace/account/settings",
+            element: <AccountSetting />,
+          },
+          {
+            path: "/workspace/account/subscription",
+            element: <Subscribe />,
+          },
+          {
+            path: "/workspace/account/usage",
+            element: <Usage />,
+          },
+          {
+            path: "/workspace/account/profile",
+            element: <Profile />,
           },
         ],
       },
