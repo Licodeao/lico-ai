@@ -30,22 +30,17 @@ const EditSetting: FC<IProps> = () => {
   const [radioValue, setRadioValue] = useState<string>("color");
   const dispatch = useAppDispatch();
 
-  const {
-    options,
-    selectValueStore,
-    color,
-    settingColorVisible,
-    // colorVisible,
-  } = useAppSelector(
-    (state) => ({
-      options: state.canvas.selectOption,
-      selectValueStore: state.canvas.selectValue,
-      color: state.canvas.defaultCanvas.style.backgroundColor,
-      colorVisible: state.canvas.colorVisible,
-      settingColorVisible: state.canvas.settingColorVisible,
-    }),
-    shallowEqual
-  );
+  const { options, selectValueStore, color, settingColorVisible } =
+    useAppSelector(
+      (state) => ({
+        options: state.canvas.selectOption,
+        selectValueStore: state.canvas.selectValue,
+        color: state.canvas.defaultCanvas.style.backgroundColor,
+        colorVisible: state.canvas.colorVisible,
+        settingColorVisible: state.canvas.settingColorVisible,
+      }),
+      shallowEqual
+    );
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRadioValue((event.target as HTMLInputElement).value);
@@ -163,11 +158,25 @@ const EditSetting: FC<IProps> = () => {
                   control={<Radio />}
                   label="图片"
                 />
-                <div className="flex flex-row gap-4 justify-around items-center">
-                  <span className="text-[#9194A5] text-sm hover:text-[#2C98FA]">
-                    上传
-                  </span>
-                  <img src={UploadSvg} alt="uploadSvg" />
+                <div>
+                  <input
+                    type="file"
+                    style={{
+                      display: "none",
+                    }}
+                    id="file"
+                  />
+                  {radioValue === "image" && (
+                    <label
+                      htmlFor="file"
+                      className="flex flex-row gap-4 justify-around items-center"
+                    >
+                      <span className="text-[#9194A5] text-sm hover:text-[#2C98FA]">
+                        上传
+                      </span>
+                      <img src={UploadSvg} alt="uploadSvg" />
+                    </label>
+                  )}
                 </div>
               </div>
             </div>
