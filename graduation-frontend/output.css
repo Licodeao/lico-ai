@@ -590,6 +590,10 @@ video {
   position: relative;
 }
 
+.-left-16 {
+  left: -4rem;
+}
+
 .-right-9 {
   right: -2.25rem;
 }
@@ -624,6 +628,10 @@ video {
 
 .right-1 {
   right: 0.25rem;
+}
+
+.top-12 {
+  top: 3rem;
 }
 
 .col-span-1 {
@@ -1037,10 +1045,6 @@ video {
 
 .border-dashed {
   border-style: dashed;
-}
-
-.border-\[\#\#DFE0E5\] {
-  border-color: ##DFE0E5;
 }
 
 .border-\[\#4B4B4C\] {

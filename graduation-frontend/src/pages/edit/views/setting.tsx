@@ -6,7 +6,6 @@ import RadioGroup from "@mui/material/RadioGroup";
 import Radio from "@mui/material/Radio";
 import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import Divider from "@mui/material/Divider";
 import Input from "@mui/material/Input";
 
 import UploadSvg from "@/assets/img/upload.svg";
@@ -16,9 +15,12 @@ import PlusSvg from "@/assets/img/plus.svg";
 import { useAppDispatch, useAppSelector } from "@/store/storeHook";
 import {
   changeCanvasWidthAndHeightAction,
+  changeColorAction,
   changeSelectValueAction,
+  changeSettingColorVisibleAction,
 } from "@/store/modules/canvas";
 import { shallowEqual } from "react-redux";
+import { ChromePicker } from "react-color";
 
 interface IProps {
   children?: ReactNode;
@@ -28,11 +30,19 @@ const EditSetting: FC<IProps> = () => {
   const [radioValue, setRadioValue] = useState<string>("color");
   const dispatch = useAppDispatch();
 
-  const { options, selectValueStore, color } = useAppSelector(
+  const {
+    options,
+    selectValueStore,
+    color,
+    settingColorVisible,
+    // colorVisible,
+  } = useAppSelector(
     (state) => ({
       options: state.canvas.selectOption,
       selectValueStore: state.canvas.selectValue,
       color: state.canvas.defaultCanvas.style.backgroundColor,
+      colorVisible: state.canvas.colorVisible,
+      settingColorVisible: state.canvas.settingColorVisible,
     }),
     shallowEqual
   );
@@ -47,6 +57,14 @@ const EditSetting: FC<IProps> = () => {
       (item) => item.value === Number(event.target.value)
     );
     dispatch(changeCanvasWidthAndHeightAction(correntOption));
+  };
+
+  const handleChromePicker = () => {
+    dispatch(changeSettingColorVisibleAction(!settingColorVisible));
+  };
+
+  const handleColorChange = (e) => {
+    dispatch(changeColorAction(e.hex));
   };
 
   return (
@@ -81,6 +99,7 @@ const EditSetting: FC<IProps> = () => {
           })}
         </Select>
       </div>
+
       <div className="flex flex-col gap-6 justify-center">
         <h4>背景色</h4>
         <FormControl>
@@ -92,7 +111,7 @@ const EditSetting: FC<IProps> = () => {
                   control={<Radio />}
                   label="颜色"
                 />
-                <div className="flex flex-row gap-1 justify-around items-center">
+                <div className="flex flex-row gap-1 justify-around items-center relative">
                   <Input
                     sx={{
                       width: "70%",
@@ -101,11 +120,24 @@ const EditSetting: FC<IProps> = () => {
                     }}
                     value={color}
                   />
+                  {settingColorVisible && (
+                    <div className="absolute top-12 -left-16">
+                      <ChromePicker
+                        color={color}
+                        onChange={(e) => handleColorChange(e)}
+                        onChangeComplete={(e) =>
+                          dispatch(changeColorAction(e.hex))
+                        }
+                      />
+                    </div>
+                  )}
                   <button
                     style={{
                       backgroundColor: color,
                     }}
                     className="p-1 rounded-full text-white"
+                    onClick={handleChromePicker}
+                    type="button"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -124,7 +156,6 @@ const EditSetting: FC<IProps> = () => {
                   </button>
                 </div>
               </div>
-              {/* <Divider /> */}
               <div className="border-[0.5px] border-[#E0E0E0]"></div>
               <div className="w-full flex flex-row justify-between items-center p-4">
                 <FormControlLabel
