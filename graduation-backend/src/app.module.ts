@@ -18,6 +18,8 @@ import { LoginGuard } from './guard/login.guard';
 import { PermissionGuard } from './guard/permission.guard';
 import { RedisModule } from './redis/redis.module';
 import { CopilotModule } from './copilot/copilot.module';
+import { AlbumsEntity } from './albums/entities/albums.entity';
+import { AlbumsModule } from './albums/albums.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -37,7 +39,7 @@ import { CopilotModule } from './copilot/copilot.module';
       database: process.env.DATABASE_NAME,
       synchronize: true,
       logging: true,
-      entities: [UserEntity, RoleEntity, PermissionEntity],
+      entities: [UserEntity, RoleEntity, PermissionEntity, AlbumsEntity],
       poolSize: 10,
       connectorPackage: 'mysql2',
       extra: {},
@@ -49,6 +51,7 @@ import { CopilotModule } from './copilot/copilot.module';
     Interface2Module,
     RedisModule,
     CopilotModule,
+    AlbumsModule,
   ],
   controllers: [AppController],
   providers: [

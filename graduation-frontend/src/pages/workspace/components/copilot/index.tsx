@@ -7,6 +7,7 @@ import {
   generateVideoFromText,
   getAccessToken,
   getFinishedVideo,
+  getVideo,
 } from "@/service/modules/video";
 
 interface IProps {
@@ -26,15 +27,14 @@ const Copilot: FC<IProps> = () => {
     const { textarea } = data;
     console.log(textarea);
 
-    const { access_token } = await getAccessToken();
-    console.log("🚀 ~ handleTextAreaSubmit ~ access_token:", access_token);
+    // await getAccessToken();
 
-    const res = await generateVideoFromText(access_token);
-    console.log("🚀 ~ handleTextAreaSubmit ~ res:", res.data.jobId);
+    // const res = await generateVideoFromText();
+    // console.log("🚀 ~ handleTextAreaSubmit ~ res:", res.data.jobId);
 
-    const resp = await getFinishedVideo(access_token, res.data.jobId);
-
-    console.log("🚀 ~ handleTextAreaSubmit ~ resp:", resp);
+    // const resp = await getFinishedVideo(res.data.jobId);
+    // console.log("🚀 ~ handleTextAreaSubmit ~ resp:", resp);
+    await getVideo();
   };
 
   const HelperTip = () => {

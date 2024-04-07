@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { RoleEntity } from './role.entity';
+import { AlbumsEntity } from '../../albums/entities/albums.entity';
 
 @Entity()
 export class UserEntity {
@@ -55,4 +56,13 @@ export class UserEntity {
     name: 'user_role',
   })
   roles: RoleEntity[];
+
+  /**
+   * @field {array} albums 用户所拥有的资源分组(多对多关系)
+   */
+  @ManyToMany(() => AlbumsEntity)
+  @JoinTable({
+    name: 'user_albums',
+  })
+  albums: AlbumsEntity[];
 }

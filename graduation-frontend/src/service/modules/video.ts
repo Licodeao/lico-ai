@@ -5,24 +5,18 @@ interface IAccessToken {
   expires_in: number;
 }
 
-const { VITE_BAIDU_API_KEY, VITE_BAIDU_SECRET_KEY } = import.meta.env;
-
 export const getAccessToken = async () => {
-  return LiRequest.post<IAccessToken>(
-    `/copilot/access_token?grant_type=client_credentials&client_id=${VITE_BAIDU_API_KEY}&client_secret=${VITE_BAIDU_SECRET_KEY}`,
-    {},
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    }
-  );
+  return LiRequest.get<IAccessToken>(`/copilot/access_token`, {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+  });
 };
 
-export const generateVideoFromText = async (access_token: string) => {
+export const generateVideoFromText = async () => {
   return LiRequest.post(
-    `/copilot/text2video?access_token=${access_token}`,
+    `/copilot/text2video`,
     {
       structs: [
         {
@@ -63,9 +57,9 @@ export const generateVideoFromText = async (access_token: string) => {
   );
 };
 
-export const getFinishedVideo = async (access_token: string, jobId: string) => {
+export const getFinishedVideo = async (jobId: string) => {
   return LiRequest.post(
-    `/copilot/video_finished?access_token=${access_token}`,
+    `/copilot/video_finished`,
     {
       jobId,
     },
@@ -76,4 +70,8 @@ export const getFinishedVideo = async (access_token: string, jobId: string) => {
       },
     }
   );
+};
+
+export const getVideo = async () => {
+  return LiRequest.get("/copilot/all");
 };
