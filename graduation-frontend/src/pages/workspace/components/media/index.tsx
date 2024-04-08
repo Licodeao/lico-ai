@@ -16,6 +16,8 @@ import { useAppDispatch, useAppSelector } from "@/store/storeHook";
 import { shallowEqual } from "react-redux";
 import { changeDialogOpenAciton } from "@/store/modules/workspace";
 import { createAlbum } from "@/service/modules/media";
+import { changeAlbumsListAction } from "@/store/modules/media";
+import Album from "./components/album";
 
 interface IProps {
   children?: ReactNode;
@@ -37,20 +39,18 @@ const Media: FC<IProps> = () => {
     width: 1,
   });
 
-  const { dialogOpen } = useAppSelector(
+  const { dialogOpen, albumsList } = useAppSelector(
     (state) => ({
       dialogOpen: state.workspace.dialogOpen,
+      albumsList: state.media.albumsList,
     }),
     shallowEqual
   );
 
   const handleCreateAlbum = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(
-      "🚀 ~ handleCreateAlbum ~ e.target[0].value:",
-      e.target[0].value
-    );
     await createAlbum(e.target[0].value);
+    await dispatch(changeAlbumsListAction(e.target[0].value));
   };
 
   return (
@@ -110,6 +110,11 @@ const Media: FC<IProps> = () => {
               >
                 查看全部分组
               </div>
+            </div>
+            <div className="mt-4">
+              {albumsList?.map((item) => {
+                return <Album albumName={item} key={item} />;
+              })}
             </div>
           </div>
 

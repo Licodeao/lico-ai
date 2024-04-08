@@ -89,6 +89,7 @@ export class UserService {
       },
       relations: {
         roles: true,
+        albums: true,
       },
     });
 

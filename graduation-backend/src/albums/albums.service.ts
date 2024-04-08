@@ -10,6 +10,8 @@ export class AlbumsService {
   entityManager: EntityManager;
 
   async create(albumName: CreateAlbumDto) {
-    this.entityManager.save(AlbumsEntity, [albumName]);
+    this.entityManager.insert(AlbumsEntity, {
+      name: albumName.name,
+    });
   }
 }

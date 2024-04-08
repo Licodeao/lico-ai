@@ -57,12 +57,14 @@ export class UserController {
       user: {
         email: user.email,
         roles: user.roles,
+        albums: user.albums,
       },
     });
 
     return {
       code: 200,
       token,
+      user,
     };
   }
 

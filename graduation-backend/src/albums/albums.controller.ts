@@ -8,7 +8,6 @@ export class AlbumsController {
   @Post('create')
   async createAlbum(@Body() body) {
     const { name } = body;
-    console.log('🚀 ~ AlbumsController ~ createAlbum ~ name:', name);
-    this.albumsSerivce.create(name);
+    this.albumsSerivce.create({ name });
   }
 }
