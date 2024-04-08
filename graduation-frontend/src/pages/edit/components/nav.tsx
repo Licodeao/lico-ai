@@ -15,6 +15,9 @@ import RecordSelectedSvg from "@/assets/img/record-selected.svg";
 import FilterSvg from "@/assets/img/filter.svg";
 import FilterSelectedSvg from "@/assets/img/filter-selected.svg";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "@/store/storeHook";
+import { shallowEqual } from "react-redux";
+import { changeCurrentIndexAction } from "@/store/modules/canvas";
 interface IProps {
   children?: ReactNode;
 }
@@ -88,11 +91,17 @@ const Nav: FC<IProps> = () => {
     },
   ];
 
-  const curIndex = Number(localStorage.getItem("curIndex")) || 0;
+  const dispatch = useAppDispatch();
+  const { currentIndex } = useAppSelector(
+    (state) => ({
+      currentIndex: state.canvas.currentIndex,
+    }),
+    shallowEqual
+  );
   const navigate = useNavigate();
 
   const handleClick = (e) => {
-    localStorage.setItem("curIndex", e.target.id);
+    dispatch(changeCurrentIndexAction(Number(e.target.id)));
     navigate(e.target.dataset.link);
   };
 
@@ -108,7 +117,9 @@ const Nav: FC<IProps> = () => {
               <img
                 id={item.id.toString()}
                 data-link={item.link}
-                src={curIndex === index ? item.selectedIcon : item.icon}
+                src={
+                  Number(currentIndex) === index ? item.selectedIcon : item.icon
+                }
                 alt={item.description}
                 onClick={(e) => handleClick(e)}
               />

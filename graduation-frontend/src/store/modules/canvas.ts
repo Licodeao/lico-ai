@@ -94,6 +94,7 @@ const canvasSlice = createSlice({
     colorVisible: false,
     settingColorVisible: false,
     isPlay: false,
+    currentIndex: 0,
   },
   reducers: {
     changeCanvasWidthAndHeightAction(state, { payload }) {
@@ -115,6 +116,9 @@ const canvasSlice = createSlice({
     changeIsPlayAction(state, { payload }) {
       state.isPlay = payload;
     },
+    changeCurrentIndexAction(state, { payload }) {
+      state.currentIndex = payload;
+    },
   },
 });
 
@@ -125,5 +129,6 @@ export const {
   changeSettingColorVisibleAction,
   changeColorVisibleAction,
   changeIsPlayAction,
+  changeCurrentIndexAction,
 } = canvasSlice.actions;
 export default canvasSlice.reducer;
