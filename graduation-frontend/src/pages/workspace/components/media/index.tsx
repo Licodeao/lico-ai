@@ -111,7 +111,7 @@ const Media: FC<IProps> = () => {
                 查看全部分组
               </div>
             </div>
-            <div className="mt-4">
+            <div className="mt-4 flex flex-row justify-start items-center gap-3">
               {albumsList?.map((item) => {
                 return <Album albumName={item} key={item} />;
               })}
