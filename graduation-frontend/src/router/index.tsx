@@ -19,6 +19,7 @@ import WorkspaceHome from "@/pages/workspace/components/home";
 import Media from "@/pages/workspace/components/media";
 import Albums from "@/pages/workspace/components/media/components/albums";
 import { Navigate, createBrowserRouter } from "react-router-dom";
+import AlbumContent from "@/pages/workspace/components/media/components/albumContent";
 
 const router = createBrowserRouter([
   {
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
           {
             path: "/workspace/media/albums",
             element: <Albums />,
+          },
+          {
+            path: "/workspace/media/album/:album",
+            element: <AlbumContent />,
           },
         ],
       },
