@@ -39,7 +39,7 @@ const WorkSpaceHeader: FC<IProps> = () => {
 
   const handleMenuItemClick = (type: string) => {
     setAnchorEl(null);
-    console.log(type);
+    navigate(`/workspace/account/${type}`);
   };
 
   const handleMenuClick = () => {
@@ -196,14 +196,14 @@ const WorkSpaceHeader: FC<IProps> = () => {
             <MenuItem onClick={() => handleMenuItemClick("profile")}>
               个人信息
             </MenuItem>
-            <MenuItem onClick={() => handleMenuItemClick("subscribe")}>
+            <MenuItem onClick={() => handleMenuItemClick("subscription")}>
               订阅信息
             </MenuItem>
             <MenuItem onClick={() => handleMenuItemClick("usage")}>
               使用说明
             </MenuItem>
-            <MenuItem onClick={() => handleMenuItemClick("setting")}>
-              系统设置
+            <MenuItem onClick={() => handleMenuItemClick("settings")}>
+              空间设置
             </MenuItem>
             <MenuItem onClick={() => handleMenuItemClick("faq")}>FAQs</MenuItem>
             <MenuItem onClick={() => handleMenuItemClick("logout")}>

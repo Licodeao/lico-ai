@@ -222,33 +222,39 @@ export class CopilotController {
           console.log(
             '🚀 ~ CopilotController ~ respon.subscribe ~ jobId:',
             jobId,
+            typeof jobId,
+            String(jobId),
           );
 
-          if (jobId) {
-            const responses = await this.httpService.post(
-              'https://aip.baidubce.com/rpc/2.0/brain/creative/ttv/query',
-              {
-                jobId,
-                includeTimeline: false,
-              },
-              {
-                headers: {
-                  'Content-Type': 'application/json',
-                  Accept: 'application/json',
-                },
-                params: {
-                  access_token,
-                },
-              },
-            );
+          const changeJobId = String(jobId);
 
-            responses.subscribe((resp) => {
-              // res.status(200).json({
-              //   code: 200,
-              //   ...resp.data,
-              // });
-              console.log(resp.data);
-            });
+          if (jobId) {
+            setTimeout(async () => {
+              const responses = await this.httpService.post(
+                'https://aip.baidubce.com/rpc/2.0/brain/creative/ttv/query',
+                {
+                  jobId: changeJobId,
+                  includeTimeline: false,
+                },
+                {
+                  headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                  },
+                  params: {
+                    access_token,
+                  },
+                },
+              );
+
+              responses.subscribe((resp) => {
+                // res.status(200).json({
+                //   code: 200,
+                //   ...resp.data,
+                // });
+                console.log(resp);
+              });
+            }, 5000);
           }
         });
       }
