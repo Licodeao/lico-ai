@@ -1,4 +1,4 @@
-import type { FC, ReactNode } from "react";
+import type { FC, FormEvent, ReactNode } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 
 import { styled } from "@mui/material/styles";
@@ -15,6 +15,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { useAppDispatch, useAppSelector } from "@/store/storeHook";
 import { shallowEqual } from "react-redux";
 import { changeDialogOpenAciton } from "@/store/modules/workspace";
+import { createAlbum } from "@/service/modules/media";
 
 interface IProps {
   children?: ReactNode;
@@ -43,6 +44,15 @@ const Media: FC<IProps> = () => {
     shallowEqual
   );
 
+  const handleCreateAlbum = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(
+      "🚀 ~ handleCreateAlbum ~ e.target[0].value:",
+      e.target[0].value
+    );
+    await createAlbum(e.target[0].value);
+  };
+
   return (
     <div className="flex-6 py-4 px-8 flex flex-col gap-3">
       {location.pathname === "/workspace/media" ? (
@@ -64,6 +74,11 @@ const Media: FC<IProps> = () => {
               <Dialog
                 open={dialogOpen}
                 onClose={() => dispatch(changeDialogOpenAciton(false))}
+                PaperProps={{
+                  component: "form",
+                  onSubmit: (e: FormEvent<HTMLFormElement>) =>
+                    handleCreateAlbum(e),
+                }}
               >
                 <DialogTitle>创建一个新的分组</DialogTitle>
                 <DialogContent>
@@ -83,6 +98,7 @@ const Media: FC<IProps> = () => {
                   </Button>
                   <Button
                     onClick={() => dispatch(changeDialogOpenAciton(false))}
+                    type="submit"
                   >
                     确定
                   </Button>

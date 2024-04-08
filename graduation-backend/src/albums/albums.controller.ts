@@ -1,5 +1,4 @@
-import { Controller, Post } from '@nestjs/common';
-import { CreateAlbumDto } from './dto/create-album.dto';
+import { Controller, Post, Body } from '@nestjs/common';
 import { AlbumsService } from './albums.service';
 
 @Controller('albums')
@@ -7,7 +6,9 @@ export class AlbumsController {
   constructor(private readonly albumsSerivce: AlbumsService) {}
 
   @Post('create')
-  async createAlbum(album: CreateAlbumDto) {
-    this.albumsSerivce.create(album.name);
+  async createAlbum(@Body() body) {
+    const { name } = body;
+    console.log('🚀 ~ AlbumsController ~ createAlbum ~ name:', name);
+    this.albumsSerivce.create(name);
   }
 }

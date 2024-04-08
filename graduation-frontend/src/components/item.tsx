@@ -1,4 +1,4 @@
-import { useState, type FC, type ReactNode, useEffect } from "react";
+import { useState, type FC, type ReactNode } from "react";
 import PlusSvg from "@/assets/img/plus.svg";
 import LinearProgress, {
   LinearProgressProps,
