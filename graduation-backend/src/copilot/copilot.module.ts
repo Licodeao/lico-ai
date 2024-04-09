@@ -6,7 +6,13 @@ import { ConfigModule } from '@nestjs/config';
 import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
-  imports: [HttpModule, ConfigModule.forRoot(), CacheModule.register()],
+  imports: [
+    HttpModule.register({
+      responseType: 'text',
+    }),
+    ConfigModule.forRoot(),
+    CacheModule.register(),
+  ],
   controllers: [CopilotController],
   providers: [CopilotService],
 })
