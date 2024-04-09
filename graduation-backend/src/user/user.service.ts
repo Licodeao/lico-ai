@@ -115,9 +115,23 @@ export class UserService {
     const newUser = new UserEntity();
     newUser.email = registerUser.email;
 
+    const role = new RoleEntity();
+    role.name = '普通用户';
+    newUser.roles = [role];
+
     try {
       await this.entityManager.save(newUser);
-      return '注册成功';
+
+      const registerUser = await this.entityManager.findOne(UserEntity, {
+        where: {
+          email: newUser.email,
+        },
+        relations: {
+          roles: true,
+          albums: true,
+        },
+      });
+      return registerUser;
     } catch (e) {
       return '注册失败';
     }
