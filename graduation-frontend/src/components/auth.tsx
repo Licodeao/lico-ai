@@ -67,6 +67,9 @@ const AuthComponent: FC<IProps> = ({ btnText, tipPrefix, tipSuffix, url }) => {
           setOpen(true);
         } else if (res.code === 200) {
           setSuccessOpen(true);
+          const { access_token, refresh_token } = res.data;
+          localStorage.setItem("access_token", access_token!);
+          localStorage.setItem("refresh_token", refresh_token!);
           navigate("/workspace");
         }
       });

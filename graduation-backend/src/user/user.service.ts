@@ -160,6 +160,14 @@ export class UserService {
     return true;
   }
 
+  async findUserByEmailReturnEntity(email: string) {
+    return await this.entityManager.findOne(UserEntity, {
+      where: {
+        email,
+      },
+    });
+  }
+
   async create(createUserDto: CreateUserDto) {
     const user = await this.findUserByEmail(createUserDto.email);
 

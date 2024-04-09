@@ -9,6 +9,8 @@ import {
   Inject,
   Res,
   ValidationPipe,
+  Query,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -61,22 +63,81 @@ export class UserController {
 
     const user = await this.userService.login(loginUser);
 
-    const token = this.jwtService.sign({
-      user: {
-        email: user.email,
-        roles: user.roles,
-        albums: user.albums,
+    const access_token = this.jwtService.sign(
+      {
+        user: {
+          email: user.email,
+          roles: user.roles,
+          albums: user.albums,
+        },
       },
-    });
+      {
+        expiresIn: '30m',
+      },
+    );
 
-    res.setHeader('authorization', 'bearer ' + token);
+    const refresh_token = this.jwtService.sign(
+      {
+        user: {
+          email: user.email,
+        },
+      },
+      {
+        expiresIn: '7d',
+      },
+    );
+
+    res.setHeader('authorization', 'bearer ' + access_token);
 
     return {
       code: 200,
       message: '登录成功',
-      token,
+      access_token,
+      refresh_token,
       user,
     };
+  }
+
+  @Get('refresh')
+  async refresh(@Query('refresh_token') refreshToken: string) {
+    try {
+      const data = this.jwtService.verify(refreshToken);
+
+      const user = await this.userService.findUserByEmailReturnEntity(
+        data.email,
+      );
+
+      const access_token = this.jwtService.sign(
+        {
+          user: {
+            email: user.email,
+            roles: user.roles,
+            albums: user.albums,
+          },
+        },
+        {
+          expiresIn: '30m',
+        },
+      );
+
+      const refresh_token = this.jwtService.sign(
+        {
+          user: {
+            email: user.email,
+          },
+        },
+        {
+          expiresIn: '7d',
+        },
+      );
+
+      return {
+        access_token,
+        refresh_token,
+      };
+    } catch (e) {
+      throw new UnauthorizedException('token 已失效，请重新登录');
+    }
   }
 
   @Post('register')

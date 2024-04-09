@@ -10,6 +10,29 @@ export interface IResultData<T> {
   data: T;
 }
 
+interface Task {
+  config: AxiosRequestConfig;
+  resolve: Function;
+}
+
+let refreshing = false;
+const queue: Task[] = [];
+
+async function refreshToken() {
+  const res = await axios.get(`${BASE_URL}/user/refresh`, {
+    params: {
+      refresh_token: localStorage.getItem("refresh_token"),
+    },
+  });
+
+  const { access_token, refresh_token } = res.data;
+
+  localStorage.setItem("access_token", access_token || "");
+  localStorage.setItem("refresh_token", refresh_token || "");
+
+  return res;
+}
+
 class LiRequest {
   instance: AxiosInstance;
 
@@ -17,11 +40,52 @@ class LiRequest {
     this.instance = axios.create(config);
 
     this.instance.interceptors.request.use((config) => {
+      const accessToken = localStorage.getItem("access_token");
+
+      if (accessToken) {
+        config.headers.Authorization = "Bearer " + accessToken;
+      }
+
       return config;
     });
-    this.instance.interceptors.response.use((res: AxiosResponse) => {
-      return res;
-    });
+    this.instance.interceptors.response.use(
+      (res: AxiosResponse) => {
+        return res;
+      },
+      async (error) => {
+        let { data, config } = error.response;
+
+        if (refreshing) {
+          return new Promise((resolve) => {
+            queue.push({
+              config,
+              resolve,
+            });
+          });
+        }
+
+        if (data.statusCode === 401 && !config.url.includes("/user/refresh")) {
+          refreshing = true;
+
+          const res = await refreshToken();
+
+          refreshing = false;
+
+          if (res.status === 200) {
+            queue.forEach(({ config, resolve }) => {
+              resolve(axios(config));
+            });
+
+            return axios(config);
+          } else {
+            alert("登录过期, 请重新登录!");
+            return Promise.reject(res.data);
+          }
+        } else {
+          return error.response;
+        }
+      }
+    );
   }
 
   // request的T是指定响应结果res.data的类型
