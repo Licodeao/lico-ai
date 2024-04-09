@@ -7,6 +7,8 @@ import {
   Param,
   Delete,
   Inject,
+  Res,
+  ValidationPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -14,6 +16,9 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { UserLoginDto } from './dto/user-login.dto';
 import { JwtService } from '@nestjs/jwt';
 import { RedisService } from 'src/redis/redis.service';
+import { UserRegisterDto } from './dto/user-register.dto';
+import { UserEntity } from './entities/user.entity';
+import { Response } from 'express';
 
 @Controller('user')
 export class UserController {
@@ -32,7 +37,10 @@ export class UserController {
   }
 
   @Post('login')
-  async login(@Body() loginUser: UserLoginDto) {
+  async login(
+    @Body(ValidationPipe) loginUser: UserLoginDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
     const codeIsRedis = await this.redisService.get(
       `${loginUser.email}_email_code`,
     );
@@ -61,10 +69,57 @@ export class UserController {
       },
     });
 
+    res.setHeader('authorization', 'bearer ' + token);
+
     return {
       code: 200,
+      message: '登录成功',
       token,
       user,
+    };
+  }
+
+  @Post('register')
+  async register(
+    @Body(ValidationPipe) registerUser: UserRegisterDto,
+    @Res() res: Response,
+  ) {
+    const codeIsRedis = await this.redisService.get(
+      `${registerUser.email}_email_code`,
+    );
+
+    if (!codeIsRedis) {
+      return {
+        code: 401,
+        data: '验证码已过期，请重新获取',
+      };
+    }
+
+    if (codeIsRedis !== registerUser.validateCode) {
+      return {
+        code: 401,
+        data: '验证码错误',
+      };
+    }
+    const newUser = (await this.userService.register(
+      registerUser,
+    )) as unknown as UserEntity;
+
+    const token = this.jwtService.sign({
+      user: {
+        email: newUser.email,
+        roles: newUser.roles,
+        albums: newUser.albums,
+      },
+    });
+
+    res.setHeader('authorization', 'bearer ' + token);
+
+    return {
+      code: 200,
+      message: '注册成功',
+      token,
+      newUser,
     };
   }
 

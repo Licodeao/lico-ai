@@ -7,6 +7,7 @@ import { UserEntity } from './entities/user.entity';
 import { RoleEntity } from './entities/role.entity';
 import { PermissionEntity } from './entities/permission.entity';
 import { UserLoginDto } from './dto/user-login.dto';
+import { UserRegisterDto } from './dto/user-register.dto';
 
 @Injectable()
 export class UserService {
@@ -102,6 +103,24 @@ export class UserService {
     }
 
     return user;
+  }
+
+  async register(registerUser: UserRegisterDto) {
+    const findUser = await this.findUserByEmail(registerUser.email);
+
+    if (findUser) {
+      throw new HttpException('用户已存在', 200);
+    }
+
+    const newUser = new UserEntity();
+    newUser.email = registerUser.email;
+
+    try {
+      await this.entityManager.save(newUser);
+      return '注册成功';
+    } catch (e) {
+      return '注册失败';
+    }
   }
 
   async findRolesById(roleIds: number[]) {
