@@ -92,7 +92,12 @@ const Copilot: FC<IProps> = () => {
 
         <div className="fixed bottom-12 w-1/2 h-[50px] bg-[#202224] rounded-lg flex justify-around items-center">
           <span>工作流: </span>
-          Tag
+          <div className="flex flex-row justify-center items-center gap-3">
+            <span>灿儿</span>
+            <span>逍遥</span>
+            <span>关关</span>
+            <span>家乐</span>
+          </div>
         </div>
 
         <div className="fixed bottom-1 text-sm text-[#7E7E7E] font-normal">

@@ -117,7 +117,7 @@ const Ffmpeg: FC<IProps> = () => {
           </div>
         </div>
       </div>
-      <div className="flex-1 bg-black">
+      <div className="flex-1 bg-[#ffffff]">
         <canvas
           style={{
             height: "100%",

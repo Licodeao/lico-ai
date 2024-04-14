@@ -20,6 +20,8 @@ import { RedisModule } from './redis/redis.module';
 import { CopilotModule } from './copilot/copilot.module';
 import { AlbumsEntity } from './albums/entities/albums.entity';
 import { AlbumsModule } from './albums/albums.module';
+import { MediaModule } from './media/media.module';
+import { MediaEntity } from './media/entities/media.entity';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -39,7 +41,13 @@ import { AlbumsModule } from './albums/albums.module';
       database: process.env.DATABASE_NAME,
       synchronize: true,
       logging: true,
-      entities: [UserEntity, RoleEntity, PermissionEntity, AlbumsEntity],
+      entities: [
+        UserEntity,
+        RoleEntity,
+        PermissionEntity,
+        AlbumsEntity,
+        MediaEntity,
+      ],
       poolSize: 10,
       connectorPackage: 'mysql2',
       extra: {},
@@ -52,6 +60,7 @@ import { AlbumsModule } from './albums/albums.module';
     RedisModule,
     CopilotModule,
     AlbumsModule,
+    MediaModule,
   ],
   controllers: [AppController],
   providers: [

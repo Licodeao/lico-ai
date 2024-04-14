@@ -16,7 +16,10 @@ import { useAppDispatch, useAppSelector } from "@/store/storeHook";
 import { shallowEqual } from "react-redux";
 import { changeDialogOpenAciton } from "@/store/modules/workspace";
 import { createAlbum } from "@/service/modules/media";
-import { changeAlbumsListAction } from "@/store/modules/media";
+import {
+  changeAlbumsListAction,
+  changeMediaListAction,
+} from "@/store/modules/media";
 import Album from "./components/album";
 
 interface IProps {
@@ -51,6 +54,15 @@ const Media: FC<IProps> = () => {
     e.preventDefault();
     await createAlbum(e.target[0].value);
     await dispatch(changeAlbumsListAction(e.target[0].value));
+  };
+
+  const handleFileUpload = (e) => {
+    e.preventDefault();
+    console.log(e.target.files[0]);
+    if (e.target.files[0]) {
+      const { name, size, type } = e.target.files[0];
+      dispatch(changeMediaListAction(e.target.files[0]));
+    }
   };
 
   return (
@@ -126,16 +138,20 @@ const Media: FC<IProps> = () => {
               </div>
             </div>
             <div>
-              <Button
-                component="label"
-                role={undefined}
-                variant="contained"
-                tabIndex={-1}
-                startIcon={<CloudUploadIcon />}
-              >
-                上传资源
-                <VisuallyHiddenInput type="file" />
-              </Button>
+              <input
+                id="uploadFile"
+                type="file"
+                accept=".jpeg,.jpg,.png,.webp,.avi,.mp4,.mpeg,.mov,.mp3,.m4a,.wav"
+                onChange={handleFileUpload}
+                className="hidden"
+                multiple
+              />
+              <label htmlFor="uploadFile">
+                <div className="w-[120px] flex flex-row justify-start items-center gap-2 bg-[#2A76CF] rounded-md p-3 hover:bg-[#2365BD] cursor-pointer">
+                  <CloudUploadIcon />
+                  <span>上传资源</span>
+                </div>
+              </label>
             </div>
           </div>
         </div>
