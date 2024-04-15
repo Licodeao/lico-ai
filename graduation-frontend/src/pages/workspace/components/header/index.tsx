@@ -86,7 +86,7 @@ const WorkSpaceHeader: FC<IProps> = () => {
         <ListItem key={"插件"}>
           <ListItemText primary="插件" />
         </ListItem>
-        <ListItem key={"数字声音"}>
+        <ListItem key={"数字声音"} onClick={() => navigate("/workspace/voice")}>
           <ListItemButton>
             <ListItemIcon>
               <KeyboardVoiceIcon />
