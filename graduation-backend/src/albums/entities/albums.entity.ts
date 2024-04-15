@@ -1,7 +1,10 @@
+import { MediaEntity } from 'src/media/entities/media.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -31,4 +34,10 @@ export class AlbumsEntity {
    */
   @UpdateDateColumn()
   updateTime: Date;
+
+  @ManyToMany(() => MediaEntity)
+  @JoinTable({
+    name: 'albums_media',
+  })
+  media: MediaEntity[];
 }

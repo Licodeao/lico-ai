@@ -1,8 +1,14 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
+interface MediaItemType {
+  name: string;
+  type: string;
+  size: number;
+  imageUrl: string;
+}
 interface MediaType {
   albumsList: string[];
-  mediaList: any[];
+  mediaList: MediaItemType[];
 }
 
 export const mediaSlice = createSlice({
@@ -15,8 +21,8 @@ export const mediaSlice = createSlice({
     changeAlbumsListAction(state, action: PayloadAction<any>) {
       state.albumsList.push(action.payload);
     },
-    changeMediaListAction(state, action) {
-      state.mediaList.push(action.payload);
+    changeMediaListAction(state, { payload }) {
+      state.mediaList.push(payload);
     },
   },
 });

@@ -1,7 +1,6 @@
 import type { FC, FormEvent, ReactNode } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 
-import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -15,7 +14,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { useAppDispatch, useAppSelector } from "@/store/storeHook";
 import { shallowEqual } from "react-redux";
 import { changeDialogOpenAciton } from "@/store/modules/workspace";
-import { createAlbum } from "@/service/modules/media";
+import { createAlbum, uploadMediaFile } from "@/service/modules/media";
 import {
   changeAlbumsListAction,
   changeMediaListAction,
@@ -30,22 +29,11 @@ const Media: FC<IProps> = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const VisuallyHiddenInput = styled("input")({
-    clip: "rect(0 0 0 0)",
-    clipPath: "inset(50%)",
-    height: 1,
-    overflow: "hidden",
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    whiteSpace: "nowrap",
-    width: 1,
-  });
-
-  const { dialogOpen, albumsList } = useAppSelector(
+  const { dialogOpen, albumsList, mediaList } = useAppSelector(
     (state) => ({
       dialogOpen: state.workspace.dialogOpen,
       albumsList: state.media.albumsList,
+      mediaList: state.media.mediaList,
     }),
     shallowEqual
   );
@@ -56,12 +44,15 @@ const Media: FC<IProps> = () => {
     await dispatch(changeAlbumsListAction(e.target[0].value));
   };
 
-  const handleFileUpload = (e) => {
+  const handleFileUpload = async (e) => {
     e.preventDefault();
     console.log(e.target.files[0]);
     if (e.target.files[0]) {
       const { name, size, type } = e.target.files[0];
-      dispatch(changeMediaListAction(e.target.files[0]));
+      await uploadMediaFile(e.target.files[0]).then(async (res) => {
+        const { imageUrl } = res;
+        await dispatch(changeMediaListAction({ name, size, type, imageUrl }));
+      });
     }
   };
 
@@ -152,6 +143,17 @@ const Media: FC<IProps> = () => {
                   <span>上传资源</span>
                 </div>
               </label>
+            </div>
+            <div>
+              {mediaList?.map((media, index) => {
+                return (
+                  <div key={index}>
+                    <img src={media.imageUrl} alt={media.name} />
+                    {media.size}
+                    {media.type}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

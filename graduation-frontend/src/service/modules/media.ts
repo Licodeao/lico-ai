@@ -5,3 +5,13 @@ export const createAlbum = async (albumName: string) => {
     name: albumName,
   });
 };
+
+export const uploadMediaFile = async (file) => {
+  const formData = new FormData();
+  formData.append("file", file);
+  return LiRequest.post("/media/upload", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};

@@ -95,7 +95,7 @@ const Albums: FC<IProps> = () => {
         </Dialog>
         <div className="flex flex-row justify-start items-center gap-3">
           {albumsList?.map((item) => {
-            return <Album albumName={item} />;
+            return <Album albumName={item} key={item} />;
           })}
         </div>
       </div>
