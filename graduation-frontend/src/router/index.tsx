@@ -21,6 +21,7 @@ import Albums from "@/pages/workspace/components/media/components/albums";
 import { Navigate, createBrowserRouter } from "react-router-dom";
 import AlbumContent from "@/pages/workspace/components/media/components/albumContent";
 import Voice from "@/pages/workspace/components/voice";
+import CreateVoice from "@/pages/workspace/components/voice/components/create";
 
 const router = createBrowserRouter([
   {
@@ -86,6 +87,12 @@ const router = createBrowserRouter([
       {
         path: "/workspace/voice",
         element: <Voice />,
+        children: [
+          {
+            path: "/workspace/voice/create",
+            element: <CreateVoice />,
+          },
+        ],
       },
     ],
   },
