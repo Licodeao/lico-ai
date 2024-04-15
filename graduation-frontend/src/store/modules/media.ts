@@ -5,6 +5,7 @@ interface MediaItemType {
   type: string;
   size: number;
   imageUrl: string;
+  formattedDate: string;
 }
 interface MediaType {
   albumsList: string[];

@@ -1,4 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class MediaEntity {
@@ -49,4 +54,10 @@ export class MediaEntity {
    */
   @Column({ length: 50, comment: '团队角色' })
   team_role: string;
+
+  /**
+   * @field {date} create_time 创建时间
+   */
+  @CreateDateColumn()
+  create_time: Date;
 }

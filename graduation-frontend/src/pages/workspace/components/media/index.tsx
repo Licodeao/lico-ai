@@ -46,12 +46,23 @@ const Media: FC<IProps> = () => {
 
   const handleFileUpload = async (e) => {
     e.preventDefault();
-    console.log(e.target.files[0]);
+
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = ("0" + (date.getMonth() + 1)).slice(-2);
+    const day = ("0" + date.getDate()).slice(-2);
+    const hours = ("0" + date.getHours()).slice(-2);
+    const minutes = ("0" + date.getMinutes()).slice(-2);
+    const seconds = ("0" + date.getSeconds()).slice(-2);
+    const formattedDate = `${year}年${month}月${day}日 ${hours}时${minutes}分${seconds}秒`;
+
     if (e.target.files[0]) {
       const { name, size, type } = e.target.files[0];
       await uploadMediaFile(e.target.files[0]).then(async (res) => {
         const { imageUrl } = res;
-        await dispatch(changeMediaListAction({ name, size, type, imageUrl }));
+        await dispatch(
+          changeMediaListAction({ name, size, type, imageUrl, formattedDate })
+        );
       });
     }
   };
@@ -144,13 +155,18 @@ const Media: FC<IProps> = () => {
                 </div>
               </label>
             </div>
-            <div>
+            <div className="flex flex-row justify-start items-center gap-3 flex-wrap">
               {mediaList?.map((media, index) => {
                 return (
                   <div key={index}>
-                    <img src={media.imageUrl} alt={media.name} />
-                    {media.size}
-                    {media.type}
+                    <img
+                      src={media.imageUrl}
+                      alt={media.name}
+                      className="w-56 h-28"
+                    />
+                    <span className="text-xs text-[#eee]">
+                      于 {media.formattedDate} 上传
+                    </span>
                   </div>
                 );
               })}
