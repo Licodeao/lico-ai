@@ -9,6 +9,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { MediaService } from './media.service';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
+import { MoveMediaDto } from './dto/move-media.dto';
 
 @Controller('/media')
 export class MediaController {
@@ -45,8 +46,8 @@ export class MediaController {
   }
 
   @Post('/add')
-  async addMediaToAlbum(@Body() body) {
-    console.log(body);
-    // return await this.mediaService.moveMediaToAlbum()
+  async addMediaToAlbum(@Body() body: MoveMediaDto) {
+    const { albumName, name } = body;
+    return await this.mediaService.moveMediaToAlbum(albumName, name);
   }
 }

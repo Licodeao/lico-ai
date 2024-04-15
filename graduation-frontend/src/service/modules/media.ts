@@ -21,8 +21,15 @@ export const uploadMediaFile = async (file) => {
 };
 
 export const moveMediaToAlbum = (albumName: string, mediaName: string) => {
+  const name = mediaName.split("public/")[1];
   return LiRequest.post("/media/add", {
     albumName,
-    mediaName,
+    name,
+  });
+};
+
+export const findMediaByAlbum = (albumName: string) => {
+  return LiRequest.get("albums/findMedia", {
+    albumName,
   });
 };

@@ -25,16 +25,16 @@ export class MediaService {
     });
   }
 
-  async moveMediaToAlbum(mediaId: number, albumId: number) {
+  async moveMediaToAlbum(albumName: string, mediaName: string) {
     const media = await this.entitiyManager.findOne(MediaEntity, {
       where: {
-        id: mediaId,
+        name: mediaName,
       },
     });
 
     const album = await this.albumRepository.findOne({
       where: {
-        id: albumId,
+        name: albumName,
       },
     });
 
@@ -42,8 +42,17 @@ export class MediaService {
       throw new Error('Media or Album not found');
     }
 
+    if (!album.media) {
+      album.media = [];
+    }
+
     album.media.push(media);
 
-    return this.albumRepository.save(album);
+    await this.albumRepository.save(album);
+
+    return {
+      code: 200,
+      message: '移动成功',
+    };
   }
 }

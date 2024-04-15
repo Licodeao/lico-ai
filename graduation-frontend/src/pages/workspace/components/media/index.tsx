@@ -34,6 +34,8 @@ import {
 import Album from "./components/album";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 interface IProps {
   children?: ReactNode;
@@ -44,6 +46,7 @@ const Media: FC<IProps> = () => {
   const dispatch = useAppDispatch();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [allAlbums, setAllAlbums] = useState([]);
+  const [snackBarOpen, setSnackBarOpen] = useState<boolean>(false);
   const open = Boolean(anchorEl);
   const handleChangeAlbum = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -51,7 +54,15 @@ const Media: FC<IProps> = () => {
   const handleClose = async (e) => {
     setAnchorEl(null);
     const { innerText, dataset } = e.target;
-    await moveMediaToAlbum(innerText, dataset.media);
+    await moveMediaToAlbum(innerText, dataset.media).then((res) => {
+      if (res.code === 200) {
+        setSnackBarOpen(true);
+      }
+    });
+  };
+
+  const handleSnackBarClose = async () => {
+    setSnackBarOpen(!snackBarOpen);
   };
 
   useEffect(() => {
@@ -190,6 +201,17 @@ const Media: FC<IProps> = () => {
                 </div>
               </label>
             </div>
+
+            <Snackbar
+              anchorOrigin={{ vertical: "top", horizontal: "center" }}
+              open={snackBarOpen}
+              onClose={handleSnackBarClose}
+            >
+              <Alert severity="success" variant="filled" sx={{ width: "100%" }}>
+                移入成功!
+              </Alert>
+            </Snackbar>
+
             <div className="flex flex-row justify-start items-center gap-3 flex-wrap">
               {mediaList?.map((media, index) => {
                 return (
@@ -222,7 +244,7 @@ const Media: FC<IProps> = () => {
                           <MenuItem
                             onClick={handleClose}
                             key={item.name}
-                            data-media={media.name}
+                            data-media={media.imageUrl}
                           >
                             {item.name}
                           </MenuItem>

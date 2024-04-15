@@ -18,4 +18,15 @@ export class AlbumsService {
   async findAll() {
     return this.entityManager.find(AlbumsEntity);
   }
+
+  async findMediaByAlbum(albumName: string) {
+    return await this.entityManager.findOne(AlbumsEntity, {
+      where: {
+        name: albumName,
+      },
+      relations: {
+        media: true,
+      },
+    });
+  }
 }

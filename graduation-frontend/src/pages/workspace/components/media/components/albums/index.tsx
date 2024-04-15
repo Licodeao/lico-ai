@@ -32,7 +32,6 @@ const Albums: FC<IProps> = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [allAlbums, setAllAlbums] = useState([]);
-  console.log(allAlbums);
 
   useEffect(() => {
     getAllAlbums().then((res) => setAllAlbums(res));

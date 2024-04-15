@@ -1,5 +1,6 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import { Controller, Post, Body, Get, Query } from '@nestjs/common';
 import { AlbumsService } from './albums.service';
+import { FindMediaDto } from './dto/find-media.dto';
 
 @Controller('albums')
 export class AlbumsController {
@@ -14,5 +15,19 @@ export class AlbumsController {
   @Get('findAll')
   async getAllAlbums() {
     return this.albumsSerivce.findAll();
+  }
+
+  @Get('findMedia')
+  async getMediaByAlbum(@Query() query: FindMediaDto) {
+    const { albumName } = query;
+
+    const res = await this.albumsSerivce.findMediaByAlbum(albumName);
+
+    if (res.media) {
+      return {
+        code: 200,
+        data: res.media,
+      };
+    }
   }
 }
