@@ -1,4 +1,10 @@
-import type { FC, FormEvent, ReactNode } from "react";
+import {
+  useEffect,
+  useState,
+  type FC,
+  type FormEvent,
+  type ReactNode,
+} from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 
 import Button from "@mui/material/Button";
@@ -11,15 +17,23 @@ import TextField from "@mui/material/TextField";
 import ArtTrackIcon from "@mui/icons-material/ArtTrack";
 import TodayIcon from "@mui/icons-material/Today";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import SwapVertIcon from "@mui/icons-material/SwapVert";
 import { useAppDispatch, useAppSelector } from "@/store/storeHook";
 import { shallowEqual } from "react-redux";
 import { changeDialogOpenAciton } from "@/store/modules/workspace";
-import { createAlbum, uploadMediaFile } from "@/service/modules/media";
+import {
+  createAlbum,
+  getAllAlbums,
+  moveMediaToAlbum,
+  uploadMediaFile,
+} from "@/service/modules/media";
 import {
   changeAlbumsListAction,
   changeMediaListAction,
 } from "@/store/modules/media";
 import Album from "./components/album";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 
 interface IProps {
   children?: ReactNode;
@@ -28,6 +42,21 @@ interface IProps {
 const Media: FC<IProps> = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [allAlbums, setAllAlbums] = useState([]);
+  const open = Boolean(anchorEl);
+  const handleChangeAlbum = (event: any) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = async (e) => {
+    setAnchorEl(null);
+    const { innerText, dataset } = e.target;
+    await moveMediaToAlbum(innerText, dataset.media);
+  };
+
+  useEffect(() => {
+    getAllAlbums().then((res) => setAllAlbums(res));
+  }, []);
 
   const { dialogOpen, albumsList, mediaList } = useAppSelector(
     (state) => ({
@@ -126,9 +155,15 @@ const Media: FC<IProps> = () => {
               </div>
             </div>
             <div className="mt-4 flex flex-row justify-start items-center gap-3">
-              {albumsList?.map((item) => {
-                return <Album albumName={item} key={item} />;
-              })}
+              {albumsList.length === 0 ? (
+                <div className="w-full text-md text-[#eee] flex justify-center items-center">
+                  当前无分组
+                </div>
+              ) : (
+                albumsList?.map((item) => {
+                  return <Album albumName={item} key={item} />;
+                })
+              )}
             </div>
           </div>
 
@@ -158,7 +193,7 @@ const Media: FC<IProps> = () => {
             <div className="flex flex-row justify-start items-center gap-3 flex-wrap">
               {mediaList?.map((media, index) => {
                 return (
-                  <div key={index}>
+                  <div key={index} className="cursor-pointer relative">
                     <img
                       src={media.imageUrl}
                       alt={media.name}
@@ -167,6 +202,33 @@ const Media: FC<IProps> = () => {
                     <span className="text-xs text-[#eee]">
                       于 {media.formattedDate} 上传
                     </span>
+                    <div
+                      className="absolute top-1 right-1"
+                      onClick={handleChangeAlbum}
+                    >
+                      <SwapVertIcon />
+                    </div>
+                    <Menu
+                      id="basic-menu"
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={handleClose}
+                      MenuListProps={{
+                        "aria-labelledby": "basic-button",
+                      }}
+                    >
+                      {allAlbums?.map((item: { name: string }) => {
+                        return (
+                          <MenuItem
+                            onClick={handleClose}
+                            key={item.name}
+                            data-media={media.name}
+                          >
+                            {item.name}
+                          </MenuItem>
+                        );
+                      })}
+                    </Menu>
                   </div>
                 );
               })}

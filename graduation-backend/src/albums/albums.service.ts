@@ -10,8 +10,12 @@ export class AlbumsService {
   entityManager: EntityManager;
 
   async create(albumName: CreateAlbumDto) {
-    this.entityManager.insert(AlbumsEntity, {
+    return this.entityManager.insert(AlbumsEntity, {
       name: albumName.name,
     });
+  }
+
+  async findAll() {
+    return this.entityManager.find(AlbumsEntity);
   }
 }

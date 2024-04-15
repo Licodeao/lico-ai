@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Post,
   UploadedFile,
@@ -41,5 +42,11 @@ export class MediaController {
     return {
       imageUrl: `http://localhost:3000/public/${fileName}`,
     };
+  }
+
+  @Post('/add')
+  async addMediaToAlbum(@Body() body) {
+    console.log(body);
+    // return await this.mediaService.moveMediaToAlbum()
   }
 }

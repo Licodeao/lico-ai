@@ -1,4 +1,10 @@
-import type { FC, FormEvent, ReactNode } from "react";
+import {
+  useEffect,
+  useState,
+  type FC,
+  type FormEvent,
+  type ReactNode,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/store/storeHook";
 import { shallowEqual } from "react-redux";
@@ -16,7 +22,7 @@ import TextField from "@mui/material/TextField";
 import Album from "../album";
 import { changeDialogOpenAciton } from "@/store/modules/workspace";
 import { changeAlbumsListAction } from "@/store/modules/media";
-import { createAlbum } from "@/service/modules/media";
+import { createAlbum, getAllAlbums } from "@/service/modules/media";
 
 interface IProps {
   children?: ReactNode;
@@ -25,6 +31,13 @@ interface IProps {
 const Albums: FC<IProps> = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const [allAlbums, setAllAlbums] = useState([]);
+  console.log(allAlbums);
+
+  useEffect(() => {
+    getAllAlbums().then((res) => setAllAlbums(res));
+  }, []);
+
   const { albumsList, dialogOpen } = useAppSelector(
     (state) => ({
       albumsList: state.media.albumsList,
@@ -94,9 +107,13 @@ const Albums: FC<IProps> = () => {
           </DialogActions>
         </Dialog>
         <div className="flex flex-row justify-start items-center gap-3">
-          {albumsList?.map((item) => {
-            return <Album albumName={item} key={item} />;
-          })}
+          {albumsList.length === 0
+            ? allAlbums.map((item: { name: string }) => {
+                return <Album albumName={item.name} key={item.name} />;
+              })
+            : albumsList?.map((item) => {
+                return <Album albumName={item} key={item} />;
+              })}
         </div>
       </div>
     </div>
