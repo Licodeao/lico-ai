@@ -79,11 +79,12 @@ export class AuthController {
       );
 
       if (GithubUserInfo) {
-        const { name, email } = GithubUserInfo;
+        const { name, email, avatar_url } = GithubUserInfo;
 
         this.userService.create({
           username: name,
           email,
+          image_url: avatar_url,
           type: 'github',
         });
 
@@ -150,12 +151,13 @@ export class AuthController {
     const GiteeUserInfo = await getGiteeUserInfo(GiteeAccessToken.access_token);
 
     if (GiteeUserInfo) {
-      const { name, email } = GiteeUserInfo;
+      const { name, email, avatar_url } = GiteeUserInfo;
 
       this.userService.create({
         username: name,
         email,
-        type: 'gitee',
+        image_url: avatar_url,
+        type: 'Gitee',
       });
 
       res.redirect('http://localhost:5173/workspace');
@@ -242,7 +244,7 @@ export class AuthController {
 
     /**
      * note:
-     *  Oauth2.0 API in Twitter doesn't provide user email. So, use 'null@twitter.com' instead.
+     *  Oauth2.0 API in Twitter doesn't provide user email and avatar. So, use 'null@twitter.com' and default image instead.
      */
     if (TwitterUserInfo) {
       const { username } = TwitterUserInfo;
@@ -250,6 +252,8 @@ export class AuthController {
       this.userService.create({
         username,
         email: 'null@twitter.com',
+        image_url:
+          'https://typora-licodeao.oss-cn-guangzhou.aliyuncs.com/typoraImg/avatar1.jpg',
         type: 'twitter',
       });
 

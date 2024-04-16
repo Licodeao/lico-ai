@@ -95,7 +95,7 @@ export class UserService {
     });
 
     if (!user) {
-      throw new HttpException('用户不存在', HttpStatus.NOT_FOUND);
+      return await this.register(loginUser);
     }
 
     if (loginUser.email !== user.email) {
@@ -114,6 +114,10 @@ export class UserService {
 
     const newUser = new UserEntity();
     newUser.email = registerUser.email;
+    newUser.username = registerUser.email;
+    newUser.image_url =
+      'https://typora-licodeao.oss-cn-guangzhou.aliyuncs.com/typoraImg/avatar1.jpg';
+    newUser.type = 'Website Login';
 
     const role = new RoleEntity();
     role.name = '普通用户';
@@ -133,7 +137,10 @@ export class UserService {
       });
       return registerUser;
     } catch (e) {
-      return '注册失败';
+      return {
+        code: 404,
+        message: '注册失败',
+      };
     }
   }
 
@@ -146,6 +153,19 @@ export class UserService {
         permissions: true,
       },
     });
+  }
+
+  async findUserByEmailAndName(email: string, name: string) {
+    const user = await this.entityManager.findOneBy(UserEntity, {
+      email,
+      username: name,
+    });
+
+    if (!user) {
+      return false;
+    }
+
+    return true;
   }
 
   async findUserByEmail(email: string) {
@@ -169,7 +189,10 @@ export class UserService {
   }
 
   async create(createUserDto: CreateUserDto) {
-    const user = await this.findUserByEmail(createUserDto.email);
+    const user = await this.findUserByEmailAndName(
+      createUserDto.email,
+      createUserDto.username,
+    );
 
     if (user) {
       throw new HttpException('用户已存在', HttpStatus.CONFLICT);

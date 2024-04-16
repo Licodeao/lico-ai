@@ -31,6 +31,12 @@ export class UserEntity {
   email: string;
 
   /**
+   * @field {string} image_url 用户头像
+   */
+  @Column({ comment: '用户头像' })
+  image_url: string;
+
+  /**
    * @field {string} type 用户登录途径（第三方/本站）
    */
   @Column({ length: 50, comment: '用户登录途径' })

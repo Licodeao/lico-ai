@@ -16,6 +16,8 @@ import Alert from "@mui/material/Alert";
 import { useFormControl } from "@mui/material/FormControl";
 import { ResendEmail, postLoginEmail } from "@/service/modules/mail";
 import { login } from "@/service/modules/user";
+import { useAppDispatch } from "@/store/storeHook";
+import { changeUserInfoAction } from "@/store/modules/user";
 
 interface IProps {
   children?: ReactNode;
@@ -45,7 +47,7 @@ const AuthComponent: FC<IProps> = ({ btnText, tipPrefix, tipSuffix, url }) => {
   });
   const { errors } = formState;
   const navigate = useNavigate();
-
+  const dispatch = useAppDispatch();
   const emailRegExp = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
 
   const onSubmit = (data: FormValue) => {
@@ -67,9 +69,10 @@ const AuthComponent: FC<IProps> = ({ btnText, tipPrefix, tipSuffix, url }) => {
           setOpen(true);
         } else if (res.code === 200) {
           setSuccessOpen(true);
-          const { access_token, refresh_token } = res.data;
+          const { access_token, refresh_token, user } = res as any;
           localStorage.setItem("access_token", access_token!);
           localStorage.setItem("refresh_token", refresh_token!);
+          dispatch(changeUserInfoAction(user));
           navigate("/workspace");
         }
       });

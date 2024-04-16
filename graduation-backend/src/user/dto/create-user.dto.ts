@@ -8,5 +8,7 @@ export class CreateUserDto {
   @IsEmail({}, { message: '邮箱格式不正确' })
   email: string;
 
+  image_url: string;
+
   type: string;
 }

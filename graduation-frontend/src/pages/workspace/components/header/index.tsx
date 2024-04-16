@@ -20,6 +20,8 @@ import EastIcon from "@mui/icons-material/East";
 
 import UpgradeLogo from "@/components/upgrade";
 import { useNavigate } from "react-router-dom";
+import { shallowEqual } from "react-redux";
+import { useAppSelector } from "@/store/storeHook";
 interface IProps {
   children?: ReactNode;
 }
@@ -30,6 +32,14 @@ const WorkSpaceHeader: FC<IProps> = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const pathname = window.location.pathname;
   const navigate = useNavigate();
+
+  const { user } = useAppSelector(
+    (state) => ({
+      user: state.user.userInfo,
+    }),
+    shallowEqual
+  );
+
   const handleClickProfile = (e: React.MouseEvent<HTMLDivElement>) => {
     setAnchorEl(e.currentTarget);
   };
@@ -189,10 +199,10 @@ const WorkSpaceHeader: FC<IProps> = () => {
             onClick={handleClickProfile}
             className="border border-solid border-[#4B4B4C] rounded-full mx-8 my-2"
           >
-            <Avatar className="m-1 cursor-pointer" />
+            <Avatar className="m-1 cursor-pointer" src={user[0].image_url} />
           </div>
           <Menu open={menuOpen} anchorEl={anchorEl} onClose={handleClose}>
-            <MenuItem>Hi User</MenuItem>
+            <MenuItem>Hi {user[0].username}</MenuItem>
             <MenuItem onClick={() => handleMenuItemClick("profile")}>
               个人信息
             </MenuItem>

@@ -61,7 +61,7 @@ export class UserController {
       };
     }
 
-    const user = await this.userService.login(loginUser);
+    const user = (await this.userService.login(loginUser)) as UserEntity;
 
     const access_token = this.jwtService.sign(
       {
@@ -134,6 +134,7 @@ export class UserController {
       return {
         access_token,
         refresh_token,
+        user,
       };
     } catch (e) {
       throw new UnauthorizedException('token 已失效，请重新登录');

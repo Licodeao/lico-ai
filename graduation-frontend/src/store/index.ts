@@ -3,6 +3,7 @@ import homeReducer from "./modules/home";
 import canvasReducer from "./modules/canvas";
 import workspaceReducer from "./modules/workspace";
 import mediaReducer from "./modules/media";
+import userReducer from "./modules/user";
 import {
   persistReducer,
   FLUSH,
@@ -19,6 +20,7 @@ const reducers = combineReducers({
   canvas: canvasReducer,
   workspace: workspaceReducer,
   media: mediaReducer,
+  user: userReducer,
 });
 
 const persistConfig = {
