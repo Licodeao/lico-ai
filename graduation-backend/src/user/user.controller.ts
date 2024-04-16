@@ -3,24 +3,25 @@ import {
   Get,
   Post,
   Body,
-  Patch,
-  Param,
-  Delete,
   Inject,
   Res,
   ValidationPipe,
   Query,
   UnauthorizedException,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { UserLoginDto } from './dto/user-login.dto';
 import { JwtService } from '@nestjs/jwt';
 import { RedisService } from 'src/redis/redis.service';
 import { UserRegisterDto } from './dto/user-register.dto';
 import { UserEntity } from './entities/user.entity';
 import { Response } from 'express';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
 
 @Controller('user')
 export class UserController {
@@ -185,28 +186,48 @@ export class UserController {
     };
   }
 
+  @Post('info')
+  async updateUserInfo(@Body() body) {
+    return this.userService.update(body);
+  }
+
+  @Post('avatar')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: 'public/avatar',
+        filename: (_, file: any, cb) => {
+          const timestamp = new Date().getTime();
+          file.timestamp = timestamp;
+          const fileName = `${timestamp}${extname(file.originalname)}`;
+          return cb(null, fileName);
+        },
+      }),
+    }),
+  )
+  async updateUserAvatar(
+    @UploadedFile() file: Express.Multer.File & { timestamp: number },
+    @Body('username') username: string,
+    @Body('email') email: string,
+  ) {
+    try {
+      const { originalname, timestamp } = file;
+      const fileName = `${timestamp}${extname(originalname)}`;
+      const avatarUrl = `http://localhost:3000/public/avatar/${fileName}`;
+      await this.userService.updateAvatar(username, email, avatarUrl);
+
+      return {
+        code: 200,
+        message: '头像修改成功!',
+        url: avatarUrl,
+      };
+    } catch (e) {
+      throw new Error(e);
+    }
+  }
+
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.userService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
   }
 }

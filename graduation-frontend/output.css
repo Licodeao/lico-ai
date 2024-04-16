@@ -855,6 +855,22 @@ video {
   height: 130px;
 }
 
+.h-1\/4 {
+  height: 25%;
+}
+
+.h-1\/5 {
+  height: 20%;
+}
+
+.h-1\/6 {
+  height: 16.666667%;
+}
+
+.h-1\/2 {
+  height: 50%;
+}
+
 .w-1\/2 {
   width: 50%;
 }
@@ -957,6 +973,10 @@ video {
 
 .w-\[240px\] {
   width: 240px;
+}
+
+.w-1\/5 {
+  width: 20%;
 }
 
 .flex-1 {
@@ -1069,6 +1089,10 @@ video {
 
 .gap-8 {
   gap: 2rem;
+}
+
+.gap-10 {
+  gap: 2.5rem;
 }
 
 .gap-y-5 {

@@ -201,19 +201,59 @@ export class UserService {
     return this.entityManager.save(UserEntity, createUserDto);
   }
 
-  findAll() {
-    return `This action returns all user`;
+  async update(updateUserDto: UpdateUserDto) {
+    switch (updateUserDto.type) {
+      case 'username':
+        try {
+          await this.entityManager.update(
+            UserEntity,
+            {
+              email: updateUserDto.oldValue,
+            },
+            {
+              username: updateUserDto.newValue,
+            },
+          );
+          return {
+            code: 200,
+            message: '用户名修改成功!',
+          };
+        } catch (e) {
+          throw new Error(e);
+        }
+      case 'email':
+        try {
+          await this.entityManager.update(
+            UserEntity,
+            {
+              username: updateUserDto.oldValue,
+            },
+            {
+              email: updateUserDto.newValue,
+            },
+          );
+          return {
+            code: 200,
+            message: '用户邮箱修改成功!',
+          };
+        } catch (e) {
+          throw new Error(e);
+        }
+      default:
+        break;
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
-
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async updateAvatar(username: string, email: string, url: string) {
+    return this.entityManager.update(
+      UserEntity,
+      {
+        username,
+        email,
+      },
+      {
+        image_url: url,
+      },
+    );
   }
 }
