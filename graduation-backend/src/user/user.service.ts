@@ -8,6 +8,7 @@ import { RoleEntity } from './entities/role.entity';
 import { PermissionEntity } from './entities/permission.entity';
 import { UserLoginDto } from './dto/user-login.dto';
 import { UserRegisterDto } from './dto/user-register.dto';
+import { TeamEntity } from 'src/team/entities/team.entity';
 
 @Injectable()
 export class UserService {
@@ -91,6 +92,7 @@ export class UserService {
       relations: {
         roles: true,
         albums: true,
+        team: true,
       },
     });
 
@@ -119,6 +121,11 @@ export class UserService {
       'https://typora-licodeao.oss-cn-guangzhou.aliyuncs.com/typoraImg/avatar1.jpg';
     newUser.type = 'Website Login';
 
+    const team = new TeamEntity();
+    team.name = `${newUser.username}的工作空间`;
+    team.members = [];
+    newUser.team = [team];
+
     const role = new RoleEntity();
     role.name = '普通用户';
     newUser.roles = [role];
@@ -133,6 +140,7 @@ export class UserService {
         relations: {
           roles: true,
           albums: true,
+          team: true,
         },
       });
       return registerUser;
