@@ -167,7 +167,8 @@ const WorkSpaceHeader: FC<IProps> = () => {
         <span className="bg-gradient-to-tr from-purple-600 via-blue-500 to-green-400 bg-clip-text text-transparent">
           Lico AI
         </span>
-        , 这是你的工作空间, 在这里发挥你的
+        , 这是 {user[0].team[0].name} <span className="text-[#666]">(你)</span>,
+        在这里发挥你的
         <span className="bg-gradient-to-tr from-red-600 via-pink-500 to-yellow-400 bg-clip-text text-transparent">
           奇思妙想
         </span>

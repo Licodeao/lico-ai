@@ -1,10 +1,32 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+type Members = Pick<UserInfoItem, "username" | "email" | "image_url">;
+interface Team {
+  name: string;
+  isAdmin: true;
+  members: Members[];
+}
+
+interface Albums {
+  name: string;
+  media: any[];
+}
+
+interface Permission {
+  name: string;
+}
+interface Role {
+  name: number;
+  permissions: Permission[];
+}
+
 interface UserInfoItem {
   username: string;
   email: string;
-  role: string;
   image_url: string;
+  roles: Role[];
+  albums: Albums[];
+  team: Team[];
 }
 
 interface UserInfo {

@@ -8,8 +8,9 @@ import { RoleEntity } from './entities/role.entity';
 import { PermissionEntity } from './entities/permission.entity';
 import { UserLoginDto } from './dto/user-login.dto';
 import { UserRegisterDto } from './dto/user-register.dto';
-import { TeamEntity } from 'src/team/entities/team.entity';
-import { AlbumsEntity } from 'src/albums/entities/albums.entity';
+import { TeamEntity } from '../team/entities/team.entity';
+import { AlbumsEntity } from '../albums/entities/albums.entity';
+import { LimitEntity } from '../limit/entities/limit.entity';
 
 @Injectable()
 export class UserService {
@@ -97,6 +98,7 @@ export class UserService {
         'albums.media',
         'team',
         'team.members',
+        'limit',
       ],
     });
 
@@ -126,10 +128,18 @@ export class UserService {
     newUser.type = 'Website Login';
 
     const team = new TeamEntity();
-    team.name = `${newUser.username}的工作空间`;
+    team.name = `${newUser.username} 的工作空间`;
     team.members = [];
     await this.entityManager.save(TeamEntity, [team]);
     newUser.team = [team];
+
+    const limit = new LimitEntity();
+    limit.standardExportLimit = 1;
+    limit.standardGenerateLimit = 1;
+    limit.plusGenerateLimit = 5;
+    limit.plusExportLimit = 5;
+    await this.entityManager.save(LimitEntity, limit);
+    newUser.limit = limit;
 
     const albums = new AlbumsEntity();
     albums.name = '默认分组';
@@ -193,6 +203,7 @@ export class UserService {
           'albums.media',
           'team',
           'team.members',
+          'limit',
         ],
       });
       return registerUser;
@@ -269,10 +280,18 @@ export class UserService {
       newUser.type = createUserDto.type;
 
       const team = new TeamEntity();
-      team.name = `${newUser.username}的工作空间`;
+      team.name = `${newUser.username} 的工作空间`;
       team.members = [];
       await this.entityManager.save(TeamEntity, [team]);
       newUser.team = [team];
+
+      const limit = new LimitEntity();
+      limit.standardExportLimit = 1;
+      limit.standardGenerateLimit = 1;
+      limit.plusGenerateLimit = 5;
+      limit.plusExportLimit = 5;
+      await this.entityManager.save(LimitEntity, limit);
+      newUser.limit = limit;
 
       const albums = new AlbumsEntity();
       albums.name = '默认分组';
@@ -338,6 +357,7 @@ export class UserService {
           'albums.media',
           'team',
           'team.members',
+          'limit',
         ],
       });
 

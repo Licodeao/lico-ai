@@ -2,14 +2,17 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { RoleEntity } from './role.entity';
 import { AlbumsEntity } from '../../albums/entities/albums.entity';
 import { TeamEntity } from '../../team/entities/team.entity';
+import { LimitEntity } from 'src/limit/entities/limit.entity';
 
 @Entity()
 export class UserEntity {
@@ -81,4 +84,11 @@ export class UserEntity {
     name: 'user_team',
   })
   team: TeamEntity[];
+
+  /**
+   * @field {entity} limit 用户使用次数统计(一对一关系)
+   */
+  @OneToOne(() => LimitEntity)
+  @JoinColumn()
+  limit: LimitEntity;
 }

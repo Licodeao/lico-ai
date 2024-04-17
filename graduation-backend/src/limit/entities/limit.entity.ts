@@ -1,11 +1,4 @@
-import { UserEntity } from 'src/user/entities/user.entity';
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class LimitEntity {
@@ -38,8 +31,4 @@ export class LimitEntity {
    */
   @Column({ comment: '付费用户导出次数限制', default: 5 })
   plusExportLimit: number;
-
-  @OneToOne(() => UserEntity)
-  @JoinColumn()
-  user: UserEntity;
 }
