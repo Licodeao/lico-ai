@@ -10,23 +10,32 @@ import {
 
 @Entity()
 export class TeamEntity {
+  /**
+   * @field {number} id 团队ID（主键）
+   */
   @PrimaryGeneratedColumn()
   id: number;
 
+  /**
+   * @field {string} name 团队名
+   */
   @Column({ length: 50, comment: '团队名/工作空间名' })
   name: string;
 
-  @Column({ comment: '团队角色' })
-  team_role: string;
+  /**
+   * @field {boolean} isAdmin 是否为团队管理员, 每个用户自动为自己工作空间的管理员
+   */
+  @Column({ comment: '团队管理员', default: true })
+  isAdmin: boolean;
 
   /**
-   * @field {date} createTime 权限创建时间
+   * @field {date} createTime 团队创建时间
    */
   @CreateDateColumn()
   createTime: Date;
 
   /**
-   * @field {date} updateTime 权限更新时间
+   * @field {date} updateTime 团队更新时间
    */
   @UpdateDateColumn()
   updateTime: Date;
