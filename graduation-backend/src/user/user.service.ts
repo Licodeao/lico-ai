@@ -90,11 +90,14 @@ export class UserService {
       where: {
         email: loginUser.email,
       },
-      relations: {
-        roles: true,
-        albums: true,
-        team: true,
-      },
+      relations: [
+        'roles',
+        'roles.permissions',
+        'albums',
+        'albums.media',
+        'team',
+        'team.members',
+      ],
     });
 
     if (!user) {
@@ -183,11 +186,14 @@ export class UserService {
         where: {
           email: newUser.email,
         },
-        relations: {
-          roles: true,
-          albums: true,
-          team: true,
-        },
+        relations: [
+          'roles',
+          'roles.permissions',
+          'albums',
+          'albums.media',
+          'team',
+          'team.members',
+        ],
       });
       return registerUser;
     } catch (e) {
@@ -325,11 +331,14 @@ export class UserService {
           email: newUser.email,
           type: newUser.type,
         },
-        relations: {
-          roles: true,
-          albums: true,
-          team: true,
-        },
+        relations: [
+          'roles',
+          'roles.permissions',
+          'albums',
+          'albums.media',
+          'team',
+          'team.members',
+        ],
       });
 
       return otherPlatformUser;
