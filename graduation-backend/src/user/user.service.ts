@@ -128,6 +128,34 @@ export class UserService {
 
     const role = new RoleEntity();
     role.name = 0;
+
+    const permission1 = new PermissionEntity();
+    permission1.name = '生成视频';
+
+    const permission2 = new PermissionEntity();
+    permission2.name = '可以使用部分素材';
+
+    const permission3 = new PermissionEntity();
+    permission3.name = '普通剪辑功能';
+
+    const permission4 = new PermissionEntity();
+    permission4.name = '音效处理';
+
+    const permission5 = new PermissionEntity();
+    permission5.name = '视频增加/删除水印';
+
+    const permission6 = new PermissionEntity();
+    permission6.name = '下载生成视频某些片段';
+
+    role.permissions = [
+      permission1,
+      permission2,
+      permission3,
+      permission4,
+      permission5,
+      permission6,
+    ];
+
     newUser.roles = [role];
 
     try {
@@ -223,6 +251,34 @@ export class UserService {
 
       const role = new RoleEntity();
       role.name = 0;
+
+      const permission1 = new PermissionEntity();
+      permission1.name = '生成视频';
+
+      const permission2 = new PermissionEntity();
+      permission2.name = '可以使用部分素材';
+
+      const permission3 = new PermissionEntity();
+      permission3.name = '普通剪辑功能';
+
+      const permission4 = new PermissionEntity();
+      permission4.name = '音效处理';
+
+      const permission5 = new PermissionEntity();
+      permission5.name = '视频增加/删除水印';
+
+      const permission6 = new PermissionEntity();
+      permission6.name = '下载生成视频某些片段';
+
+      role.permissions = [
+        permission1,
+        permission2,
+        permission3,
+        permission4,
+        permission5,
+        permission6,
+      ];
+
       newUser.roles = [role];
 
       await this.entityManager.save(newUser);
