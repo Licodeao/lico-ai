@@ -9,6 +9,7 @@ import { PermissionEntity } from './entities/permission.entity';
 import { UserLoginDto } from './dto/user-login.dto';
 import { UserRegisterDto } from './dto/user-register.dto';
 import { TeamEntity } from 'src/team/entities/team.entity';
+import { AlbumsEntity } from 'src/albums/entities/albums.entity';
 
 @Injectable()
 export class UserService {
@@ -124,7 +125,14 @@ export class UserService {
     const team = new TeamEntity();
     team.name = `${newUser.username}的工作空间`;
     team.members = [];
+    await this.entityManager.save(TeamEntity, [team]);
     newUser.team = [team];
+
+    const albums = new AlbumsEntity();
+    albums.name = '默认分组';
+    albums.media = [];
+    await this.entityManager.save(AlbumsEntity, [albums]);
+    newUser.albums = [albums];
 
     const role = new RoleEntity();
     role.name = 0;
@@ -156,10 +164,20 @@ export class UserService {
       permission6,
     ];
 
+    await this.entityManager.save(PermissionEntity, [
+      permission1,
+      permission2,
+      permission3,
+      permission4,
+      permission5,
+      permission6,
+    ]);
+
+    await this.entityManager.save(RoleEntity, [role]);
     newUser.roles = [role];
 
     try {
-      await this.entityManager.save(newUser);
+      await this.entityManager.save(UserEntity, [newUser]);
 
       const registerUser = await this.entityManager.findOne(UserEntity, {
         where: {
@@ -247,7 +265,14 @@ export class UserService {
       const team = new TeamEntity();
       team.name = `${newUser.username}的工作空间`;
       team.members = [];
+      await this.entityManager.save(TeamEntity, [team]);
       newUser.team = [team];
+
+      const albums = new AlbumsEntity();
+      albums.name = '默认分组';
+      albums.media = [];
+      await this.entityManager.save(AlbumsEntity, [albums]);
+      newUser.albums = [albums];
 
       const role = new RoleEntity();
       role.name = 0;
@@ -279,9 +304,20 @@ export class UserService {
         permission6,
       ];
 
+      await this.entityManager.save(PermissionEntity, [
+        permission1,
+        permission2,
+        permission3,
+        permission4,
+        permission5,
+        permission6,
+      ]);
+
+      await this.entityManager.save(RoleEntity, [role]);
+
       newUser.roles = [role];
 
-      await this.entityManager.save(newUser);
+      await this.entityManager.save(UserEntity, [newUser]);
 
       const otherPlatformUser = await this.entityManager.findOne(UserEntity, {
         where: {
