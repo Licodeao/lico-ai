@@ -24,6 +24,8 @@ import { MediaModule } from './media/media.module';
 import { MediaEntity } from './media/entities/media.entity';
 import { TeamModule } from './team/team.module';
 import { TeamEntity } from './team/entities/team.entity';
+import { LimitEntity } from './limit/entities/limit.entity';
+import { LimitModule } from './limit/limit.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -50,6 +52,7 @@ import { TeamEntity } from './team/entities/team.entity';
         AlbumsEntity,
         MediaEntity,
         TeamEntity,
+        LimitEntity,
       ],
       poolSize: 10,
       connectorPackage: 'mysql2',
@@ -65,6 +68,7 @@ import { TeamEntity } from './team/entities/team.entity';
     AlbumsModule,
     MediaModule,
     TeamModule,
+    LimitModule,
   ],
   controllers: [AppController],
   providers: [

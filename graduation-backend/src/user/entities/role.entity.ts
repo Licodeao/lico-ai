@@ -20,7 +20,7 @@ export class RoleEntity {
   /**
    * @field {number} name 角色名称(0代表普通用户，1代表付费用户)
    */
-  @Column({ length: 20, comment: '角色名称(0代表普通用户，1代表付费用户)' })
+  @Column({ comment: '角色名称(0代表普通用户，1代表付费用户)' })
   name: number;
 
   /**
