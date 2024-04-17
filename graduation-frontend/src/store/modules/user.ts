@@ -1,7 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+interface Limit {
+  standardGenerateLimit: number;
+  standardExportLimit: number;
+  plusGenerateLimit: number;
+  plusExportLimit: number;
+}
+
 type Members = Pick<UserInfoItem, "username" | "email" | "image_url">;
 interface Team {
+  id: number;
   name: string;
   isAdmin: true;
   members: Members[];
@@ -27,6 +35,7 @@ interface UserInfoItem {
   roles: Role[];
   albums: Albums[];
   team: Team[];
+  limit: Limit;
 }
 
 interface UserInfo {
@@ -34,6 +43,7 @@ interface UserInfo {
   btnStatus: {
     username: boolean;
     email: boolean;
+    workspace: boolean;
   };
 }
 
@@ -44,6 +54,7 @@ const userSlice = createSlice({
     btnStatus: {
       username: true,
       email: true,
+      workspace: true,
     },
   } as UserInfo,
   reducers: {
@@ -58,6 +69,9 @@ const userSlice = createSlice({
       const { key, value } = payload;
       state.btnStatus[key] = value;
     },
+    changeWorkspaceNameAction(state, { payload }) {
+      state.userInfo[0].team[0].name = payload;
+    },
   },
 });
 
@@ -65,5 +79,6 @@ export const {
   changeUserInfoAction,
   changeUserAccountInfoAction,
   changeProfileBtnStatusAction,
+  changeWorkspaceNameAction,
 } = userSlice.actions;
 export default userSlice.reducer;

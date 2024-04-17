@@ -1,8 +1,11 @@
 import { useState, type FC, type ReactNode } from "react";
 import PlusSvg from "@/assets/img/plus.svg";
+import FreeSvg from "@/assets/img/free.svg";
 import LinearProgress, {
   LinearProgressProps,
 } from "@mui/material/LinearProgress";
+import { useAppSelector } from "@/store/storeHook";
+import { shallowEqual } from "react-redux";
 
 interface IProps {
   children?: ReactNode;
@@ -29,6 +32,13 @@ function LinearProgressWithLabel(
 const UsageItem: FC<IProps> = ({ name, description, totalCount }) => {
   const [progress, setProgress] = useState(0);
 
+  const { user } = useAppSelector(
+    (state) => ({
+      user: state.user.userInfo,
+    }),
+    shallowEqual
+  );
+
   // useEffect(() => {
   //   const timer = setInterval(() => {
   //     setProgress((prevProgress) =>
@@ -45,14 +55,25 @@ const UsageItem: FC<IProps> = ({ name, description, totalCount }) => {
       <div className="w-full flex flex-row justify-between items-center">
         <span className="text-semibold text-md">{name}</span>
 
-        <img
-          src={PlusSvg}
-          alt="plus"
-          style={{
-            width: "15px",
-            height: "15px",
-          }}
-        />
+        {user[0].roles[0].name === 0 ? (
+          <img
+            src={FreeSvg}
+            alt="free"
+            style={{
+              width: "30px",
+              height: "30px",
+            }}
+          />
+        ) : (
+          <img
+            src={PlusSvg}
+            alt="plus"
+            style={{
+              width: "20px",
+              height: "20px",
+            }}
+          />
+        )}
       </div>
 
       <div className="w-full flex flex-col gap-3">

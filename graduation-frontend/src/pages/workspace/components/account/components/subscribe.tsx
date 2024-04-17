@@ -24,7 +24,7 @@ const Subscribe: FC<IProps> = () => {
       <div className="flex flex-row justify-between items-center w-[600px] h-[100px] bg-[#2D2F2F] rounded-lg px-3">
         <div className="flex flex-col items-start gap-2">
           <span className="text-semibold text-md">
-            Lico AI {user[0].roles[0].name === 0 ? "免费" : "Plus"}
+            Lico AI {user[0].roles[0].name === 0 ? "Free" : "Plus"}
           </span>
           <span className="text-[#8B8B8D] text-sm">
             升级你的计划以便获得更多权限去创作, 更多的导出次数和其他更多权益

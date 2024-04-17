@@ -1,8 +1,13 @@
 import Member from "@/components/member";
+import {
+  changeProfileBtnStatusAction,
+  changeWorkspaceNameAction,
+} from "@/store/modules/user";
 import { useAppDispatch, useAppSelector } from "@/store/storeHook";
 import { Button, FormControl, TextField } from "@mui/material";
 import type { FC, ReactNode } from "react";
 import { shallowEqual } from "react-redux";
+import { updateWorkspaceName } from "../../../../../service/modules/user";
 
 interface IProps {
   children?: ReactNode;
@@ -10,12 +15,23 @@ interface IProps {
 
 const AccountSetting: FC<IProps> = () => {
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector(
+  const { user, btnStatus } = useAppSelector(
     (state) => ({
       user: state.user.userInfo,
+      btnStatus: state.user.btnStatus,
     }),
     shallowEqual
   );
+
+  const handleSaveWorkspaceName = async () => {
+    await updateWorkspaceName(user[0].team[0].id, user[0].team[0].name);
+    dispatch(changeProfileBtnStatusAction({ key: "workspace", value: true }));
+  };
+
+  const handleWorkspaceNameChange = (e) => {
+    dispatch(changeWorkspaceNameAction(e.target.value));
+    dispatch(changeProfileBtnStatusAction({ key: "workspace", value: false }));
+  };
 
   return (
     <div className="flex flex-col gap-16">
@@ -28,8 +44,14 @@ const AccountSetting: FC<IProps> = () => {
             sx={{
               width: "30%",
             }}
+            onChange={handleWorkspaceNameChange}
           />
-          <Button type="submit" variant="contained">
+          <Button
+            type="submit"
+            variant="contained"
+            disabled={btnStatus.workspace}
+            onClick={handleSaveWorkspaceName}
+          >
             保存
           </Button>
         </div>

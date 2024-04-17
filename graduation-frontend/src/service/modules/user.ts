@@ -44,3 +44,13 @@ export const updateAvatar = async (file, username: string, email: string) => {
     },
   });
 };
+
+export const updateWorkspaceName = async (
+  id: number,
+  workspaceName: string
+) => {
+  return LiRequest.post("/team/name", {
+    id,
+    workspaceName,
+  });
+};

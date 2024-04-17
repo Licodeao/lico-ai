@@ -125,7 +125,7 @@ export class UserService {
     newUser.username = registerUser.email;
     newUser.image_url =
       'https://typora-licodeao.oss-cn-guangzhou.aliyuncs.com/typoraImg/avatar1.jpg';
-    newUser.type = 'Website Login';
+    newUser.type = 'Website';
 
     const team = new TeamEntity();
     team.name = `${newUser.username} 的工作空间`;
