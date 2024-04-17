@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { RoleEntity } from './role.entity';
 import { AlbumsEntity } from '../../albums/entities/albums.entity';
+import { TeamEntity } from '../../team/entities/team.entity';
 
 @Entity()
 export class UserEntity {
@@ -71,4 +72,13 @@ export class UserEntity {
     name: 'user_albums',
   })
   albums: AlbumsEntity[];
+
+  /**
+   * @field {array} team 用户所属团队/工作空间(多对多关系)
+   */
+  @ManyToMany(() => TeamEntity, (team) => team.members)
+  @JoinTable({
+    name: 'user_team',
+  })
+  team: TeamEntity[];
 }

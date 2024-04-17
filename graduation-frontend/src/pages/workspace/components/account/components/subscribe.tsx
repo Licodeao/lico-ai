@@ -10,7 +10,7 @@ const Subscribe: FC<IProps> = () => {
     <div className="flex flex-col items-start gap-5">
       <span className="text-[20px] text-semibold">订阅计划</span>
 
-      <span className="text-md">你的订阅</span>
+      <span className="text-md">当前订阅</span>
 
       <div className="flex flex-row justify-between items-center w-[600px] h-[100px] bg-[#2D2F2F] rounded-lg px-3">
         <div className="flex flex-col items-start gap-2">
