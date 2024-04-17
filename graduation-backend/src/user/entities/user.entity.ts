@@ -5,6 +5,7 @@ import {
   JoinColumn,
   JoinTable,
   ManyToMany,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -13,6 +14,7 @@ import { RoleEntity } from './role.entity';
 import { AlbumsEntity } from '../../albums/entities/albums.entity';
 import { TeamEntity } from '../../team/entities/team.entity';
 import { LimitEntity } from 'src/limit/entities/limit.entity';
+import { InvitationEntity } from 'src/invitation/entities/invitation.entity';
 
 @Entity()
 export class UserEntity {
@@ -91,4 +93,7 @@ export class UserEntity {
   @OneToOne(() => LimitEntity)
   @JoinColumn()
   limit: LimitEntity;
+
+  @OneToMany(() => InvitationEntity, (invitation) => invitation.user)
+  invitations: InvitationEntity[];
 }

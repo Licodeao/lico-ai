@@ -1,4 +1,4 @@
-import { Controller, Get, Inject, Query, Res } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Query, Res } from '@nestjs/common';
 import { MailService } from './mail.service';
 import { RedisService } from 'src/redis/redis.service';
 import { Response } from 'express';
@@ -82,13 +82,31 @@ export class MailController {
   }
 
   @Get('invite')
-  async invitePersonIntoTeam(@Res() res: Response, @Query('token') token) {
+  async invitePersonIntoTeam(
+    @Res() res: Response,
+    @Query('token') token,
+    @Body() body,
+  ) {
+    const { admin, teamName } = body;
     const decryptedToken = this.decrypt(
       token,
       MailController.key,
       MailController.iv,
     );
     console.log(decryptedToken);
-    // res.redirect('http://localhost:5173/');
+
+    const team = await this.mailService.findTeamWithName(teamName);
+
+    await this.mailService.saveTeam(team);
   }
+
+  // const team = await this.teamRepository.;
+
+  // user[0].team[0].members.push({
+  //   username: decryptedToken,
+  //   email: decryptedToken,
+  //   type: 'invite',
+  // });
+
+  // res.redirect('http://localhost:5173/');
 }
