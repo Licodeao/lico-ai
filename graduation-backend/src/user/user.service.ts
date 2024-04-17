@@ -196,17 +196,54 @@ export class UserService {
     });
   }
 
+  /**
+   * 第三方登录
+   */
   async create(createUserDto: CreateUserDto) {
-    const user = await this.findUserByEmailAndName(
-      createUserDto.email,
-      createUserDto.username,
-    );
+    try {
+      const user = await this.findUserByEmailAndName(
+        createUserDto.email,
+        createUserDto.username,
+      );
 
-    if (user) {
-      throw new HttpException('用户已存在', HttpStatus.CONFLICT);
+      if (user) {
+        throw new HttpException('用户已存在', HttpStatus.CONFLICT);
+      }
+
+      const newUser = new UserEntity();
+      newUser.email = createUserDto.email;
+      newUser.username = createUserDto.username;
+      newUser.image_url = createUserDto.image_url;
+      newUser.type = createUserDto.type;
+
+      const team = new TeamEntity();
+      team.name = `${newUser.username}的工作空间`;
+      team.members = [];
+      newUser.team = [team];
+
+      const role = new RoleEntity();
+      role.name = '普通用户';
+      newUser.roles = [role];
+
+      await this.entityManager.save(newUser);
+
+      const otherPlatformUser = await this.entityManager.findOne(UserEntity, {
+        where: {
+          username: newUser.username,
+          email: newUser.email,
+          type: newUser.type,
+        },
+        relations: {
+          roles: true,
+          albums: true,
+          team: true,
+        },
+      });
+
+      return otherPlatformUser;
+    } catch (e) {
+      throw new Error(e);
     }
-
-    return this.entityManager.save(UserEntity, createUserDto);
   }
 
   async update(updateUserDto: UpdateUserDto) {
