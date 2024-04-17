@@ -32,10 +32,10 @@ export class UserService {
     user3.type = '本站注册登录';
 
     const role1 = new RoleEntity();
-    role1.name = '付费用户';
+    role1.name = 1;
 
     const role2 = new RoleEntity();
-    role2.name = '普通用户';
+    role2.name = 0;
 
     const permission1 = new PermissionEntity();
     permission1.name = '生成一个视频';
@@ -127,7 +127,7 @@ export class UserService {
     newUser.team = [team];
 
     const role = new RoleEntity();
-    role.name = '普通用户';
+    role.name = 0;
     newUser.roles = [role];
 
     try {
@@ -222,7 +222,7 @@ export class UserService {
       newUser.team = [team];
 
       const role = new RoleEntity();
-      role.name = '普通用户';
+      role.name = 0;
       newUser.roles = [role];
 
       await this.entityManager.save(newUser);

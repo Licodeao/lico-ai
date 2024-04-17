@@ -18,10 +18,10 @@ export class RoleEntity {
   id: number;
 
   /**
-   * @field {string} name 角色名称
+   * @field {number} name 角色名称(0代表普通用户，1代表付费用户)
    */
-  @Column({ length: 20, comment: '角色名称' })
-  name: string;
+  @Column({ length: 20, comment: '角色名称(0代表普通用户，1代表付费用户)' })
+  name: number;
 
   /**
    * @filed {date} createTime 角色创建时间
