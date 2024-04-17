@@ -68,8 +68,6 @@ export class UserController {
       {
         user: {
           email: user.email,
-          roles: user.roles,
-          albums: user.albums,
         },
       },
       {
@@ -112,8 +110,6 @@ export class UserController {
         {
           user: {
             email: user.email,
-            roles: user.roles,
-            albums: user.albums,
           },
         },
         {
@@ -171,8 +167,6 @@ export class UserController {
     const token = this.jwtService.sign({
       user: {
         email: newUser.email,
-        roles: newUser.roles,
-        albums: newUser.albums,
       },
     });
 
