@@ -8,6 +8,39 @@ import FacebookVideoSvg from "@/assets/img/facebook-video.svg";
 import InstagramStorySvg from "@/assets/img/instagram-story.svg";
 import { createSlice } from "@reduxjs/toolkit";
 
+interface Canvas {
+  defaultCanvas?: {
+    title: string;
+    style: {
+      width: number;
+      height: number;
+      backgroundColor: string;
+      backgroundImage: string;
+      backgroundPosition: string;
+      backgroundSize: string;
+      backgroundRepeat: string;
+    };
+    cmps: any[];
+  };
+  selectOption?: [
+    {
+      icon: any;
+      label: string;
+      ratio: string;
+      value: number;
+      width: number;
+      height: number;
+    }
+  ];
+  selectValue?: number;
+  colorVisible?: boolean;
+  settingColorVisible?: boolean;
+  isPlay?: boolean;
+  currentIndex?: number;
+  video?: any[];
+  isLoading: boolean;
+}
+
 const canvasSlice = createSlice({
   name: "canvas",
   initialState: {
@@ -95,17 +128,19 @@ const canvasSlice = createSlice({
     settingColorVisible: false,
     isPlay: false,
     currentIndex: 0,
-  },
+    video: [],
+    isLoading: false,
+  } as any as Canvas,
   reducers: {
     changeCanvasWidthAndHeightAction(state, { payload }) {
-      state.defaultCanvas.style.width = payload.width;
-      state.defaultCanvas.style.height = payload.height;
+      state.defaultCanvas!.style.width = payload.width;
+      state.defaultCanvas!.style.height = payload.height;
     },
     changeSelectValueAction(state, { payload }) {
       state.selectValue = payload;
     },
     changeColorAction(state, { payload }) {
-      state.defaultCanvas.style.backgroundColor = payload;
+      state.defaultCanvas!.style.backgroundColor = payload;
     },
     changeColorVisibleAction(state, { payload }) {
       state.colorVisible = payload;
@@ -119,6 +154,12 @@ const canvasSlice = createSlice({
     changeCurrentIndexAction(state, { payload }) {
       state.currentIndex = payload;
     },
+    addVideoAction(state, { payload }) {
+      state.video!.push(payload);
+    },
+    changeIsLoading(state, { payload }) {
+      state.isLoading = payload;
+    },
   },
 });
 
@@ -130,5 +171,7 @@ export const {
   changeColorVisibleAction,
   changeIsPlayAction,
   changeCurrentIndexAction,
+  addVideoAction,
+  changeIsLoading,
 } = canvasSlice.actions;
 export default canvasSlice.reducer;

@@ -21,7 +21,7 @@ const WorkSpace: FC<IProps> = () => {
   return (
     <div className="w-screen h-screen text-white flex justify-center items-center flex-col bg-[#141414]">
       <WorkSpaceHeader />
-      <div className="w-screen h-screen flex-6 py-4 px-8 flex flex-col gap-14">
+      <div className="w-screen h-screen flex-6 py-4 px-8 flex flex-col gap-14 overflow-auto">
         <Outlet />
       </div>
     </div>
