@@ -3,7 +3,8 @@ import React, { useContext } from "react";
 import { CanvasContext } from "@/utils/context";
 import Line from "./Line";
 import Texts from "./Text";
-import { isTextComponent } from "@/utils";
+import { isImageComponent, isTextComponent } from "@/utils";
+import Images from "./image";
 
 interface IProps {
   children?: ReactNode;
@@ -50,8 +51,8 @@ const Cmp: FC<IProps> = ({ index, cmp }) => {
           height: style.height,
         }}
       >
-        {cmp.type === isTextComponent && <Texts {...cmp} />}{" "}
-        {/* {cmp.type === isImageComponent && <Image {...cmp} />} */}
+        {cmp.type === isTextComponent && <Texts {...cmp} />}
+        {cmp.type === isImageComponent && <Images {...cmp} />}
       </div>
     </div>
   );

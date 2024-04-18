@@ -46,19 +46,6 @@ interface Canvas {
 const canvasSlice = createSlice({
   name: "canvas",
   initialState: {
-    // defaultCanvas: {
-    //   title: "未命名",
-    //   style: {
-    //     width: "997",
-    //     height: "561",
-    //     backgroundColor: "#000000",
-    //     backgroundImage: "",
-    //     backgroundPosition: "center",
-    //     backgroundSize: "cover",
-    //     backgroundRepeat: "no-repeat",
-    //   },
-    //   cmps: [],
-    // },
     defaultCanvas: new newCanvas(),
     selectOption: [
       {

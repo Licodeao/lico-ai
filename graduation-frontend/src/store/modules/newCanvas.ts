@@ -1,11 +1,10 @@
 import { getOnlyKey } from "@/utils/index";
 import { cloneDeep } from "lodash";
-
 function getDefaultCanvas() {
   return {
     title: "未命名",
     style: {
-      width: 320,
+      width: 997,
       height: 568,
       backgroundColor: "#ffffff",
       backgroundImage: "",
