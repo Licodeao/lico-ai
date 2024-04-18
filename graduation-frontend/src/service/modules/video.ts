@@ -20,8 +20,9 @@ export const query = async () => {
   return LiRequest.get("/copilot/query");
 };
 
-export const exportVideo = async (url) => {
+export const exportVideo = async (url, email) => {
   return LiRequest.get("/copilot/export", {
     url,
+    email,
   });
 };

@@ -211,7 +211,7 @@ const WorkSpaceHeader: FC<IProps> = () => {
               订阅信息
             </MenuItem>
             <MenuItem onClick={() => handleMenuItemClick("usage")}>
-              使用说明
+              使用汇总
             </MenuItem>
             <MenuItem onClick={() => handleMenuItemClick("settings")}>
               空间设置

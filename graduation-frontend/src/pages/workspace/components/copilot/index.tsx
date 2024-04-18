@@ -3,7 +3,7 @@ import Star from "@/assets/img/star.svg";
 
 import { useForm } from "react-hook-form";
 import { Button, Select, MenuItem, Skeleton } from "@mui/material";
-import { getVideo, query } from "@/service/modules/video";
+import { exportVideo, getVideo, query } from "@/service/modules/video";
 import { useAppDispatch, useAppSelector } from "@/store/storeHook";
 import { shallowEqual } from "react-redux";
 import ImageItem from "@/components/imageItem";
@@ -27,6 +27,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Digital from "@/components/digital";
 import { addVideoAction, changeIsLoading } from "@/store/modules/canvas";
 import { useNavigate } from "react-router-dom";
+import {
+  changeUsagePlusExportLimitAction,
+  changeUsageStandardExportLimitAction,
+} from "@/store/modules/user";
 interface IProps {
   children?: ReactNode;
 }
@@ -58,6 +62,7 @@ const Copilot: FC<IProps> = () => {
     selectedResolution,
     isLoading,
     video,
+    user,
   } = useAppSelector(
     (state) => ({
       imageList: state.workspace.imageList,
@@ -70,6 +75,7 @@ const Copilot: FC<IProps> = () => {
       selectedResolution: state.workspace.selectedResolution,
       isLoading: state.canvas.isLoading,
       video: state.canvas.video,
+      user: state.user.userInfo,
     }),
     shallowEqual
   );
@@ -116,8 +122,18 @@ const Copilot: FC<IProps> = () => {
     }, 130000);
   };
 
-  const handleExport = (url) => {
-    fetch(url);
+  const handleExport = async () => {
+    const url = video![1]!.data.videoAddr;
+    const email = user[0].email;
+    await exportVideo(url, email).then((res) => {
+      if (res.code === 200) {
+        if (user[0].roles[0].name === 0) {
+          dispatch(changeUsageStandardExportLimitAction(-1));
+        } else {
+          dispatch(changeUsagePlusExportLimitAction(-1));
+        }
+      }
+    });
   };
 
   return (

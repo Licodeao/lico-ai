@@ -1,11 +1,14 @@
-import { Body, Controller, Get, Inject, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, Query } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { parse } from 'json-bigint';
-import { Response } from 'express';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { firstValueFrom } from 'rxjs';
+import axios from 'axios';
+import * as fs from 'fs';
+import * as path from 'path';
+import { CopilotService } from './copilot.service';
 
 @Controller('copilot')
 export class CopilotController {
@@ -13,6 +16,7 @@ export class CopilotController {
     private readonly httpService: HttpService,
     private readonly configService: ConfigService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
+    private readonly copilotService: CopilotService,
   ) {}
 
   @Post('text2video')
@@ -138,6 +142,36 @@ export class CopilotController {
         code: 200,
         data,
       };
+    }
+  }
+
+  @Get('export')
+  async export(@Query('url') url: string, @Query('email') email: string) {
+    try {
+      const response = await axios.get(url, { responseType: 'stream' });
+
+      const fileStream = fs.createWriteStream(
+        path.join(__dirname, '../../public/video/video.mp4'),
+      );
+      response.data.pipe(fileStream);
+
+      await new Promise((resolve, reject) => {
+        fileStream.on('finish', async () => {
+          console.log(`File downloaded to '/public/video'`);
+
+          await this.copilotService.reduceUserExportCount(email);
+        });
+
+        fileStream.on('error', (err) => {
+          reject(err);
+        });
+      });
+      return {
+        code: 200,
+        message: '导出成功!',
+      };
+    } catch (error) {
+      throw error;
     }
   }
 }

@@ -35,7 +35,7 @@ const EditSetting: FC<IProps> = () => {
       (state) => ({
         options: state.canvas.selectOption,
         selectValueStore: state.canvas.selectValue,
-        color: state.canvas.defaultCanvas.style.backgroundColor,
+        color: state.canvas.defaultCanvas!.style.backgroundColor,
         colorVisible: state.canvas.colorVisible,
         settingColorVisible: state.canvas.settingColorVisible,
       }),
@@ -48,7 +48,7 @@ const EditSetting: FC<IProps> = () => {
 
   const handleSelectChange = (event) => {
     dispatch(changeSelectValueAction(event.target.value));
-    const correntOption = options.find(
+    const correntOption = options!.find(
       (item) => item.value === Number(event.target.value)
     );
     dispatch(changeCanvasWidthAndHeightAction(correntOption));
@@ -79,7 +79,7 @@ const EditSetting: FC<IProps> = () => {
           value={selectValueStore}
           onChange={handleSelectChange}
         >
-          {options.map((item) => {
+          {options!.map((item) => {
             return (
               <MenuItem value={item.value} key={item.value} data-option={item}>
                 <div className="flex flex-row items-center gap-2">

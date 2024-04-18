@@ -7,13 +7,15 @@ import TwitterSvg from "@/assets/img/twitter.svg";
 import FacebookVideoSvg from "@/assets/img/facebook-video.svg";
 import InstagramStorySvg from "@/assets/img/instagram-story.svg";
 import { createSlice } from "@reduxjs/toolkit";
+import { getOnlyKey } from "@/utils";
+import newCanvas from "./newCanvas";
 
 interface Canvas {
   defaultCanvas?: {
     title: string;
     style: {
-      width: number;
-      height: number;
+      width: string;
+      height: string;
       backgroundColor: string;
       backgroundImage: string;
       backgroundPosition: string;
@@ -44,19 +46,20 @@ interface Canvas {
 const canvasSlice = createSlice({
   name: "canvas",
   initialState: {
-    defaultCanvas: {
-      title: "未命名",
-      style: {
-        width: 997,
-        height: 561,
-        backgroundColor: "#000000",
-        backgroundImage: "",
-        backgroundPosition: "center",
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-      },
-      cmps: [],
-    },
+    // defaultCanvas: {
+    //   title: "未命名",
+    //   style: {
+    //     width: "997",
+    //     height: "561",
+    //     backgroundColor: "#000000",
+    //     backgroundImage: "",
+    //     backgroundPosition: "center",
+    //     backgroundSize: "cover",
+    //     backgroundRepeat: "no-repeat",
+    //   },
+    //   cmps: [],
+    // },
+    defaultCanvas: new newCanvas(),
     selectOption: [
       {
         icon: YoutubeSvg,
@@ -160,6 +163,11 @@ const canvasSlice = createSlice({
     changeIsLoading(state, { payload }) {
       state.isLoading = payload;
     },
+    addCmps(state, { payload }) {
+      const cmp = { ...payload, key: getOnlyKey() };
+
+      state.defaultCanvas?.cmps.push(cmp);
+    },
   },
 });
 
@@ -173,5 +181,6 @@ export const {
   changeCurrentIndexAction,
   addVideoAction,
   changeIsLoading,
+  addCmps,
 } = canvasSlice.actions;
 export default canvasSlice.reducer;

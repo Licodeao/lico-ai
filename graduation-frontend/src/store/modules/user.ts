@@ -72,6 +72,18 @@ const userSlice = createSlice({
     changeWorkspaceNameAction(state, { payload }) {
       state.userInfo[0].team[0].name = payload;
     },
+    changeUsageStandardExportLimitAction(state, { payload }) {
+      state.userInfo[0].limit.standardExportLimit = payload;
+    },
+    changeUsageStandardGenerateLimitAction(state, { payload }) {
+      state.userInfo[0].limit.standardGenerateLimit = payload;
+    },
+    changeUsagePlusExportLimitAction(state, { payload }) {
+      state.userInfo[0].limit.plusExportLimit = payload;
+    },
+    changeUsagePlusGenerateLimitAction(state, { payload }) {
+      state.userInfo[0].limit.plusGenerateLimit = payload;
+    },
   },
 });
 
@@ -80,5 +92,9 @@ export const {
   changeUserAccountInfoAction,
   changeProfileBtnStatusAction,
   changeWorkspaceNameAction,
+  changeUsageStandardExportLimitAction,
+  changeUsageStandardGenerateLimitAction,
+  changeUsagePlusGenerateLimitAction,
+  changeUsagePlusExportLimitAction,
 } = userSlice.actions;
 export default userSlice.reducer;
