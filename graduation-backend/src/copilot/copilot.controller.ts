@@ -174,4 +174,12 @@ export class CopilotController {
       throw error;
     }
   }
+
+  @Get('/frame')
+  async getFrame() {
+    await this.copilotService.extractFrames(
+      '../../public/video/video.mp4 03-29-07-147.mp4',
+      '../../public/video/frames',
+    );
+  }
 }

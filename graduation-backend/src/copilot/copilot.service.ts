@@ -2,6 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from 'src/user/entities/user.entity';
 import { Repository } from 'typeorm';
+import * as ffmpeg from 'fluent-ffmpeg';
+import * as fs from 'fs';
+import { join } from 'path';
 
 @Injectable()
 export class CopilotService {
@@ -26,5 +29,34 @@ export class CopilotService {
     }
 
     await this.userRepository.save(user);
+  }
+
+  async extractFrames(path: string, outputDirectory: string) {
+    return new Promise((resolve, reject) => {
+      const frames: string[] = [];
+
+      const handledPath = join(__dirname, path);
+
+      ffmpeg(handledPath)
+        .on('filenames', (filename) => {
+          console.log('Frames will be saved as:', filename);
+        })
+        .on('end', () => {
+          console.log('提取完成');
+          resolve(frames);
+        })
+        .on('error', (err) => {
+          console.log(err);
+          reject(err);
+        })
+        .output(join(__dirname, outputDirectory) + '/frame%d.png')
+        .run();
+
+      fs.readdirSync(join(__dirname, outputDirectory)).forEach((file) => {
+        if (file.startsWith('frame')) {
+          frames.push(join(__dirname, outputDirectory) + '/' + file);
+        }
+      });
+    });
   }
 }

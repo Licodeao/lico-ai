@@ -16,22 +16,39 @@ import Cmp from "./Cmp";
 import EditLine from "./EditLine";
 import subSvg from "@/assets/img/sub.svg";
 import plusSvg from "@/assets/img/pluss.svg";
+import { VideoPlayer } from "./videoPlayer";
 interface IProps {
   children?: ReactNode;
+  playerRef: any;
+  setCurrentTime: any;
+  url: any;
+  setDuration: any;
 }
 
-const Canvas: FC<IProps> = () => {
-  const { canvasDefaultStyle, options, selectValueStore, color, colorVisible } =
-    useAppSelector(
-      (state) => ({
-        canvasDefaultStyle: state.canvas.defaultCanvas,
-        options: state.canvas.selectOption,
-        selectValueStore: state.canvas.selectValue,
-        color: state.canvas.defaultCanvas!.style.backgroundColor,
-        colorVisible: state.canvas.colorVisible,
-      }),
-      shallowEqual
-    );
+const Canvas: FC<IProps> = ({
+  playerRef,
+  setCurrentTime,
+  url,
+  setDuration,
+}) => {
+  const {
+    canvasDefaultStyle,
+    options,
+    selectValueStore,
+    color,
+    colorVisible,
+    video,
+  } = useAppSelector(
+    (state) => ({
+      canvasDefaultStyle: state.canvas.defaultCanvas,
+      options: state.canvas.selectOption,
+      selectValueStore: state.canvas.selectValue,
+      color: state.canvas.defaultCanvas!.style.backgroundColor,
+      colorVisible: state.canvas.colorVisible,
+      video: state.canvas.video,
+    }),
+    shallowEqual
+  );
   const dispatch = useAppDispatch();
   const handleSelectChange = (event) => {
     dispatch(changeSelectValueAction(event.target.value));
@@ -117,34 +134,43 @@ const Canvas: FC<IProps> = () => {
           id="center"
           className="flex flex-1 justify-center py-14 text-center"
         >
-          <div
-            id="canvas"
-            className="relative border-[1px] border-[#dddddd] shadow-md transform origin-top"
-            style={{
-              ...canvasDefaultStyle!.style,
-              // ...canvasData.style,
-              backgroundImage: `url(${canvasData.style.backgroundImage})`,
-              transform: `scale(${zoom / 100})`,
-            }}
-            onDrop={onDrop}
-            onDragOver={allowDrop}
-          >
-            {selectedIndex !== -1 && (
-              <EditLine selectedIndex={selectedIndex} zoom={zoom} />
-            )}
-
+          {video ? (
+            <VideoPlayer
+              playerRef={playerRef}
+              setCurrentTime={setCurrentTime}
+              url={url}
+              setDuration={setDuration}
+            />
+          ) : (
             <div
-              className="absolute overflow-hidden"
+              id="canvas"
+              className="relative border-[1px] border-[#dddddd] shadow-md transform origin-top"
               style={{
-                width: canvasData.style.width,
-                height: canvasData.style.height,
+                ...canvasDefaultStyle!.style,
+                // ...canvasData.style,
+                backgroundImage: `url(${canvasData.style.backgroundImage})`,
+                transform: `scale(${zoom / 100})`,
               }}
+              onDrop={onDrop}
+              onDragOver={allowDrop}
             >
-              {cmps.map((cmp, index) => {
-                return <Cmp key={index} cmp={cmp} index={index} />;
-              })}
+              {selectedIndex !== -1 && (
+                <EditLine selectedIndex={selectedIndex} zoom={zoom} />
+              )}
+
+              <div
+                className="absolute overflow-hidden"
+                style={{
+                  width: canvasData.style.width,
+                  height: canvasData.style.height,
+                }}
+              >
+                {cmps.map((cmp, index) => {
+                  return <Cmp key={index} cmp={cmp} index={index} />;
+                })}
+              </div>
             </div>
-          </div>
+          )}
           <ul className="fixed right-[25px] bottom-[160px] bg-[#ffffff] rounded-[5px] shadow-lg flex justify-center items-center h-[30px] leading-[30px] px-4">
             <li
               style={{ cursor: "zoom-out" }}
